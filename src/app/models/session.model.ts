@@ -5,7 +5,7 @@ export class Session {
   title: string = '';
   description: string = '';
   parts: SessionPart[] = [];
-  space: number = 0;
+  space: number = 2;
   
   getTime(): number {
     let sum = 0;

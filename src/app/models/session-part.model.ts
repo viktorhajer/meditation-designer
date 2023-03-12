@@ -1,11 +1,15 @@
 export class SessionPart {
-  id: number = 0;
-  title: string = '';
-  order: number = 0;
-  partType: number = '';
-  time: number = 0;
-  timeBased: boolean = true;
-  count: number = 0;
+  id = 0;
+  title = '';
+  order = 0;
+  partType = '';
+  time = 0;
+  timeBased = true;
+  count = 0;
+  
+  getTitle(): string {
+    return this.title;
+  }
   
   getTime(): number {
     return this.timeBased ? this.time : this.calculateTimeByCount();
