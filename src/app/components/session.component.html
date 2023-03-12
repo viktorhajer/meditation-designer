@@ -1,3 +1,13 @@
-<div *ngFor="let part of session.parts">
-   <app-part [part]="part"></app-part>
+<div class="session-diagram flex-center">
+  <div class="column1 flex-center">
+    <ng-container *ngFor="let part of session.parts; let i = index">
+       <div class="arrow" *ngIf="i !== 0"></div>
+       <app-part [part]="part" [index]="i"></app-part>
+    </ng-container>
+  </div>
+  <div class="column2 flex-center">
+    <ng-container *ngFor="let part of session.parts; let i = index">
+       <div class="time flex-center">{{ part.getTime() }} mp</div>
+    </ng-container>
+  </div>
 </div>

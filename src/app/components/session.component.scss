@@ -1,0 +1,26 @@
+.session-diagram {
+  padding: 20px;
+
+  .column1, .column2 {
+    &.flex-center {
+      flex-flow: column nowrap;
+    }
+  }
+  .column2 {
+    border-left: 1px dotted gray;
+    margin: 0px 14px;
+    padding: 0 14px;
+    
+    .time {
+      height: 90px;
+      font-size: 12px;
+      color: gray;
+    }
+  }
+
+  .arrow {
+    height: 40px;
+    border-left: 3px solid #75b374;
+    margin: 2px 0;
+  }
+}

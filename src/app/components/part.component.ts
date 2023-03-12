@@ -8,5 +8,6 @@ import {SessionPart} from '../models/session-part.model';
 })
 export class PartComponent {
   @Input() part: SessionPart = new SessionPart();
+  @Input() index: number = 0;
   @Output() selected = new EventEmitter();
 }
