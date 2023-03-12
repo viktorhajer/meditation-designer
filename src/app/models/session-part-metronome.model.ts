@@ -11,6 +11,9 @@ export class SessionPartMetronome extends SessionPart {
   }
   
   override getTitle(): string {
-    return `${this.title} (${this.tickSample}/${this.tickLength})` ;
+    if (this.timeBased) {
+      return `${this.title} (${this.tickSample}/${this.tickLength} - ${this.time}mp)` ;
+    }
+    return `${this.title} (${this.tickSample}/${this.tickLength} - ${this.count})` ;
   }
 }

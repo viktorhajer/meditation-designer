@@ -13,6 +13,5 @@ export class SessionComponent {
 
   constructor(private readonly repository: SessionRepository) {
     this.session = this.repository.getSession();
-    console.log(this.session);
   }
 }

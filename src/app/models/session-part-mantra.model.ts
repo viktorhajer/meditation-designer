@@ -14,6 +14,9 @@ export class SessionPartMantra extends SessionPart {
   }
   
   override getTitle(): string {
-    return `${this.title} - ${this.count}`;
+    if (this.timeBased) {
+      return `${this.title} (${this.time}mp)` ;
+    }
+    return `${this.title} (${this.count})`;
   }
 }

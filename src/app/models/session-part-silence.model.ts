@@ -9,6 +9,6 @@ export class SessionPartSilence extends SessionPart {
   }
   
   override getTitle(): string {
-    return `${this.title} (${this.time})` ;
+    return `${this.title} (${this.time}mp)` ;
   }
 }
