@@ -48,6 +48,8 @@ export class SessionRepository {
     part1.time = 5;
     part1.order = 6;
     session.parts.push(part6);
+    session.parts.push(part6);
+    session.parts.push(part6);
 
     return session;
   }

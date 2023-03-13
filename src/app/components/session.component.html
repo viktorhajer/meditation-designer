@@ -1,7 +1,9 @@
 <div class="session-diagram flex-center">
   <div class="column1 flex-center">
     <ng-container *ngFor="let part of session.parts; let i = index">
-      <div class="arrow" *ngIf="i !== 0"></div>
+      <div class="arrow" *ngIf="i !== 0">
+        <div class="arrow_head">&#8249;</div>
+      </div>
       <app-part [part]="part" [index]="i" [state]="getState(i)" (click)="handle(i)"></app-part>
     </ng-container>
   </div>
