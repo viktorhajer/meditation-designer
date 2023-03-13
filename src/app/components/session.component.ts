@@ -10,8 +10,34 @@ import {Session} from '../models/session.model';
 export class SessionComponent {
 
   session: Session;
+  state =  0;
+  index = 0;
 
   constructor(private readonly repository: SessionRepository) {
     this.session = this.repository.getSession();
+  }
+
+  handle(index: number) {
+    if (this.index === index) {
+      this.state = this.state === 1 ? 2 : 1;
+    } else {
+      this.index = index;
+    }
+  }
+
+  reset() {
+    this.index = 0;
+    this.state = 0;
+  }
+
+  next() {
+    this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0
+    if (this.index === 0) {
+      this.state = 0;
+    }
+  }
+
+  getState(index: number): number {
+    return index === this.index ? this.state : 0;
   }
 }

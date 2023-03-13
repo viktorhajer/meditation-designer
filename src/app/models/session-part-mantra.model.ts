@@ -4,7 +4,7 @@ export class SessionPartMantra extends SessionPart {
   sound = '';
   soundTime = 0;
   group = '1';
-  
+
   constructor() {
     super();
     this.partType = 'mantra';
@@ -12,10 +12,10 @@ export class SessionPartMantra extends SessionPart {
     this.timeBased = false;
     this.count = 108;
   }
-  
+
   override getTitle(): string {
     if (this.timeBased) {
-      return `${this.title} (${this.time}mp)` ;
+      return super.getTitle();
     }
     return `${this.title} (${this.count})`;
   }

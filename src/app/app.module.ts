@@ -4,10 +4,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SessionComponent} from './components/session.component';
 import {PartComponent} from './components/part.component';
+import {TimerComponent} from "./components/timer.component";
+import {DatePipe} from "./utils/date.pipe";
 
 @NgModule({
   declarations: [
-    AppComponent, SessionComponent, PartComponent
+    AppComponent, SessionComponent, PartComponent, TimerComponent, DatePipe
   ],
   imports: [
     BrowserModule,
@@ -16,4 +18,5 @@ import {PartComponent} from './components/part.component';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

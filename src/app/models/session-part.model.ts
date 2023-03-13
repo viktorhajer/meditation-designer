@@ -6,11 +6,11 @@ export class SessionPart {
   time = 0;
   timeBased = true;
   count = 0;
-  
+
   getTitle(): string {
     return this.title;
   }
-  
+
   getTime(): number {
     return this.timeBased ? this.time : this.calculateTimeByCount();
   }

@@ -3,8 +3,38 @@
     padding: 14px;
     width: fit-content;
     border-radius: 20px;
-    background: #75b374;
-    color: #fff;
+    background: #d1c598;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
     cursor: pointer;
+  }
+
+  .state-icon {
+    width: 15px;
+    position: relative;
+    margin-left: -15px;
+    color: #c14c39;
+  }
+
+  &.active {
+    .title {
+      background: #c14c39;
+      color: rgba(255, 255, 255, 0.8);
+      box-shadow: 4px 4px 4px rgb(0 0 0 / 10%);
+    }
+  }
+
+  &.resume {
+    .title {
+      background: #d5bc5e;
+      color: #ffffff;
+      box-shadow: 4px 4px 4px rgb(0 0 0 / 10%);
+    }
+
+    .state-icon {
+      color: #ffffff;
+      font-size: 18px;
+      left: -5px;
+    }
   }
 }

@@ -1,0 +1,11 @@
+.time {
+  width: 60px;
+  font-size: 12px;
+  color: #ffffff;
+
+  &.active {
+    font-size: 16px;
+    opacity: 1;
+    font-weight: bold;
+  }
+}

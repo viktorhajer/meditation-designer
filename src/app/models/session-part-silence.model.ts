@@ -7,8 +7,4 @@ export class SessionPartSilence extends SessionPart {
     this.partType = 'silence';
     this.title = 'Silence';
   }
-  
-  override getTitle(): string {
-    return `${this.title} (${this.time}mp)` ;
-  }
 }

@@ -1,3 +1,7 @@
-<div class="part-container flex-center">
+<div class="part-container flex-center" [class.active]="this.state !== 0" [class.resume]="state === 2">
+  <div class="state-icon">
+    <ng-container *ngIf="state === 1">&#9654;</ng-container>
+    <ng-container *ngIf="state === 2">&#x21bb;</ng-container>
+  </div>
   <div class="title flex-center">{{ part.getTitle() }}</div>
 </div>
