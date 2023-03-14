@@ -19,7 +19,6 @@
     width: 76px;
     flex-flow: column;
     align-items: flex-start;
-    border-right: 2px dotted #ffffff;
     
     .arrow_body {
       height: 24px;
@@ -31,5 +30,15 @@
       font-size: 19px;
       margin: -9px -3px;
     }
+  }
+
+  .separator {
+    border-right: 2px dotted #ffffff;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    opacity: 0.6;
   }
 }
