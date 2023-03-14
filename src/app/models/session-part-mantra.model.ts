@@ -1,7 +1,8 @@
 import {SessionPart} from './session-part.model';
 
 export class SessionPartMantra extends SessionPart {
-  sound = '';
+  soundTitle = '';
+  soundFile = '';
   soundTime = 0;
   group = '1';
 
@@ -13,10 +14,7 @@ export class SessionPartMantra extends SessionPart {
     this.count = 108;
   }
 
-  override getTitle(): string {
-    if (this.timeBased) {
-      return super.getTitle();
-    }
-    return `${this.title} (${this.count})`;
+  override getInfo(): string {
+    return this.soundTitle + ' ' + super.getInfo();
   }
 }

@@ -12,7 +12,9 @@
     background: linear-gradient(45deg, #72b8bbf0, #a6b998e0);
     border-top: 3px solid #fff;
     position: fixed;
-    width: 100%;
+    justify-content: space-between;
+    padding: 0 20px;
+    width: calc(100% - 40px);
     bottom: 0;
   }
 }
@@ -28,3 +30,16 @@
   z-index: -1;
 }
 
+.button {
+  width: 30px;
+  height: 30px;
+  background: #c14c39;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 18px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+
+  &.plus {
+    font-size: 26px;
+  }
+}

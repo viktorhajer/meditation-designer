@@ -10,15 +10,11 @@ export class SessionPartMetronome extends SessionPart {
     this.title = 'Metronome';
   }
 
-  override getTitle(): string {
-    let out = super.getTitle();
-    if (!this.timeBased) {
-      out += `(${this.count})`;
-    }
-    return out;
-  }
-
   override calculateTimeByCount(): number {
     return this.count * this.tickLength;
+  }
+
+  override getInfo(): string {
+    return this.tickLength + 'mp' + (this.tickSample !== '1' ? ': ' + this.tickSample : '');
   }
 }

@@ -1,12 +1,19 @@
 .part-container {
-  .title {
-    padding: 14px;
-    width: fit-content;
-    border-radius: 20px;
-    background: #d1c598;
-    color: rgba(0, 0, 0, 0.5);
-    font-weight: bold;
+
+  .column {
+    width: 150px;
+    border-right: 2px dotted #ffffff;
+  }
+
+  .icon {
     cursor: pointer;
+
+    img {
+      width: 58px;
+      background: #d1c598;
+      padding: 8px;
+      border-radius: 50%;
+    }
   }
 
   .state-icon {
@@ -17,24 +24,59 @@
   }
 
   &.active {
-    .title {
-      background: #c14c39;
-      color: rgba(255, 255, 255, 0.8);
-      box-shadow: 4px 4px 4px rgb(0 0 0 / 10%);
+    .icon {
+      img {
+        background: #c14c39;
+        box-shadow: 4px 4px 4px rgb(0 0 0 / 30%);
+      }
     }
   }
 
   &.resume {
-    .title {
-      background: #d5bc5e;
-      color: #ffffff;
-      box-shadow: 4px 4px 4px rgb(0 0 0 / 10%);
+    .icon {
+      img {
+        background: #e9ca55;
+        box-shadow: 4px 4px 4px rgb(0 0 0 / 30%);
+      }
     }
-
     .state-icon {
       color: #ffffff;
       font-size: 18px;
       left: -5px;
+    }
+  }
+
+  .column-right {
+    width: 120px;
+    padding-left: 15px;
+    justify-content: space-between;
+
+    .details {
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-flow: column;
+
+      .title {
+        font-weight: bold;
+        color: #c95858;
+      }
+    }
+
+    .toolbar {
+      .button {
+        cursor: pointer;
+        font-size: 14px;
+        color: #eddb96;
+
+        &.edit {
+          transform: rotate(90deg);
+          margin-bottom: 9px;
+        }
+      }
+
+      .button:hover {
+        color: #ffffff;
+      }
     }
   }
 }

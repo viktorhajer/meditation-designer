@@ -37,6 +37,12 @@ export class SessionComponent {
     }
   }
 
+  remove(index: number) {
+    if (index >= 0 && index < this.session.parts.length) {
+      this.session.parts.splice(index, 1);
+    }
+  }
+
   getState(index: number): number {
     return index === this.index ? this.state : 0;
   }

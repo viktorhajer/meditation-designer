@@ -38,18 +38,25 @@ export class SessionRepository {
     const part4 = new SessionPartMantra();
     part4.order = 4;
     part4.count = 10;
+    part4.soundTitle = 'Gayatri'
     session.parts.push(part4);
 
     const part5 = new SessionPartSeparator();
     part3.order = 5;
     session.parts.push(part5);
 
-    const part6 = new SessionPartSilence();
-    part1.time = 5;
-    part1.order = 6;
+    const part6 = new SessionPartMetronome();
+    part6.timeBased = false;
+    part6.count = 6;
+    part6.order = 2;
+    part6.tickLength = 2;
+    part6.tickSample = '110';
     session.parts.push(part6);
-    session.parts.push(part6);
-    session.parts.push(part6);
+
+    const part7 = new SessionPartSilence();
+    part7.time = 5;
+    part7.order = 6;
+    session.parts.push(part7);
 
     return session;
   }

@@ -10,5 +10,8 @@ export class PartComponent {
   @Input() part: SessionPart = new SessionPart();
   @Input() index: number = 0;
   @Input() state: number = 0;
-  @Output() selected = new EventEmitter();
+  @Output() select = new EventEmitter();
+  @Output() finish = new EventEmitter();
+  @Output() remove = new EventEmitter();
+  @Output() edit = new EventEmitter();
 }

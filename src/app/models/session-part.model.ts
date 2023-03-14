@@ -7,12 +7,12 @@ export class SessionPart {
   timeBased = true;
   count = 0;
 
-  getTitle(): string {
-    return this.title;
-  }
-
   getTime(): number {
     return this.timeBased ? this.time : this.calculateTimeByCount();
+  }
+
+  getInfo(): string {
+    return this.timeBased ? '' : this.count + '';
   }
 
   protected calculateTimeByCount(): number {
