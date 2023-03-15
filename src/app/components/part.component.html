@@ -1,15 +1,15 @@
 <div class="part-container flex-center" [class.active]="state !== 0" [class.resume]="state === 2">
-  <div class="column flex-center">
+  <div class="column flex-center" (click)="select.emit()">
     <div class="state-icon">
       <ng-container *ngIf="state === 1">&#9654;</ng-container>
       <ng-container *ngIf="state === 2">&#x21bb;</ng-container>
     </div>
-    <div class="icon flex-center" (click)="select.emit()">
+    <div class="icon flex-center">
       <img src="./assets/{{part.partType}}.png" alt="">
     </div>
   </div>
   <div class="column-right flex-center">
-    <div class="details flex-center">
+    <div class="details flex-center" (click)="select.emit()">
       <div class="title" *ngIf="state !== 0">{{ part.title }}</div>
       <app-timer [time]="part.getTime()" [state]="state" (finish)="finish.emit()" (clock)="clock($event)"></app-timer>
       <div class="info" *ngIf="state !== 0">{{ part.getInfo() }}</div>

@@ -16,6 +16,6 @@ export class EditComponent {
   }
   
   close() {
-    this.active = false;
+    this.update.emit();
   }
 }

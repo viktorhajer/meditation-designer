@@ -2,6 +2,25 @@
   height: 100vh;
   background: rgb(255 255 255 / 20%);
 
+  .sessions-container {
+    position: absolute;
+    left: 0;
+    transition: all 250ms ease-in-out;
+    
+    &.hidden {
+      left: -200px;
+      filter: blur(3px);
+    }
+  }
+  
+  .tools {
+    transition: all 250ms ease-in-out;
+
+    &.hidden {
+      filter: blur(3px);
+    }
+  }
+
   .footer {
     height: 50px;
     background: linear-gradient(45deg, #72b8bbf0, #a6b998e0);
@@ -11,6 +30,7 @@
     padding: 0 20px;
     width: calc(100% - 40px);
     bottom: 0;
+    transition: all 250ms ease-in-out;
     
     .button {
       width: 30px;
@@ -42,6 +62,38 @@
       font-weight: bold;
       font-size: 27px;
       text-shadow: 2px 2px 2px rgb(0 0 0 / 20%);
+    }
+    
+    &.hidden {
+      filter: blur(3px);
+    }
+  }
+  
+  .action {
+    position: absolute;
+    width: 25px;
+    height: 35px;
+    top: 62px;
+    right: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px 0 0 10px;
+    cursor: pointer;
+    
+    &.disabled {
+      cursor: auto;
+      opacity: 0.5;
+    }
+    
+    &.edit {
+      top: 20px;
+    }
+    
+    img {
+      width: 19px;
+      margin-left: 1px;
     }
   }
 }

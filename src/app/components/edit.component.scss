@@ -1,24 +1,35 @@
 .edit-container {
   .content {
-    width: 300px;
-    height: 300px;
-    padding: 8px;
-    border-radius: 10px;
+    width: 250px;
+    height: 400px;
+    right: -500px;
+    padding: 35px;
+    border-radius: 40px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
     background: #ffffff;
     position: fixed;
-    top: -500px;
-    left: calc(50% - 158px);
+    top: 140px;
     transition: all 250ms ease-in-out;
-    z-index: 101;    
+    z-index: 101;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-flow: column;
+    
+    h1 {
+      font-size: 24px;
+      color: #c14c39;
+    }
+    
+    p {
+      color: #6c6c6c;
+    }
   }
   
   .backdrop {
-    background: #000;
-    display: none;
-    opacity: 0;
-    width: 100vw;
+    background: linear-gradient(45deg, #3c6181, #4ea79a);
+    width: 0;
     height: 100vh;
+    opacity: 0;
     position: fixed;
     top: 0;
     left: 0;
@@ -28,11 +39,11 @@
   
   &.active {
     .content {
-      top: 120px;
+      right: 5px;
     }
     .backdrop {
       opacity: 50%;
-      display: block;
+      width: 100vw;
     }
   }
 }

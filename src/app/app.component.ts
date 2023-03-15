@@ -18,6 +18,14 @@ export class AppComponent {
   newPart() {
     this.editActive = !this.editActive;
   }
+  
+  removePart() {
+  
+  }
+  
+  updatePart() {
+    this.editActive = false;
+  }
 
   reset() {
     this.sessionComponent.reset();
