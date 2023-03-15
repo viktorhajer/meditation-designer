@@ -7,7 +7,7 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.48);
   height: calc(100vh - 66px);
   overflow: auto;
-  width: 88%;
+  width: 320px;
 
   .column {
     &.flex-center {
@@ -17,7 +17,7 @@
 
   .arrow {
     margin: 2px 98px 2px 0;
-    width: 81px;
+    width: 58px;
     flex-flow: column;
     align-items: flex-start;
     
