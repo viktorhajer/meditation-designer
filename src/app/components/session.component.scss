@@ -1,12 +1,13 @@
 .session-diagram {
-  margin: 0 35px 0 35px;
   padding: 10px 0;
-  background: linear-gradient(45deg, rgba(165, 157, 104, 0.74), rgba(145, 183, 189, 0.96));
+  background: linear-gradient(45deg, rgb(86 116 144), rgb(143 180 186));
   color: #ffffff;
   align-items: flex-start;
+  justify-content: flex-start;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.48);
   height: calc(100vh - 66px);
   overflow: auto;
+  width: 88%;
 
   .column {
     &.flex-center {
@@ -15,13 +16,13 @@
   }
 
   .arrow {
-    margin: 2px 62px 2px 0;
-    width: 76px;
+    margin: 2px 98px 2px 0;
+    width: 81px;
     flex-flow: column;
     align-items: flex-start;
     
     .arrow_body {
-      height: 24px;
+      height: 15px;
       border-left: 2px solid #ffffff;
     }
 
@@ -36,9 +37,38 @@
     border-right: 2px dotted #ffffff;
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 135px;
     width: 2px;
-    height: 100%;
-    opacity: 0.6;
+    height: calc(100% - 6px);
+    opacity: 0.3;
+    box-shadow: 0px 0px 1px black;
+  }
+}
+
+.action {
+  position: absolute;
+  width: 25px;
+  height: 35px;
+  top: 62px;
+  right: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px 0 0 10px;
+  cursor: pointer;
+  
+  &.disabled {
+    cursor: auto;
+    opacity: 0.5;
+  }
+  
+  &.edit {
+    top: 20px;
+  }
+  
+  img {
+    width: 19px;
+    margin-left: 1px;
   }
 }

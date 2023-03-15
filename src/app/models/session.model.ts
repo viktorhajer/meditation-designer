@@ -1,11 +1,11 @@
 import {SessionPart} from './session-part.model';
 
 export class Session {
-  id: number = 0;
-  title: string = '';
-  description: string = '';
+  id = 0;
+  title = '';
+  description = '';
   parts: SessionPart[] = [];
-  space: number = 2;
+  space = 2;
   
   getTime(): number {
     let sum = 0;

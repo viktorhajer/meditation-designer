@@ -5,9 +5,19 @@
         <div class="arrow_body"></div>
         <div class="arrow_head">&#8249;</div>
       </div>
-      <app-part [part]="part" [index]="i" [state]="getState(i)"
-                (select)="handle(i)" (finish)="next()" (remove)="remove(i)"></app-part>
+      <app-part [session]="session" [part]="part" [index]="i" [state]="getState(i)"
+                (select)="handle(i)" (finish)="next()" (moveUp)="move(i, 0)" (moveDown)="move(i, 1)">
+                </app-part>
     </ng-container>
   </div>
   <div class="separator"></div>
+</div>
+
+
+<div class="action remove" (click)="remove()" [class.disabled]="state === 0">
+  <img src="./assets/remove.png" alt="">
+</div>
+
+<div class="action edit" (click)="remove()" [class.disabled]="state === 0">
+  <img src="./assets/edit.png" alt="">
 </div>

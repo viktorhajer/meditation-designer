@@ -13,26 +13,30 @@ export class TimerComponent implements OnChanges {
   @Input() time: number = 0;
   @Input() state: number = 0;
   @Output() finish = new EventEmitter();
+  @Output() clock = new EventEmitter();
 
   actual = 0;
+  timeout = 0;
 
   ngOnChanges() {
     if (this.state === 1) {
-      this.start();
+      setTimeout(() => this.start(), 100);
     } else if (this.state === 0) {
       this.actual = 0;
+      clearTimeout(this.timeout);
     }
   }
 
   private start() {
     if (this.state === 1) {
       this.actual++;
+      this.clock.emit(this.time - this.actual);
       if (this.time - this.actual <= 0) {
         this.actual = 0;
         this.state = 0;
         this.finish.emit();
       } else {
-        setTimeout(() => this.start(), 1000);
+        this.timeout = setTimeout(() => this.start(), 1000);
       }
     }
   }

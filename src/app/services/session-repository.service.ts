@@ -10,9 +10,10 @@ import {SessionPartMantra} from '../models/session-part-mantra.model';
 })
 export class SessionRepository {
 
+  timeRemains = 0;
+
   getSession(): Session {
     const session = new Session();
-    session.id = 1;
     session.title = 'Demo Session';
     session.description = 'This is a demo meditation session.';
     session.space = 2;
@@ -20,43 +21,23 @@ export class SessionRepository {
 
     const part1 = new SessionPartSilence();
     part1.time = 3;
-    part1.order = 1;
     session.parts.push(part1);
 
     const part2 = new SessionPartMetronome();
     part2.timeBased = false;
     part2.count = 5;
-    part2.order = 2;
     part2.tickLength = 2;
     part2.tickSample = '110';
     session.parts.push(part2);
 
-    const part3 = new SessionPartSeparator();
-    part3.order = 3;
-    session.parts.push(part3);
+    session.parts.push(new SessionPartSeparator());
 
     const part4 = new SessionPartMantra();
-    part4.order = 4;
     part4.count = 10;
     part4.soundTitle = 'Gayatri'
     session.parts.push(part4);
 
-    const part5 = new SessionPartSeparator();
-    part3.order = 5;
-    session.parts.push(part5);
-
-    const part6 = new SessionPartMetronome();
-    part6.timeBased = false;
-    part6.count = 6;
-    part6.order = 2;
-    part6.tickLength = 2;
-    part6.tickSample = '110';
-    session.parts.push(part6);
-
-    const part7 = new SessionPartSilence();
-    part7.time = 5;
-    part7.order = 6;
-    session.parts.push(part7);
+    session.parts.push(new SessionPartSeparator());
 
     return session;
   }

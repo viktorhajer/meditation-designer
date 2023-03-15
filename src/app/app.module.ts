@@ -5,11 +5,12 @@ import {AppComponent} from './app.component';
 import {SessionComponent} from './components/session.component';
 import {PartComponent} from './components/part.component';
 import {TimerComponent} from "./components/timer.component";
+import {EditComponent} from "./components/edit.component";
 import {DatePipe} from "./utils/date.pipe";
 
 @NgModule({
   declarations: [
-    AppComponent, SessionComponent, PartComponent, TimerComponent, DatePipe
+    AppComponent, SessionComponent, PartComponent, TimerComponent, DatePipe, EditComponent
   ],
   imports: [
     BrowserModule,

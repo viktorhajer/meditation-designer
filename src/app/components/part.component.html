@@ -11,12 +11,12 @@
   <div class="column-right flex-center">
     <div class="details flex-center">
       <div class="title" *ngIf="state !== 0">{{ part.title }}</div>
-      <app-timer [time]="part.getTime()" [state]="state" (finish)="finish.emit()"></app-timer>
+      <app-timer [time]="part.getTime()" [state]="state" (finish)="finish.emit()" (clock)="clock($event)"></app-timer>
       <div class="info" *ngIf="state !== 0">{{ part.getInfo() }}</div>
     </div>
     <div class="toolbar">
-      <div class="button edit" (click)="edit.emit()">&#9998;</div>
-      <div class="button" (click)="remove.emit()">&#10006;</div>
+      <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0">&#9658;</div>
+      <div class="button" (click)="moveDown.emit()" *ngIf="index < (session.parts.length-1)">&#9658;</div>
     </div>
   </div>
 </div>

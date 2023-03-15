@@ -1,7 +1,5 @@
 export class SessionPart {
-  id = 0;
   title = '';
-  order = 0;
   partType = '';
   time = 0;
   timeBased = true;
