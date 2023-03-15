@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
+import {SessionPart} from '../models/session-part.model';
 import {SessionPartSilence} from '../models/session-part-silence.model';
 import {SessionPartMetronome} from '../models/session-part-metronome.model';
 import {SessionPartSeparator} from '../models/session-part-separator.model';
@@ -11,8 +12,18 @@ import {SessionPartMantra} from '../models/session-part-mantra.model';
 export class SessionRepository {
 
   timeRemains = 0;
+  index = 0;
+  session: Session;
+  
+  constructor() {
+    this.session = this.buildDemo();
+  }
+  
+  getSelectedPart(): SessionPart {
+    return this.session.parts[this.index];
+  }
 
-  getSession(): Session {
+  private buildDemo(): Session {
     const session = new Session();
     session.title = 'Demo Session';
     session.description = 'This is a demo meditation session.';

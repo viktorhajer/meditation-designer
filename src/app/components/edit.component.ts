@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {SessionPart} from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
 
@@ -7,12 +7,24 @@ import {SessionRepository} from '../services/session-repository.service';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent {
-  @Input() part: SessionPart = new SessionPart();
+export class EditComponent implements OnChanges {
   @Input() active = false;
+  @Input() createNew = true;
   @Output() update = new EventEmitter();
   
+  part = new SessionPart();
+  
   constructor(private readonly repository: SessionRepository) {
+  }
+  
+  ngOnChanges() {
+    if (this.active) {
+      if (this.createNew) {
+        this.part = new SessionPart();
+      } else {
+        this.part = this.repository.getSelectedPart();
+      }
+    }
   }
   
   close() {

@@ -1,6 +1,7 @@
 <div class="edit-container" [class.active]="active">
   <div class="content flex-center">
-    <h1>Edit part</h1>
+    <h1 *ngIf="createNew">Add new part</h1>
+    <h1 *ngIf="!createNew">Edit {{ part.title }} part</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ul</p>
   </div>
   <div class="backdrop" (click)="close()"></div>

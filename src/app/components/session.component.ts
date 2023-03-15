@@ -9,60 +9,49 @@ import {Session} from '../models/session.model';
 })
 export class SessionComponent {
 
-  session: Session;
   state =  0;
-  index = 0;
 
-  constructor(private readonly repository: SessionRepository) {
-    this.session = this.repository.getSession();
+  constructor(public readonly repository: SessionRepository) {
   }
 
   handle(index: number) {
-    if (this.index === index) {
+    if (this.repository.index === index) {
       this.state = this.state === 1 ? 2 : 1;
     } else {
-      this.index = index;
+      this.repository.index = index;
       this.state = 2;
     }
   }
 
   reset() {
-    this.index = 0;
+    this.repository.index = 0;
     this.state = 0;
   }
 
   next() {
-    this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0
-    if (this.index === 0) {
-      this.state = 0;
-    }
-  }
-
-  remove() {
-    if (this.state !== 0 && this.index >= 0 && this.index < this.session.parts.length) {
-      this.session.parts.splice(this.index, 1);
-      this.index = 0;
+    this.repository.index = this.repository.index < (this.repository.session.parts.length - 1) ? (this.repository.index + 1) : 0
+    if (this.repository.index === 0) {
       this.state = 0;
     }
   }
 
   getState(index: number): number {
-    return index === this.index ? this.state : 0;
+    return index === this.repository.index ? this.state : 0;
   }
   
   move(index: number, direction = 0) {
-    const part1 = this.session.parts[index];
+    const part1 = this.repository.session.parts[index];
     this.state = this.state === 1 ? 2 : this.state;
-    if (direction === 1 && (index+1) < this.session.parts.length) {
-      const part2 = this.session.parts[index+1];
-      this.session.parts[index] = part2;
-      this.session.parts[index+1] = part1;
-      this.index = index+1;
+    if (direction === 1 && (index+1) < this.repository.session.parts.length) {
+      const part2 = this.repository.session.parts[index+1];
+      this.repository.session.parts[index] = part2;
+      this.repository.session.parts[index+1] = part1;
+      this.repository.index = index+1;
     } else if (direction === 0 && (index-1) >= 0) {
-      const part2 = this.session.parts[index-1];
-      this.session.parts[index] = part2;
-      this.session.parts[index-1] = part1;
-      this.index = index-1;
+      const part2 = this.repository.session.parts[index-1];
+      this.repository.session.parts[index] = part2;
+      this.repository.session.parts[index-1] = part1;
+      this.repository.index = index-1;
     }
   }
 }

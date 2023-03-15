@@ -3,11 +3,11 @@
     <app-session #sessionRef></app-session>
   </div>
   <div class="edit-container">
-    <app-edit [active]="editActive" (update)="updatePart()"></app-edit>
+    <app-edit [active]="editActive" (update)="updatePart()" [createNew]="createNew"></app-edit>
   </div>
   <div class="footer flex-center" [class.hidden]="editActive">
     <div class="button flex-center plus" (click)="newPart()">+</div>
-    <div class="timer" *ngIf="repository.timeRemains">{{ repository.timeRemains | timeformat }}</div>
+    <div class="timer" *ngIf="sessionRef.state !== 0 && repository.timeRemains">{{ repository.timeRemains | timeformat }}</div>
     <div class="button flex-center" (click)="reset()" [class.disabled]="sessionRef.state === 0"><img src="./assets/stop.png" alt=""></div>
   </div>
   
@@ -16,7 +16,7 @@
       <img src="./assets/remove.png" alt="">
     </div>
 
-    <div class="action edit" (click)="removePart()" [class.disabled]="sessionRef.state === 0">
+    <div class="action edit" (click)="editPart()" [class.disabled]="sessionRef.state === 0">
       <img src="./assets/edit.png" alt="">
     </div>
   </div>

@@ -1,11 +1,11 @@
 <div class="session-diagram flex-center">
   <div class="column flex-center">
-    <ng-container *ngFor="let part of session.parts; let i = index">
+    <ng-container *ngFor="let part of repository.session.parts; let i = index">
       <div class="arrow flex-center" *ngIf="i !== 0">
         <div class="arrow_body"></div>
         <div class="arrow_head">&#8249;</div>
       </div>
-      <app-part [session]="session" [part]="part" [index]="i" [state]="getState(i)"
+      <app-part [part]="part" [index]="i" [state]="getState(i)"
                 (select)="handle(i)" (finish)="next()" (moveUp)="move(i, 0)" (moveDown)="move(i, 1)">
                 </app-part>
     </ng-container>
