@@ -49,6 +49,13 @@ export class SessionRepository {
     session.parts.push(part4);
 
     session.parts.push(new SessionPartSeparator());
+    
+    const part5 = new SessionPartMetronome();
+    part5.timeBased = true;
+    part5.time = 10;
+    part5.tickLength = 3;
+    part5.tickSample = '1';
+    session.parts.push(part5);
 
     return session;
   }

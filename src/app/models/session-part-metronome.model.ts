@@ -11,7 +11,7 @@ export class SessionPartMetronome extends SessionPart {
   }
 
   override calculateTimeByCount(): number {
-    return this.count * this.tickLength;
+    return this.count * this.tickLength * this.tickSample.length;
   }
 
   override getInfo(): string {
