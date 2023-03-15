@@ -25,6 +25,16 @@
       &.plus {
         font-size: 26px;
       }
+      
+      img {
+        width: 10px;
+      }
+      
+      &.disabled {
+        filter: grayscale(1);
+        opacity: 0.3;
+        cursor: auto;
+      }
     }
 
     .timer {

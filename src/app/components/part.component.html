@@ -15,8 +15,8 @@
       <div class="info" *ngIf="state !== 0">{{ part.getInfo() }}</div>
     </div>
     <div class="toolbar">
-      <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0">&#9658;</div>
-      <div class="button" (click)="moveDown.emit()" *ngIf="index < (session.parts.length-1)">&#9658;</div>
+      <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0"><img src="./assets/arrow_order.png" alt=""></div>
+      <div class="button" (click)="moveDown.emit()" *ngIf="index < (session.parts.length-1)"><img src="./assets/arrow_order.png" alt=""></div>
     </div>
   </div>
 </div>
