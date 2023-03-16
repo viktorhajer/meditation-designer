@@ -20,14 +20,15 @@ export class AppComponent {
     this.createNew = true;
     this.editActive = true;
   }
-  
+
   editPart() {
-    if(this.sessionComponent.state !== 0) {
+    if (this.sessionComponent.state !== 0) {
       this.createNew = false;
       this.editActive = true;
+      this.sessionComponent.state = 2;
     }
   }
-  
+
   removePart() {
     if (this.sessionComponent.state !== 0 && this.repository.index >= 0 && this.repository.index < this.repository.session.parts.length) {
       this.repository.session.parts.splice(this.repository.index, 1);
@@ -35,7 +36,7 @@ export class AppComponent {
       this.sessionComponent.state = 0;
     }
   }
-  
+
   updatePart() {
     this.editActive = false;
   }

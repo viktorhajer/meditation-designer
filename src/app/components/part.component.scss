@@ -1,7 +1,7 @@
 .part-container {
   transition: all 150ms ease-in-out;
   border-radius: 45px;
-  
+
   .column {
     width: 150px;
     cursor: pointer;
@@ -29,7 +29,7 @@
 
   &.active, &.resume {
     background: #ffffff6b;
-    
+
     .icon {
       img {
         background: #c14c39;
@@ -46,6 +46,7 @@
         background: #e9ca55;
       }
     }
+
     .state-icon {
       color: #ffffff;
       font-size: 18px;
@@ -72,7 +73,7 @@
 
     .toolbar {
       margin-right: 10px;
-    
+
       .button {
         cursor: pointer;
         opacity: 0.3;

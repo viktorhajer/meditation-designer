@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SessionPart} from '../models/session-part.model';
-import {Session} from '../models/session.model';
 import {SessionRepository} from '../services/session-repository.service';
 
 @Component({
@@ -16,10 +15,10 @@ export class PartComponent {
   @Output() finish = new EventEmitter();
   @Output() moveUp = new EventEmitter();
   @Output() moveDown = new EventEmitter();
-  
+
   constructor(public readonly repository: SessionRepository) {
   }
-  
+
   clock(timeRemains: number) {
     this.repository.timeRemains = timeRemains;
   }

@@ -3,7 +3,7 @@
     width: 250px;
     height: 400px;
     right: -500px;
-    padding: 35px;
+    padding: 25px;
     border-radius: 40px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
     background: #ffffff;
@@ -11,20 +11,88 @@
     top: 140px;
     transition: all 250ms ease-in-out;
     z-index: 101;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-flow: column;
-    
+
+    display: grid;
+    grid-auto-rows: 0fr 1fr 0fr;
+    grid-template-columns: 1fr;
+
     h1 {
-      font-size: 24px;
+      font-size: 20px;
       color: #c14c39;
+      margin: 0;
     }
-    
+
+    .form {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-flow: column;
+      height: 100%;
+    }
+
     p {
       color: #6c6c6c;
     }
+
+    .form-item {
+      display: flex;
+      flex-flow: column;
+      margin-top: 10px;
+
+      &.row {
+        flex-flow: row;
+
+        input {
+          width: auto;
+        }
+      }
+
+      label {
+        font-size: 11px;
+        margin-right: 10px;
+      }
+
+      input {
+        padding: 4px 8px;
+        width: 180px;
+      }
+
+      select {
+        padding: 4px 8px;
+        width: 196px;
+      }
+    }
+
+    .footer {
+      justify-content: flex-end;
+    }
+
+    .button {
+      width: 30px;
+      height: 30px;
+      background: #c14c39;
+      border-radius: 50%;
+      color: #ffffff;
+      font-size: 18px;
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+
+      &:last-child {
+        margin-left: 10px;
+      }
+
+      img {
+        width: 10px;
+      }
+
+      &.disabled {
+        filter: grayscale(1);
+        opacity: 0.3;
+        cursor: auto;
+      }
+    }
   }
-  
+
   .backdrop {
     background: linear-gradient(45deg, #3c6181, #4ea79a);
     width: 0;
@@ -36,11 +104,12 @@
     transition: all 250ms ease-in-out;
     z-index: 100;
   }
-  
+
   &.active {
     .content {
       right: 5px;
     }
+
     .backdrop {
       opacity: 50%;
       width: 100vw;

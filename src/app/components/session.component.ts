@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {SessionRepository} from '../services/session-repository.service';
-import {Session} from '../models/session.model';
 
 @Component({
   selector: 'app-session',
@@ -9,7 +8,7 @@ import {Session} from '../models/session.model';
 })
 export class SessionComponent {
 
-  state =  0;
+  state = 0;
 
   constructor(public readonly repository: SessionRepository) {
   }
@@ -38,20 +37,20 @@ export class SessionComponent {
   getState(index: number): number {
     return index === this.repository.index ? this.state : 0;
   }
-  
+
   move(index: number, direction = 0) {
     const part1 = this.repository.session.parts[index];
     this.state = this.state === 1 ? 2 : this.state;
-    if (direction === 1 && (index+1) < this.repository.session.parts.length) {
-      const part2 = this.repository.session.parts[index+1];
+    if (direction === 1 && (index + 1) < this.repository.session.parts.length) {
+      const part2 = this.repository.session.parts[index + 1];
       this.repository.session.parts[index] = part2;
-      this.repository.session.parts[index+1] = part1;
-      this.repository.index = index+1;
-    } else if (direction === 0 && (index-1) >= 0) {
-      const part2 = this.repository.session.parts[index-1];
+      this.repository.session.parts[index + 1] = part1;
+      this.repository.index = index + 1;
+    } else if (direction === 0 && (index - 1) >= 0) {
+      const part2 = this.repository.session.parts[index - 1];
       this.repository.session.parts[index] = part2;
-      this.repository.session.parts[index-1] = part1;
-      this.repository.index = index-1;
+      this.repository.session.parts[index - 1] = part1;
+      this.repository.index = index - 1;
     }
   }
 }

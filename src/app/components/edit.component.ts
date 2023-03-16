@@ -1,5 +1,15 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
-import {SessionPart} from '../models/session-part.model';
+import {
+  DEFAULT_MANTRA_COUNT, DEFAULT_MANTRA_TIME,
+  DEFAULT_METRONOME,
+  DEFAULT_SEPARATOR,
+  DEFAULT_SILENCE,
+  SessionPart,
+  TYPE_MANTRA,
+  TYPE_METRONOME,
+  TYPE_SEPARATOR,
+  TYPE_SILENCE
+} from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
 
 @Component({
@@ -10,24 +20,83 @@ import {SessionRepository} from '../services/session-repository.service';
 export class EditComponent implements OnChanges {
   @Input() active = false;
   @Input() createNew = true;
-  @Output() update = new EventEmitter();
-  
-  part = new SessionPart();
-  
+  @Output() close = new EventEmitter();
+
+  partTypes = [
+    TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME
+  ];
+
+  part: SessionPart = new SessionPart();
+
   constructor(private readonly repository: SessionRepository) {
   }
-  
+
   ngOnChanges() {
     if (this.active) {
       if (this.createNew) {
         this.part = new SessionPart();
+        this.part.partType = TYPE_SEPARATOR;
       } else {
-        this.part = this.repository.getSelectedPart();
+        this.part = Object.assign(new SessionPart(), this.repository.getSelectedPart());
       }
     }
   }
-  
-  close() {
-    this.update.emit();
+
+  typeChanged() {
+    if (this.part.partType === TYPE_SEPARATOR) {
+      this.part.timeBased = true;
+      this.part.time = DEFAULT_SEPARATOR;
+    } else if (this.part.partType === TYPE_SILENCE) {
+      this.part.timeBased = true;
+      this.part.time = DEFAULT_SILENCE;
+    } else if (this.part.partType === TYPE_MANTRA) {
+      this.part.timeBased = false;
+      this.part.count = DEFAULT_MANTRA_COUNT;
+      this.part.time = DEFAULT_MANTRA_TIME;
+      this.part.mantraGroup = 1;
+    } else if (this.part.partType === TYPE_METRONOME) {
+      this.part.timeBased = true;
+      this.part.time = DEFAULT_METRONOME;
+      this.part.tickLength = 1;
+      this.part.tickSample = '1';
+    }
+  }
+
+  isType(partType = 'separator'): boolean {
+    return this.part.partType === partType;
+  }
+
+  save() {
+    if (this.isInvalid()) {
+      // TODO error message
+    } else if (this.createNew) {
+      this.repository.session.parts.push(this.part);
+      this.close.emit();
+    } else {
+      const originalPart = this.repository.getSelectedPart();
+      originalPart.timeBased = this.part.timeBased;
+      originalPart.time = this.part.time;
+      originalPart.count = this.part.count;
+      originalPart.tickLength = this.part.tickLength;
+      originalPart.tickSample = this.part.tickSample;
+      originalPart.mantraGroup = this.part.mantraGroup;
+      originalPart.mantraTitle = this.part.mantraTitle;
+      originalPart.mantraFileName = this.part.mantraFileName;
+      originalPart.mantraTime = this.part.mantraTime;
+      this.close.emit();
+    }
+  }
+
+  cancel() {
+    this.close.emit();
+  }
+
+  capitalizeFirstLetter(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  }
+
+  private isInvalid(): boolean {
+    // TODO validation
+    return false;
   }
 }

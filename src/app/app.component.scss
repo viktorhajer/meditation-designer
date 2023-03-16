@@ -6,13 +6,13 @@
     position: absolute;
     left: 0;
     transition: all 250ms ease-in-out;
-    
+
     &.hidden {
       left: -200px;
       filter: blur(3px);
     }
   }
-  
+
   .tools {
     transition: all 250ms ease-in-out;
 
@@ -31,7 +31,7 @@
     width: calc(100% - 40px);
     bottom: 0;
     transition: all 250ms ease-in-out;
-    
+
     .button {
       width: 30px;
       height: 30px;
@@ -45,11 +45,11 @@
       &.plus {
         font-size: 26px;
       }
-      
+
       img {
         width: 10px;
       }
-      
+
       &.disabled {
         filter: grayscale(1);
         opacity: 0.3;
@@ -63,12 +63,12 @@
       font-size: 27px;
       text-shadow: 2px 2px 2px rgb(0 0 0 / 20%);
     }
-    
+
     &.hidden {
       filter: blur(3px);
     }
   }
-  
+
   .action {
     position: absolute;
     width: 25px;
@@ -81,16 +81,16 @@
     justify-content: center;
     border-radius: 10px 0 0 10px;
     cursor: pointer;
-    
+
     &.disabled {
       cursor: auto;
       opacity: 0.5;
     }
-    
+
     &.edit {
       top: 20px;
     }
-    
+
     img {
       width: 19px;
       margin-left: 1px;

@@ -6,7 +6,7 @@ export class Session {
   description = '';
   parts: SessionPart[] = [];
   space = 2;
-  
+
   getTime(): number {
     let sum = 0;
     this.parts.forEach(p => sum += p.getTime());
