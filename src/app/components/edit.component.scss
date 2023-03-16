@@ -70,19 +70,18 @@
     .button {
       width: 30px;
       height: 30px;
-      background: #c14c39;
+      background: #56b345;
       border-radius: 50%;
-      color: #ffffff;
-      font-size: 18px;
       box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
       cursor: pointer;
 
       &:last-child {
         margin-left: 10px;
+        background: #c14c39;
       }
 
       img {
-        width: 10px;
+        width: 18px;
       }
 
       &.disabled {
