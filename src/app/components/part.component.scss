@@ -27,30 +27,55 @@
     color: #c14c39;
   }
 
-  &.active, &.resume {
-    background: #ffffff6b;
+  &.selected {
+    background: rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.18);
 
-    .icon {
-      img {
-        background: #c14c39;
-        box-shadow: 6px 4px 7px rgba(0, 0, 0, 0.4);
-        padding: 8px;
-        margin: 0;
-      }
-    }
-  }
-
-  &.resume {
-    .icon {
-      img {
-        background: #e9ca55;
-      }
+    .column-right .details .title {
+      color: #383838;
     }
 
     .state-icon {
       color: #ffffff;
       font-size: 18px;
       left: -5px;
+    }
+
+    .icon {
+      img {
+        background: rgb(134 174 187 / 90%);
+        box-shadow: 6px 4px 7px rgba(0, 0, 0, 0.4);
+        padding: 8px;
+        margin: 0;
+      }
+    }
+
+    &.running {
+      background: #ffffff6b;
+
+      .column-right .details .title {
+        color: #c95858;
+      }
+
+      .state-icon {
+        color: #c14c39;
+        font-size: 14px;
+        left: 0;
+      }
+
+      .icon {
+        img {
+          background: #c14c39;
+        }
+      }
+    }
+
+    &.paused {
+      .icon {
+        img {
+          background: #e9ca55;
+        }
+      }
     }
   }
 

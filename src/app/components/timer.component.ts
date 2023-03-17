@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {STATE_STOPPED} from "../services/session-repository.service";
 
 export const REST = 0;
 export const RUNNING = 1;
@@ -10,8 +11,9 @@ export const WAITING = 2;
   styleUrls: ['./timer.component.scss']
 })
 export class TimerComponent implements OnChanges {
-  @Input() time: number = 0;
-  @Input() state: number = 0;
+  @Input() time = 0;
+  @Input() state = STATE_STOPPED;
+  @Input() selected = false;
   @Output() finish = new EventEmitter();
   @Output() clock = new EventEmitter();
 

@@ -8,17 +8,20 @@
   <div class="footer flex-center" [class.hidden]="editActive">
     <div class="button flex-center plus" (click)="newPart()">+</div>
     <div class="timer"
-         *ngIf="sessionRef.state !== 0 && repository.timeRemains">{{ repository.timeRemains | timeformat }}</div>
-    <div class="button flex-center" (click)="reset()" [class.disabled]="sessionRef.state === 0"><img
+         *ngIf="!repository.isStopped() && repository.timeRemains">{{ repository.timeRemains | timeformat }}</div>
+    <div class="button flex-center" (click)="repository.stop()" *ngIf="!repository.isStopped()"><img
         src="./assets/stop.png" alt=""></div>
+    <div class="button flex-center" (click)="repository.play()" *ngIf="!repository.isRunning()"
+         [class.disabled]="!repository.isSelected()">Pl</div>
+    <div class="button flex-center" (click)="repository.pause()" *ngIf="repository.isRunning()">Pu</div>
   </div>
 
   <div class="tools" [class.hidden]="editActive">
-    <div class="action remove" (click)="removePart()" [class.disabled]="sessionRef.state === 0">
+    <div class="action remove" (click)="repository.remove()" [class.disabled]="!repository.isSelected()">
       <img src="./assets/remove.png" alt="">
     </div>
 
-    <div class="action edit" (click)="editPart()" [class.disabled]="sessionRef.state === 0">
+    <div class="action edit" (click)="editPart()" [class.disabled]="!repository.isSelected() || isEditDisabled()">
       <img src="./assets/edit.png" alt="">
     </div>
   </div>

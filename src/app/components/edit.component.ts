@@ -69,9 +69,11 @@ export class EditComponent implements OnChanges {
   save() {
     if (this.isInvalid()) {
       // TODO error message
-    } else if (this.createNew) {
+      return;
+    } else if (this.createNew && this.repository.getSelectedPart() === null) {
       this.repository.session.parts.push(this.part);
-      this.close.emit();
+    } else if (this.createNew && this.repository.getSelectedPart() !== null) {
+      this.repository.session.parts.splice(this.repository.index+1, 0, this.part);
     } else {
       const originalPart = this.repository.getSelectedPart();
       originalPart.timeBased = this.part.timeBased;
@@ -82,9 +84,10 @@ export class EditComponent implements OnChanges {
       originalPart.mantraGroup = this.part.mantraGroup;
       originalPart.mantraTitle = this.part.mantraTitle;
       originalPart.mantraFileName = this.part.mantraFileName;
-      originalPart.mantraTime = this.part.mantraTime;
-      this.close.emit();
+      originalPart.mantraLength = this.part.mantraLength;
+      originalPart.mantraSpace = this.part.mantraSpace;
     }
+    this.close.emit();
   }
 
   cancel() {

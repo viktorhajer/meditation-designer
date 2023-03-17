@@ -19,7 +19,9 @@ export class SessionPart {
   // Mantra
   mantraTitle = '';
   mantraFileName = '';
-  mantraTime = 0;
+  mantraLength = 0;
+  mantraSpace = 0;
+
   mantraGroup = 1;
 
   // Metronome
@@ -36,7 +38,7 @@ export class SessionPart {
 
   getInfo(): string {
     if (this.partType === TYPE_METRONOME) {
-      return this.tickLength + 'mp' + (this.tickSample !== '1' ? ': ' + this.tickSample : '');
+      return this.tickLength + ' secs' + (this.tickSample !== '1' ? ': ' + this.tickSample : '');
     } else if (this.partType === TYPE_MANTRA) {
       return this.mantraTitle + ' ' + (this.timeBased ? '' : this.count + '');
     }
@@ -47,7 +49,7 @@ export class SessionPart {
     if (this.partType === TYPE_METRONOME) {
       return this.count * this.tickLength * this.tickSample.length;
     } else if (this.partType === TYPE_MANTRA) {
-      return this.count * this.mantraTime; // TODO length - space...
+      return this.count * (this.mantraLength + this.mantraSpace);
     }
     return this.count;
   }

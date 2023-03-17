@@ -1,7 +1,7 @@
 <div class="edit-container" [class.active]="active">
-  <div class="content flex-center">
-    <h1 *ngIf="createNew">Add new part</h1>
-    <h1 *ngIf="!createNew">Edit {{ part.title }} part</h1>
+  <div class="content flex-center {{ part.partType }}">
+    <h1 *ngIf="createNew">Add new</h1>
+    <h1 *ngIf="!createNew">{{ part.title }}</h1>
     <div class="form">
       <div class="form-item" *ngIf="createNew">
         <label>Type</label>
@@ -16,7 +16,7 @@
       </div>
 
       <div class="form-item" *ngIf="part.timeBased && !isType()">
-        <label>Time (secs)</label>
+        <label>Time (sec)</label>
         <input type="number" [(ngModel)]="part.time">
       </div>
 
@@ -26,13 +26,23 @@
       </div>
 
       <div class="form-item" *ngIf="isType('metronome')">
-        <label>Length (secs)</label>
+        <label>Length (sec)</label>
         <input type="number" [(ngModel)]="part.tickLength">
       </div>
 
       <div class="form-item" *ngIf="isType('metronome')">
         <label>Sample</label>
         <input type="text" [(ngModel)]="part.tickSample">
+      </div>
+
+      <div class="form-item" *ngIf="isType('mantra')">
+        <label>Length (sec)</label>
+        <input type="number" [(ngModel)]="part.mantraLength">
+      </div>
+
+      <div class="form-item" *ngIf="isType('mantra')">
+        <label>Space (sec)</label>
+        <input type="number" [(ngModel)]="part.mantraSpace">
       </div>
 
       <div class="form-item" *ngIf="isType('mantra')">

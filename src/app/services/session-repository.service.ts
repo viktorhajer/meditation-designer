@@ -2,20 +2,95 @@ import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
 import {DEFAULT_SEPARATOR, SessionPart} from '../models/session-part.model';
 
+export const STATE_STOPPED = 0;
+export const STATE_RUNNING = 1;
+export const STATE_PAUSED = 2;
+
 @Injectable({
   providedIn: 'root'
 })
 export class SessionRepository {
   timeRemains = 0;
-  index = 0;
+  index = -1;
+  state = 0;
   session: Session;
 
   constructor() {
     this.session = this.buildDemo();
   }
 
+  isSelected() {
+    return this.index !== -1;
+  }
+
+  isRunning(): boolean {
+    return this.state === STATE_RUNNING;
+  }
+
+  isPaused(): boolean {
+    return this.state === 2;
+  }
+
+  isStopped(): boolean {
+    return this.state === STATE_STOPPED;
+  }
+
+  select(index: number) {
+    if (this.index === index) {
+      this.index = -1;
+    } else {
+      this.index = index;
+    }
+    this.stop();
+  }
+
   getSelectedPart(): SessionPart {
     return this.session.parts[this.index];
+  }
+
+  pause() {
+    this.state = 2;
+  }
+
+  play() {
+    if (this.isSelected()) {
+      this.state = STATE_RUNNING;
+    }
+  }
+
+  stop() {
+    this.state = STATE_STOPPED;
+  }
+
+  next() {
+    this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0
+    if (this.index === 0) {
+      this.stop();
+    }
+  }
+
+  remove() {
+    if (this.state !== 0 && this.index >= 0 && this.index < this.session.parts.length) {
+      this.session.parts.splice(this.index, 1);
+      this.index = -1;
+      this.stop();
+    }
+  }
+
+  move(index: number, direction = 0) {
+    const part1 = this.session.parts[index];
+    this.state = this.state === STATE_RUNNING ? STATE_PAUSED : this.state;
+    if (direction === 1 && (index + 1) < this.session.parts.length) {
+      const part2 = this.session.parts[index + 1];
+      this.session.parts[index] = part2;
+      this.session.parts[index + 1] = part1;
+      this.index = index + 1;
+    } else if (direction === 0 && (index - 1) >= 0) {
+      const part2 = this.session.parts[index - 1];
+      this.session.parts[index] = part2;
+      this.session.parts[index - 1] = part1;
+      this.index = index - 1;
+    }
   }
 
   private buildDemo(): Session {
@@ -50,7 +125,8 @@ export class SessionRepository {
     part4.timeBased = false;
     part4.count = 10;
     part4.mantraTitle = 'Gayatri'
-    part4.mantraTime = 2;
+    part4.mantraLength = 2;
+    part4.mantraSpace = 2;
     session.parts.push(part4);
 
     const part5 = new SessionPart();

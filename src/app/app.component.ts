@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {SessionComponent} from './components/session.component';
 import {SessionRepository} from './services/session-repository.service';
+import {TYPE_SEPARATOR} from "./models/session-part.model";
 
 @Component({
   selector: 'app-root',
@@ -16,32 +17,22 @@ export class AppComponent {
   constructor(public readonly repository: SessionRepository) {
   }
 
+  isEditDisabled(): boolean {
+    return this.repository.getSelectedPart().partType === TYPE_SEPARATOR;
+  }
+
   newPart() {
     this.createNew = true;
     this.editActive = true;
   }
 
   editPart() {
-    if (this.sessionComponent.state !== 0) {
-      this.createNew = false;
-      this.editActive = true;
-      this.sessionComponent.state = 2;
-    }
-  }
-
-  removePart() {
-    if (this.sessionComponent.state !== 0 && this.repository.index >= 0 && this.repository.index < this.repository.session.parts.length) {
-      this.repository.session.parts.splice(this.repository.index, 1);
-      this.repository.index = 0;
-      this.sessionComponent.state = 0;
-    }
+    this.repository.stop();
+    this.createNew = false;
+    this.editActive = true;
   }
 
   updatePart() {
     this.editActive = false;
-  }
-
-  reset() {
-    this.sessionComponent.reset();
   }
 }
