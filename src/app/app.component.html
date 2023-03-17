@@ -9,11 +9,19 @@
     <div class="button flex-center plus" (click)="newPart()">+</div>
     <div class="timer"
          *ngIf="!repository.isStopped() && repository.timeRemains">{{ repository.timeRemains | timeformat }}</div>
-    <div class="button flex-center" (click)="repository.stop()" *ngIf="!repository.isStopped()"><img
-        src="./assets/stop.png" alt=""></div>
-    <div class="button flex-center" (click)="repository.play()" *ngIf="!repository.isRunning()"
-         [class.disabled]="!repository.isSelected()">Pl</div>
-    <div class="button flex-center" (click)="repository.pause()" *ngIf="repository.isRunning()">Pu</div>
+    
+    <div class="flex-center">
+      <div class="button flex-center" (click)="repository.play()" *ngIf="!repository.isRunning()"
+           [class.disabled]="!repository.isSelected()">
+        <img src="./assets/play.png" alt="">
+      </div>
+      <div class="button flex-center" (click)="repository.pause()" *ngIf="repository.isRunning()">
+        <img src="./assets/pause.png" alt="">
+      </div>
+      <div class="button flex-center stop" (click)="repository.stop()" *ngIf="!repository.isStopped()">
+        <img src="./assets/stop.png" alt="">
+      </div>
+    </div>
   </div>
 
   <div class="tools" [class.hidden]="editActive">
