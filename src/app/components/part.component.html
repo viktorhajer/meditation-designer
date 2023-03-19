@@ -7,7 +7,7 @@
       <ng-container *ngIf="selected && !isRunning()">&#x21bb;</ng-container>
     </div>
     <div class="icon flex-center">
-      <img src="./assets/{{part.partType}}.png" alt="">
+      <img src="./assets/images/{{part.partType}}.png" alt="">
     </div>
   </div>
   <div class="column-right flex-center">
@@ -18,10 +18,11 @@
       <div class="info" *ngIf="selected">{{ part.getInfo() }}</div>
     </div>
     <div class="toolbar">
-      <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0"><img src="./assets/arrow_order.png" alt="">
+      <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0">
+        <img src="./assets/images/arrow_order.png" alt="">
       </div>
       <div class="button" (click)="moveDown.emit()" *ngIf="index < (repository.session.parts.length-1)">
-        <img src="./assets/arrow_order.png" alt="">
+        <img src="./assets/images/arrow_order.png" alt="">
       </div>
     </div>
   </div>

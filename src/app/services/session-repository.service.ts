@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
 import {DEFAULT_SEPARATOR, SessionPart} from '../models/session-part.model';
+import {SoundService} from './sound.service';
 
 export const STATE_STOPPED = 0;
 export const STATE_RUNNING = 1;
@@ -15,7 +16,7 @@ export class SessionRepository {
   state = 0;
   session: Session;
 
-  constructor() {
+  constructor(private readonly soundService: SoundService) {
     this.session = this.buildDemo();
   }
 
@@ -38,8 +39,10 @@ export class SessionRepository {
   select(index: number) {
     if (this.index === index) {
       this.index = -1;
+      this.soundService.setPart(null as any);
     } else {
       this.index = index;
+      this.soundService.setPart(this.session.parts[this.index]);
     }
     this.stop();
   }
@@ -50,16 +53,19 @@ export class SessionRepository {
 
   pause() {
     this.state = 2;
+    this.soundService.pause();
   }
 
   play() {
     if (this.isSelected()) {
       this.state = STATE_RUNNING;
+      this.soundService.play();
     }
   }
 
   stop() {
     this.state = STATE_STOPPED;
+    this.soundService.stop();
   }
 
   next() {

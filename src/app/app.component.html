@@ -1,3 +1,9 @@
+<audio #separatorAudioElement src="./assets/sounds/china-bell-ring.mp3"></audio>
+<audio #metronomeAudioElement></audio>
+<audio #mantraAudioElement></audio>
+
+<!-- audio loop autoplay crossorigin="anonymous"></audio -->
+
 <div class="main">
   <div class="sessions-container" [class.hidden]="editActive">
     <app-session #sessionRef></app-session>
@@ -13,24 +19,24 @@
     <div class="flex-center">
       <div class="button flex-center" (click)="repository.play()" *ngIf="!repository.isRunning()"
            [class.disabled]="!repository.isSelected()">
-        <img src="./assets/play.png" alt="">
+        <img src="./assets/images/play.png" alt="">
       </div>
       <div class="button flex-center" (click)="repository.pause()" *ngIf="repository.isRunning()">
-        <img src="./assets/pause.png" alt="">
+        <img src="./assets/images/pause.png" alt="">
       </div>
       <div class="button flex-center stop" (click)="repository.stop()" *ngIf="!repository.isStopped()">
-        <img src="./assets/stop.png" alt="">
+        <img src="./assets/images/stop.png" alt="">
       </div>
     </div>
   </div>
 
   <div class="tools" [class.hidden]="editActive">
     <div class="action remove" (click)="repository.remove()" [class.disabled]="!repository.isSelected()">
-      <img src="./assets/remove.png" alt="">
+      <img src="./assets/images/remove.png" alt="">
     </div>
 
     <div class="action edit" (click)="editPart()" [class.disabled]="!repository.isSelected() || isEditDisabled()">
-      <img src="./assets/edit.png" alt="">
+      <img src="./assets/images/edit.png" alt="">
     </div>
   </div>
 </div>

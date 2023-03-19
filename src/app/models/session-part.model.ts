@@ -1,4 +1,4 @@
-export const DEFAULT_SEPARATOR = 2;
+export const DEFAULT_SEPARATOR = 4; // 4 secs
 export const DEFAULT_SILENCE = 3 * 60; // 3 mins
 export const DEFAULT_METRONOME = 5 * 60; // 5 mins
 export const DEFAULT_MANTRA_TIME = 10 * 60; // 10 mins
