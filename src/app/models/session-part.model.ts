@@ -5,7 +5,7 @@ export const DEFAULT_MANTRA_TIME = 10 * 60; // 10 mins
 export const DEFAULT_MANTRA_COUNT = 108;
 
 export const TYPE_SEPARATOR = 'separator';
-export const TYPE_SILENCE= 'silence';
+export const TYPE_SILENCE = 'silence';
 export const TYPE_MANTRA = 'mantra';
 export const TYPE_METRONOME = 'metronome';
 

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
 import {DEFAULT_SEPARATOR, SessionPart} from '../models/session-part.model';
 import {SoundService} from './sound.service';
+import {LogService} from "./log.service";
 
 export const STATE_STOPPED = 0;
 export const STATE_RUNNING = 1;
@@ -16,7 +17,7 @@ export class SessionRepository {
   state = 0;
   session: Session;
 
-  constructor(private readonly soundService: SoundService) {
+  constructor(private readonly logger: LogService, private readonly soundService: SoundService) {
     this.session = this.buildDemo();
   }
 
@@ -38,11 +39,13 @@ export class SessionRepository {
 
   select(index: number) {
     if (this.index === index) {
+      this.logger.info('Deselect part');
       this.index = -1;
       this.soundService.setPart(null as any);
     } else {
+      this.logger.info('Select part: ' + this.session.parts[index]?.partType);
       this.index = index;
-      this.soundService.setPart(this.session.parts[this.index]);
+      this.soundService.setPart(this.session.parts[this.index], this.state);
     }
     this.stop();
   }
@@ -70,7 +73,10 @@ export class SessionRepository {
 
   next() {
     this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0
+    this.logger.info('Next part: ' + this.session.parts[this.index]?.partType);
+    this.soundService.setPart(this.session.parts[this.index], this.state);
     if (this.index === 0) {
+      this.logger.info('Queue finished');
       this.stop();
     }
   }

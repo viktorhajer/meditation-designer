@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
-  DEFAULT_MANTRA_COUNT, DEFAULT_MANTRA_TIME,
+  DEFAULT_MANTRA_COUNT,
+  DEFAULT_MANTRA_TIME,
   DEFAULT_METRONOME,
   DEFAULT_SEPARATOR,
   DEFAULT_SILENCE,
@@ -73,7 +74,7 @@ export class EditComponent implements OnChanges {
     } else if (this.createNew && this.repository.getSelectedPart() === null) {
       this.repository.session.parts.push(this.part);
     } else if (this.createNew && this.repository.getSelectedPart() !== null) {
-      this.repository.session.parts.splice(this.repository.index+1, 0, this.part);
+      this.repository.session.parts.splice(this.repository.index + 1, 0, this.part);
     } else {
       const originalPart = this.repository.getSelectedPart();
       originalPart.timeBased = this.part.timeBased;
