@@ -1,9 +1,8 @@
-<audio #separatorAudioElement src="./assets/sounds/china-bell-ring.mp3" autoplay="false"></audio>
-<audio #metronomeAudioElement autoplay="false"></audio>
+<audio #separatorAudioElement autoplay="false" src="./assets/sounds/china-bell-ring.mp3"></audio>
+<audio #metronomeAudioElement autoplay="false" src="./assets/sounds/metronome.mp3"></audio>
 <audio #mantraAudioElement autoplay="false"></audio>
 
 <!-- audio loop autoplay crossorigin="anonymous"></audio -->
-
 
 <div class="main">
   <div class="sessions-container" [class.hidden]="editActive">
@@ -15,8 +14,9 @@
   <div class="footer flex-center" [class.hidden]="editActive">
     <div class="button flex-center plus" (click)="newPart()">+</div>
     <div class="timer"
-         *ngIf="!repository.isStopped() && repository.timeRemains">{{ repository.timeRemains | timeformat }}</div>
-    
+         *ngIf="!repository.isStopped() && sessionService.getTime() !== -1">
+      {{ sessionService.getTime() | timeformat }}
+    </div>
     <div class="flex-center">
       <div class="button flex-center" (click)="repository.play()" *ngIf="!repository.isRunning()"
            [class.disabled]="!repository.isSelected()">

@@ -5,13 +5,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {SessionComponent} from './components/session.component';
 import {PartComponent} from './components/part.component';
-import {TimerComponent} from "./components/timer.component";
-import {EditComponent} from "./components/edit.component";
-import {DatePipe} from "./utils/date.pipe";
+import {EditComponent} from './components/edit.component';
+import {DatePipe} from './utils/date.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent, SessionComponent, PartComponent, TimerComponent, DatePipe, EditComponent
+    AppComponent, SessionComponent, PartComponent, DatePipe, EditComponent
   ],
   imports: [
     BrowserModule,

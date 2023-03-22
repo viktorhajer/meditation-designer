@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
 import {DEFAULT_SEPARATOR, SessionPart} from '../models/session-part.model';
-import {SoundService} from './sound.service';
+import {SessionService} from './session.service';
 import {LogService} from "./log.service";
 
 export const STATE_STOPPED = 0;
@@ -12,13 +12,13 @@ export const STATE_PAUSED = 2;
   providedIn: 'root'
 })
 export class SessionRepository {
-  timeRemains = 0;
   index = -1;
-  state = 0;
+  state = STATE_STOPPED;
   session: Session;
 
-  constructor(private readonly logger: LogService, private readonly soundService: SoundService) {
+  constructor(private readonly logger: LogService, private readonly sessionService: SessionService) {
     this.session = this.buildDemo();
+    this.sessionService.finish.subscribe(r => r ? this.next() : {});
   }
 
   isSelected() {
@@ -41,11 +41,11 @@ export class SessionRepository {
     if (this.index === index) {
       this.logger.info('Deselect part');
       this.index = -1;
-      this.soundService.setPart(null as any);
+      this.sessionService.setPart(null as any);
     } else {
       this.logger.info('Select part: ' + this.session.parts[index]?.partType);
       this.index = index;
-      this.soundService.setPart(this.session.parts[this.index], this.state);
+      this.sessionService.setPart(this.session.parts[this.index], this.state);
     }
     this.stop();
   }
@@ -55,26 +55,26 @@ export class SessionRepository {
   }
 
   pause() {
-    this.state = 2;
-    this.soundService.pause();
+    this.state = STATE_PAUSED;
+    this.sessionService.pause();
   }
 
   play() {
     if (this.isSelected()) {
       this.state = STATE_RUNNING;
-      this.soundService.play();
+      this.sessionService.play();
     }
   }
 
   stop() {
     this.state = STATE_STOPPED;
-    this.soundService.stop();
+    this.sessionService.stop();
   }
 
   next() {
     this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0
     this.logger.info('Next part: ' + this.session.parts[this.index]?.partType);
-    this.soundService.setPart(this.session.parts[this.index], this.state);
+    this.sessionService.setPart(this.session.parts[this.index], this.state);
     if (this.index === 0) {
       this.logger.info('Queue finished');
       this.stop();
@@ -123,7 +123,7 @@ export class SessionRepository {
     part2.timeBased = false;
     part2.count = 5;
     part2.tickLength = 2;
-    part2.tickSample = '110';
+    part2.tickSample = '1';
     session.parts.push(part2);
 
     const part3 = new SessionPart();
@@ -149,8 +149,9 @@ export class SessionRepository {
 
     const part6 = new SessionPart();
     part6.partType = 'metronome';
-    part6.timeBased = true;
+    part6.timeBased = false;
     part6.time = 10;
+    part6.count = 3;
     part6.tickLength = 3;
     part6.tickSample = '1';
     session.parts.push(part6);

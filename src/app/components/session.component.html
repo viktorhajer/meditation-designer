@@ -6,8 +6,8 @@
         <div class="arrow_head">&#8249;</div>
       </div>
       <app-part [part]="part" [index]="i" [state]="getState(i)" [selected]="isSelected(i)"
-                (select)="repository.select(i)" (finish)="repository.next()"
-                (moveUp)="repository.move(i, 0)" (moveDown)="repository.move(i, 1)">
+                (select)="repository.select(i)" (moveUp)="repository.move(i, 0)"
+                (moveDown)="repository.move(i, 1)">
       </app-part>
     </ng-container>
   </div>

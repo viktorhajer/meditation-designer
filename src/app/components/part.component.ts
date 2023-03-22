@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SessionPart} from '../models/session-part.model';
 import {SessionRepository, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../services/session-repository.service';
+import {SessionService} from '../services/session.service';
 
 @Component({
   selector: 'app-part',
@@ -13,11 +14,15 @@ export class PartComponent {
   @Input() index = 0;
   @Input() state = STATE_STOPPED;
   @Output() select = new EventEmitter();
-  @Output() finish = new EventEmitter();
   @Output() moveUp = new EventEmitter();
   @Output() moveDown = new EventEmitter();
 
-  constructor(public readonly repository: SessionRepository) {
+  constructor(public readonly repository: SessionRepository, public readonly service: SessionService) {
+  }
+
+  getTime(): number {
+    const total = this.selected ? this.service.getTime() : -1;
+    return total === -1 ? this.part.getTime() : total;
   }
 
   isRunning(): boolean {
@@ -26,9 +31,5 @@ export class PartComponent {
 
   isPaused(): boolean {
     return this.state === STATE_PAUSED;
-  }
-
-  clock(timeRemains: number) {
-    this.repository.timeRemains = timeRemains;
   }
 }
