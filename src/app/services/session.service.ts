@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
 import {SessionPart, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR} from '../models/session-part.model';
-import {STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from './session-repository.service';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
+
+export const STATE_STOPPED = 0;
+export const STATE_RUNNING = 1;
+export const STATE_PAUSED = 2;
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +15,7 @@ export class SessionService {
   metronomePlayer: HTMLAudioElement = null as any;
   mantraPlayer: HTMLAudioElement = null as any;
   private part: SessionPart = null as any;
-  private state = STATE_STOPPED;
+  state = STATE_STOPPED;
 
   private totalMs = 0;
   private actualMs = 0;
@@ -22,7 +25,7 @@ export class SessionService {
   private metronomeActualMs = 0;
   private metronomePartMs = 0;
 
-  finish = new BehaviorSubject<boolean>(false);
+  partFinished = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly logger: LogService) {
   }
@@ -39,16 +42,15 @@ export class SessionService {
     });
   }
 
-  setPart(part: SessionPart, state = STATE_STOPPED) {
-    this.stop();
+  setPart(part: SessionPart) {
+    this.stop(part ? this.state : STATE_STOPPED);
     this.part = part;
     this.logger.info(this.part ? 'Set part: ' + this.part.partType : 'Remove part');
     // if (this.part?.partType === TYPE_MANTRA) {
     //   this.logger.info('Load mantra');
     // }
     this.reset();
-    if (state === STATE_RUNNING) {
-      this.state = STATE_RUNNING;
+    if (this.state === STATE_RUNNING) {
       this.play();
     }
   }
@@ -68,8 +70,8 @@ export class SessionService {
     // this.getPlayer()?.pause();
   }
 
-  stop() {
-    this.state = STATE_STOPPED;
+  stop(state = STATE_STOPPED) {
+    this.state = state;
     const player = this.getPlayer();
     if (player) {
       this.logger.info('Stop: ' + this.part?.partType);
@@ -83,14 +85,25 @@ export class SessionService {
     return this.part && this.state !== STATE_STOPPED ? Math.floor((this.totalMs - this.actualMs) / 1000) : -1;
   }
 
+  isRunning(): boolean {
+    return this.state === STATE_RUNNING;
+  }
+
+  isPaused(): boolean {
+    return this.state === STATE_PAUSED;
+  }
+
+  isStopped(): boolean {
+    return this.state === STATE_STOPPED;
+  }
+
   private clock() {
     if (this.state === STATE_RUNNING) {
       this.clockMetronome();
       this.actualMs += 10;
       if (this.totalMs - this.actualMs <= 0) {
         this.actualMs = 0;
-        this.state = 0;
-        this.finish.next(true);
+        this.partFinished.next(true);
       } else {
         this.timeout = setTimeout(() => this.clock(), 10);
       }

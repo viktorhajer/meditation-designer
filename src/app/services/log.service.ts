@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-import {SessionPart, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR} from '../models/session-part.model';
-import {STATE_RUNNING, STATE_STOPPED} from "./session-repository.service";
 
 const LEVEL_INFO = 0;
 const LEVEL_WARNING = 1;

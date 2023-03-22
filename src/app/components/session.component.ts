@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {SessionRepository, STATE_STOPPED} from '../services/session-repository.service';
+import {SessionRepository} from '../services/session-repository.service';
+import {SessionService, STATE_STOPPED} from '../services/session.service';
 
 @Component({
   selector: 'app-session',
@@ -8,7 +9,8 @@ import {SessionRepository, STATE_STOPPED} from '../services/session-repository.s
 })
 export class SessionComponent {
 
-  constructor(public readonly repository: SessionRepository) {
+  constructor(public readonly repository: SessionRepository,
+              public readonly sessionService: SessionService) {
   }
 
   isSelected(index: number): boolean {
@@ -16,6 +18,6 @@ export class SessionComponent {
   }
 
   getState(index: number): number {
-    return this.isSelected(index) ? this.repository.state : STATE_STOPPED;
+    return this.isSelected(index) ? this.sessionService.state : STATE_STOPPED;
   }
 }

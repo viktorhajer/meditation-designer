@@ -2,39 +2,22 @@ import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
 import {DEFAULT_SEPARATOR, SessionPart} from '../models/session-part.model';
 import {SessionService} from './session.service';
-import {LogService} from "./log.service";
-
-export const STATE_STOPPED = 0;
-export const STATE_RUNNING = 1;
-export const STATE_PAUSED = 2;
+import {LogService} from './log.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionRepository {
   index = -1;
-  state = STATE_STOPPED;
   session: Session;
 
   constructor(private readonly logger: LogService, private readonly sessionService: SessionService) {
     this.session = this.buildDemo();
-    this.sessionService.finish.subscribe(r => r ? this.next() : {});
+    this.sessionService.partFinished.subscribe(r => r ? this.next() : {});
   }
 
   isSelected() {
     return this.index !== -1;
-  }
-
-  isRunning(): boolean {
-    return this.state === STATE_RUNNING;
-  }
-
-  isPaused(): boolean {
-    return this.state === 2;
-  }
-
-  isStopped(): boolean {
-    return this.state === STATE_STOPPED;
   }
 
   select(index: number) {
@@ -45,60 +28,44 @@ export class SessionRepository {
     } else {
       this.logger.info('Select part: ' + this.session.parts[index]?.partType);
       this.index = index;
-      this.sessionService.setPart(this.session.parts[this.index], this.state);
+      this.sessionService.setPart(this.session.parts[this.index]);
     }
-    this.stop();
   }
 
   getSelectedPart(): SessionPart {
     return this.session.parts[this.index];
   }
 
-  pause() {
-    this.state = STATE_PAUSED;
-    this.sessionService.pause();
-  }
-
-  play() {
-    if (this.isSelected()) {
-      this.state = STATE_RUNNING;
-      this.sessionService.play();
-    }
-  }
-
-  stop() {
-    this.state = STATE_STOPPED;
-    this.sessionService.stop();
-  }
-
   next() {
-    this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0
+    this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0;
     this.logger.info('Next part: ' + this.session.parts[this.index]?.partType);
-    this.sessionService.setPart(this.session.parts[this.index], this.state);
+    this.sessionService.setPart(this.session.parts[this.index]);
     if (this.index === 0) {
       this.logger.info('Queue finished');
-      this.stop();
+      this.sessionService.stop();
     }
   }
 
   remove() {
-    if (this.state !== 0 && this.index >= 0 && this.index < this.session.parts.length) {
+    if (!this.sessionService.isStopped() && this.index >= 0 && this.index < this.session.parts.length) {
       this.session.parts.splice(this.index, 1);
       this.index = -1;
-      this.stop();
+      this.sessionService.stop();
     }
   }
 
   move(index: number, direction = 0) {
     const part1 = this.session.parts[index];
-    this.state = this.state === STATE_RUNNING ? STATE_PAUSED : this.state;
+    if (this.sessionService.isRunning()) {
+      this.sessionService.pause();
+    }
+    let part2 = this.session.parts[index + 1];
     if (direction === 1 && (index + 1) < this.session.parts.length) {
-      const part2 = this.session.parts[index + 1];
       this.session.parts[index] = part2;
       this.session.parts[index + 1] = part1;
       this.index = index + 1;
     } else if (direction === 0 && (index - 1) >= 0) {
-      const part2 = this.session.parts[index - 1];
+      part2 = this.session.parts[index - 1];
       this.session.parts[index] = part2;
       this.session.parts[index - 1] = part1;
       this.index = index - 1;
@@ -136,7 +103,7 @@ export class SessionRepository {
     part4.partType = 'mantra';
     part4.timeBased = false;
     part4.count = 10;
-    part4.mantraTitle = 'Gayatri'
+    part4.mantraTitle = 'Gayatri';
     part4.mantraLength = 2;
     part4.mantraSpace = 2;
     session.parts.push(part4);

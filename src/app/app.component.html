@@ -1,6 +1,6 @@
-<audio #separatorAudioElement autoplay="false" src="./assets/sounds/china-bell-ring.mp3"></audio>
-<audio #metronomeAudioElement autoplay="false" src="./assets/sounds/metronome.mp3"></audio>
-<audio #mantraAudioElement autoplay="false"></audio>
+<audio #separatorAudioElement src="./assets/sounds/china-bell-ring.mp3"></audio>
+<audio #metronomeAudioElement src="./assets/sounds/metronome.mp3"></audio>
+<audio #mantraAudioElement></audio>
 
 <!-- audio loop autoplay crossorigin="anonymous"></audio -->
 
@@ -14,18 +14,18 @@
   <div class="footer flex-center" [class.hidden]="editActive">
     <div class="button flex-center plus" (click)="newPart()">+</div>
     <div class="timer"
-         *ngIf="!repository.isStopped() && sessionService.getTime() !== -1">
+         *ngIf="!sessionService.isStopped() && sessionService.getTime() !== -1">
       {{ sessionService.getTime() | timeformat }}
     </div>
     <div class="flex-center">
-      <div class="button flex-center" (click)="repository.play()" *ngIf="!repository.isRunning()"
+      <div class="button flex-center" (click)="sessionService.play()" *ngIf="!sessionService.isRunning()"
            [class.disabled]="!repository.isSelected()">
         <img src="./assets/images/play.png" alt="">
       </div>
-      <div class="button flex-center" (click)="repository.pause()" *ngIf="repository.isRunning()">
+      <div class="button flex-center" (click)="sessionService.pause()" *ngIf="sessionService.isRunning()">
         <img src="./assets/images/pause.png" alt="">
       </div>
-      <div class="button flex-center stop" (click)="repository.stop()" *ngIf="!repository.isStopped()">
+      <div class="button flex-center stop" (click)="sessionService.stop()" *ngIf="!sessionService.isStopped()">
         <img src="./assets/images/stop.png" alt="">
       </div>
     </div>

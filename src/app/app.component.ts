@@ -39,7 +39,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   editPart() {
-    this.repository.stop();
+    this.sessionService.stop();
     this.createNew = false;
     this.editActive = true;
   }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SessionPart} from '../models/session-part.model';
-import {SessionRepository, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../services/session-repository.service';
-import {SessionService} from '../services/session.service';
+import {SessionRepository} from '../services/session-repository.service';
+import {SessionService, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../services/session.service';
 
 @Component({
   selector: 'app-part',
@@ -17,7 +17,8 @@ export class PartComponent {
   @Output() moveUp = new EventEmitter();
   @Output() moveDown = new EventEmitter();
 
-  constructor(public readonly repository: SessionRepository, public readonly service: SessionService) {
+  constructor(public readonly repository: SessionRepository,
+              public readonly service: SessionService) {
   }
 
   getTime(): number {
