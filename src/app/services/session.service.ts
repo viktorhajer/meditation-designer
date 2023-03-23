@@ -7,6 +7,8 @@ export const STATE_STOPPED = 0;
 export const STATE_RUNNING = 1;
 export const STATE_PAUSED = 2;
 
+const FREQUENCY = 10; //ms
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,9 +23,11 @@ export class SessionService {
   private actualMs = 0;
   private timeout = null as any;
 
-  private metronomeCount = 0;
-  private metronomeActualMs = 0;
-  private metronomePartMs = 0;
+  private sliceCount = 0;
+  private sliceActualMs = 0;
+  private sliceTotalMs = 0;
+
+  private lock = false;
 
   partFinished = new BehaviorSubject<boolean>(false);
 
@@ -40,9 +44,12 @@ export class SessionService {
     this.metronomePlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Metronome sound loaded');
     });
+    this.mantraPlayer.addEventListener('loadedmetadata', () => {
+      this.logger.info('MantraPlayer sound loaded');
+    });
   }
 
-  setPart(part: SessionPart) {
+  setPart(part: SessionPart, next = false) {
     this.stop(part ? this.state : STATE_STOPPED);
     this.part = part;
     this.logger.info(this.part ? 'Set part: ' + this.part.partType : 'Remove part');
@@ -50,24 +57,24 @@ export class SessionService {
     //   this.logger.info('Load mantra');
     // }
     this.reset();
-    if (this.state === STATE_RUNNING) {
+    if (this.part && this.state === STATE_RUNNING && next) {
       this.play();
     }
   }
 
   play() {
-    this.state = STATE_RUNNING;
-    this.logger.info('Play: ' + this.part?.partType);
-    if (this.part.partType !== TYPE_METRONOME) {
+    this.logger.info((this.state === STATE_PAUSED ? 'Resume: ' : 'Play: ') + this.part?.partType);
+    if (this.state === STATE_PAUSED || (this.part.partType !== TYPE_METRONOME && this.part.partType !== TYPE_MANTRA)) {
       this.playSound();
     }
+    this.state = STATE_RUNNING;
     this.clock();
   }
 
   pause() {
     this.state = STATE_PAUSED;
     this.logger.info('Pause: ' + this.part?.partType);
-    // this.getPlayer()?.pause();
+    this.getPlayer()?.pause();
   }
 
   stop(state = STATE_STOPPED) {
@@ -99,37 +106,48 @@ export class SessionService {
 
   private clock() {
     if (this.state === STATE_RUNNING) {
-      this.clockMetronome();
-      this.actualMs += 10;
+      this.processMetronomeOrMantra();
+      this.actualMs += FREQUENCY;
       if (this.totalMs - this.actualMs <= 0) {
         this.actualMs = 0;
         this.partFinished.next(true);
       } else {
-        this.timeout = setTimeout(() => this.clock(), 10);
+        this.timeout = setTimeout(() => this.clock(), FREQUENCY);
       }
     }
   }
 
-  private clockMetronome() {
-    if (this.part.partType === TYPE_METRONOME) {
-      if (this.metronomeActualMs === 0) {
-        if (!this.part.timeBased && this.part.count === this.metronomeCount) {
+  private processMetronomeOrMantra() {
+    if (!this.lock && (this.part.partType === TYPE_METRONOME || this.part.partType === TYPE_MANTRA)) {
+      if (this.sliceActualMs === 0) {
+        if (!this.part.timeBased && this.part.count === this.sliceCount) {
           return;
         }
-        this.playSound();
-        this.metronomeCount++;
+        this.playSound(true);
+        this.sliceCount++;
+
+        if (this.part.partType === TYPE_MANTRA && this.sliceCount % this.part.mantraGroup === 0) {
+          this.lock = true;
+          setTimeout(() => this.lock = false, this.part.mantraGroupSpace * 1000);
+        }
       }
-      this.metronomeActualMs += 10;
-      if (this.metronomePartMs - this.metronomeActualMs <= 0) {
-        this.metronomeActualMs = 0;
+      this.sliceActualMs += FREQUENCY;
+      if (this.sliceTotalMs - this.sliceActualMs <= 0) {
+        this.sliceActualMs = 0;
       }
     }
   }
 
-  private playSound() {
-    this.getPlayer()?.play()
-      .then(() => this.logger.info('Playing: ' + this.part?.partType))
-      .catch(error => this.logger.error('Failed to play: ' + this.part?.partType + '-' + error));
+  private playSound(fromStart = false) {
+    const player = this.getPlayer();
+    if (player) {
+      if (fromStart) {
+        player.currentTime = 0;
+      }
+      player.play()
+        .then(() => this.logger.info('Playing: ' + this.part?.partType))
+        .catch(error => this.logger.error('Failed to play: ' + this.part?.partType + '-' + error));
+    }
   }
 
   private getPlayer(): HTMLAudioElement | null {
@@ -150,8 +168,8 @@ export class SessionService {
     this.timeout = null;
     this.totalMs = this.part ? this.part.getTime() * 1000 : 0;
     this.actualMs = 0;
-    this.metronomePartMs = this.part ? this.part.tickLength * 1000 : 0;
-    this.metronomeActualMs = 0;
-    this.metronomeCount = 0;
+    this.sliceTotalMs = this.part ? (this.part.sliceLength + this.part.sliceSpace) * 1000 : 0;
+    this.sliceActualMs = 0;
+    this.sliceCount = 0;
   }
 }

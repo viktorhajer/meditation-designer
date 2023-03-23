@@ -8,6 +8,7 @@ export const TYPE_SEPARATOR = 'separator';
 export const TYPE_SILENCE = 'silence';
 export const TYPE_MANTRA = 'mantra';
 export const TYPE_METRONOME = 'metronome';
+export const TYPE_SINGING_BOWL = 'singing bowl';
 
 export class SessionPart {
   id = Date.now() + '-' + Math.floor(Math.random() * 1000);
@@ -15,18 +16,17 @@ export class SessionPart {
   time = 0;
   timeBased = true;
   count = 0;
+  sliceLength = 1; // secs
+  sliceSpace = 0; // secs
 
   // Mantra
   mantraTitle = '';
-  mantraFileName = '';
-  mantraLength = 0;
-  mantraSpace = 0;
-
+  mantraName = '';
   mantraGroup = 1;
+  mantraGroupSpace = 1;
 
-  // Metronome
-  tickLength = 1; //mp
-  tickSample = '1'; // e.g. 1101
+  // Singing bowl
+  singingBowlType = '';
 
   get title(): string {
     return this.partType.charAt(0).toUpperCase() + this.partType.slice(1);
@@ -38,7 +38,7 @@ export class SessionPart {
 
   getInfo(): string {
     if (this.partType === TYPE_METRONOME) {
-      return this.tickLength + ' secs' + (this.tickSample !== '1' ? ': ' + this.tickSample : '');
+      return this.sliceLength + ' secs';
     } else if (this.partType === TYPE_MANTRA) {
       return this.mantraTitle + ' ' + (this.timeBased ? '' : this.count + '');
     }
@@ -46,10 +46,11 @@ export class SessionPart {
   }
 
   private calculateTimeByCount(): number {
-    if (this.partType === TYPE_METRONOME) {
-      return this.count * this.tickLength * this.tickSample.length;
-    } else if (this.partType === TYPE_MANTRA) {
-      return this.count * (this.mantraLength + this.mantraSpace);
+    if (this.partType === TYPE_METRONOME || (this.partType === TYPE_MANTRA && this.mantraGroup <= 1)) {
+      return this.count * (this.sliceLength + this.sliceSpace);
+    } else if (this.partType === TYPE_MANTRA && this.mantraGroup > 1) {
+      const groupNumber = Math.floor(this.count / this.mantraGroup);
+      return this.count * (this.sliceLength + this.sliceSpace) + groupNumber * this.mantraGroupSpace;
     }
     return this.count;
   }

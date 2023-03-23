@@ -44,6 +44,7 @@ export class EditComponent implements OnChanges {
   }
 
   typeChanged() {
+    this.part.sliceSpace = 0;
     if (this.part.partType === TYPE_SEPARATOR) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SEPARATOR;
@@ -52,14 +53,15 @@ export class EditComponent implements OnChanges {
       this.part.time = DEFAULT_SILENCE;
     } else if (this.part.partType === TYPE_MANTRA) {
       this.part.timeBased = false;
-      this.part.count = DEFAULT_MANTRA_COUNT;
       this.part.time = DEFAULT_MANTRA_TIME;
+      this.part.count = DEFAULT_MANTRA_COUNT;
+      this.part.sliceLength = 1;
+      this.part.sliceSpace = 2;
       this.part.mantraGroup = 1;
     } else if (this.part.partType === TYPE_METRONOME) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_METRONOME;
-      this.part.tickLength = 1;
-      this.part.tickSample = '1';
+      this.part.sliceLength = 1;
     }
   }
 
@@ -80,13 +82,12 @@ export class EditComponent implements OnChanges {
       originalPart.timeBased = this.part.timeBased;
       originalPart.time = this.part.time;
       originalPart.count = this.part.count;
-      originalPart.tickLength = this.part.tickLength;
-      originalPart.tickSample = this.part.tickSample;
-      originalPart.mantraGroup = this.part.mantraGroup;
+      originalPart.sliceLength = this.part.sliceLength;
+      originalPart.sliceSpace = this.part.sliceSpace;
       originalPart.mantraTitle = this.part.mantraTitle;
-      originalPart.mantraFileName = this.part.mantraFileName;
-      originalPart.mantraLength = this.part.mantraLength;
-      originalPart.mantraSpace = this.part.mantraSpace;
+      originalPart.mantraName = this.part.mantraName;
+      originalPart.mantraGroup = this.part.mantraGroup;
+      originalPart.mantraGroupSpace = this.part.mantraGroup <= 1 ? 0 : this.part.mantraGroupSpace;
     }
     this.close.emit();
   }

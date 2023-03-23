@@ -25,29 +25,24 @@
         <input type="number" [(ngModel)]="part.count">
       </div>
 
-      <div class="form-item" *ngIf="isType('metronome')">
+      <div class="form-item" *ngIf="isType('metronome') || isType('mantra')">
         <label>Length (sec)</label>
-        <input type="number" [(ngModel)]="part.tickLength">
-      </div>
-
-      <div class="form-item" *ngIf="isType('metronome')">
-        <label>Sample</label>
-        <input type="text" [(ngModel)]="part.tickSample">
-      </div>
-
-      <div class="form-item" *ngIf="isType('mantra')">
-        <label>Length (sec)</label>
-        <input type="number" [(ngModel)]="part.mantraLength">
+        <input type="number" [(ngModel)]="part.sliceLength">
       </div>
 
       <div class="form-item" *ngIf="isType('mantra')">
         <label>Space (sec)</label>
-        <input type="number" [(ngModel)]="part.mantraSpace">
+        <input type="number" [(ngModel)]="part.sliceSpace">
       </div>
 
       <div class="form-item" *ngIf="isType('mantra')">
         <label>Group size</label>
         <input type="number" [(ngModel)]="part.mantraGroup">
+      </div>
+
+      <div class="form-item" *ngIf="isType('mantra') && part.mantraGroup > 1">
+        <label>Group space (sec)</label>
+        <input type="number" [(ngModel)]="part.mantraGroupSpace">
       </div>
 
     </div>

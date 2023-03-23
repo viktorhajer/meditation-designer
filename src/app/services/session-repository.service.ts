@@ -39,7 +39,7 @@ export class SessionRepository {
   next() {
     this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0;
     this.logger.info('Next part: ' + this.session.parts[this.index]?.partType);
-    this.sessionService.setPart(this.session.parts[this.index]);
+    this.sessionService.setPart(this.session.parts[this.index], true);
     if (this.index === 0) {
       this.logger.info('Queue finished');
       this.sessionService.stop();
@@ -89,8 +89,7 @@ export class SessionRepository {
     part2.partType = 'metronome';
     part2.timeBased = false;
     part2.count = 5;
-    part2.tickLength = 2;
-    part2.tickSample = '1';
+    part2.sliceLength = 2;
     session.parts.push(part2);
 
     const part3 = new SessionPart();
@@ -102,10 +101,12 @@ export class SessionRepository {
     const part4 = new SessionPart();
     part4.partType = 'mantra';
     part4.timeBased = false;
-    part4.count = 10;
+    part4.count = 4;
+    part4.sliceLength = 1;
+    part4.sliceSpace = 0;
     part4.mantraTitle = 'Gayatri';
-    part4.mantraLength = 2;
-    part4.mantraSpace = 2;
+    part4.mantraGroup = 2;
+    part4.mantraGroupSpace = 3;
     session.parts.push(part4);
 
     const part5 = new SessionPart();
@@ -119,8 +120,7 @@ export class SessionRepository {
     part6.timeBased = false;
     part6.time = 10;
     part6.count = 3;
-    part6.tickLength = 3;
-    part6.tickSample = '1';
+    part6.sliceLength = 3;
     session.parts.push(part6);
 
     return session;
