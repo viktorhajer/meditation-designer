@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
-import {DEFAULT_SEPARATOR, SessionPart} from '../models/session-part.model';
+import {SEPARATORS, SessionPart} from '../models/session-part.model';
 import {SessionService} from './session.service';
 import {LogService} from './log.service';
 
@@ -94,7 +94,9 @@ export class SessionRepository {
 
     const part3 = new SessionPart();
     part3.partType = 'separator';
-    part3.time = DEFAULT_SEPARATOR;
+    part3.time = SEPARATORS[0].time;
+    part3.fileName = SEPARATORS[0].fileName;
+    part3.separatorName = SEPARATORS[0].name;
     part3.timeBased = true;
     session.parts.push(part3);
 
@@ -111,7 +113,9 @@ export class SessionRepository {
 
     const part5 = new SessionPart();
     part5.partType = 'separator';
-    part5.time = DEFAULT_SEPARATOR;
+    part5.time = SEPARATORS[0].time;
+    part5.fileName = SEPARATORS[0].fileName;
+    part5.separatorName = SEPARATORS[0].name;
     part5.timeBased = true;
     session.parts.push(part5);
 

@@ -2,7 +2,6 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {SessionComponent} from './components/session.component';
 import {SessionRepository} from './services/session-repository.service';
 import {SessionService} from './services/session.service';
-import {TYPE_SEPARATOR} from "./models/session-part.model";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('metronomeAudioElement') metronomeAudioElementRef: ElementRef = null as any;
   @ViewChild('mantraAudioElement') mantraAudioElementRef: ElementRef = null as any;
   @ViewChild('sessionRef') sessionComponent: SessionComponent = null as any;
-  
+
 
   editActive = false;
   createNew = true;
@@ -22,15 +21,11 @@ export class AppComponent implements AfterViewInit {
   constructor(public readonly repository: SessionRepository,
               public readonly sessionService: SessionService) {
   }
-  
+
   ngAfterViewInit() {
     this.sessionService.init(this.separatorAudioElementRef.nativeElement as HTMLAudioElement,
-        this.metronomeAudioElementRef.nativeElement as HTMLAudioElement,
-        this.mantraAudioElementRef.nativeElement as HTMLAudioElement);
-  }
-
-  isEditDisabled(): boolean {
-    return this.repository.getSelectedPart().partType === TYPE_SEPARATOR;
+      this.metronomeAudioElementRef.nativeElement as HTMLAudioElement,
+      this.mantraAudioElementRef.nativeElement as HTMLAudioElement);
   }
 
   newPart() {
@@ -39,12 +34,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   editPart() {
-    this.sessionService.stop();
-    this.createNew = false;
-    this.editActive = true;
+    if (this.repository.isSelected()) {
+      this.sessionService.stop();
+      this.createNew = false;
+      this.editActive = true;
+    }
   }
 
   updatePart() {
     this.editActive = false;
+    this.sessionService.setPart(this.repository.getSelectedPart());
   }
 }

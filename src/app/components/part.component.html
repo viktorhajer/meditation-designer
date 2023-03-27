@@ -13,6 +13,8 @@
   <div class="column-right flex-center">
     <div class="details flex-center" (click)="select.emit()">
       <div class="title" *ngIf="selected">{{ part.title }}</div>
+      <div class="title" *ngIf="!selected && part.partType === 'mantra'">{{ part.mantraTitle }}</div>
+      <div class="title" *ngIf="!selected && part.partType === 'separator'">{{ part.separatorName }}</div>
       <div class="time" [class.selected]="selected">{{ getTime() | timeformat }}</div>
       <div class="info" *ngIf="selected">{{ part.getInfo() }}</div>
     </div>

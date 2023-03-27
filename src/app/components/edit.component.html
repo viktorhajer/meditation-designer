@@ -10,6 +10,13 @@
         </select>
       </div>
 
+      <div class="form-item" *ngIf="isType('separator')">
+        <label>Type</label>
+        <select [(ngModel)]="part.separatorName" (change)="separatorTypeChanged()">
+          <option [value]="t.name" *ngFor="let t of separatorTypes">{{ t.name }}</option>
+        </select>
+      </div>
+
       <div class="form-item row" *ngIf="!isType() && !isType('silence')">
         <label>Time based?</label>
         <input type="checkbox" [(ngModel)]="part.timeBased">

@@ -3,13 +3,12 @@ import {
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
   DEFAULT_METRONOME,
-  DEFAULT_SEPARATOR,
-  DEFAULT_SILENCE,
+  DEFAULT_SILENCE, SEPARATORS,
   SessionPart,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR,
-  TYPE_SILENCE
+  TYPE_SILENCE, TYPES
 } from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
 
@@ -23,9 +22,8 @@ export class EditComponent implements OnChanges {
   @Input() createNew = true;
   @Output() close = new EventEmitter();
 
-  partTypes = [
-    TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME
-  ];
+  partTypes = TYPES;
+  separatorTypes = SEPARATORS;
 
   part: SessionPart = new SessionPart();
 
@@ -37,6 +35,10 @@ export class EditComponent implements OnChanges {
       if (this.createNew) {
         this.part = new SessionPart();
         this.part.partType = TYPE_SEPARATOR;
+        this.part.timeBased = true;
+        this.part.time = SEPARATORS[0].time;
+        this.part.fileName = SEPARATORS[0].fileName;
+        this.part.separatorName = SEPARATORS[0].name;
       } else {
         this.part = Object.assign(new SessionPart(), this.repository.getSelectedPart());
       }
@@ -47,7 +49,9 @@ export class EditComponent implements OnChanges {
     this.part.sliceSpace = 0;
     if (this.part.partType === TYPE_SEPARATOR) {
       this.part.timeBased = true;
-      this.part.time = DEFAULT_SEPARATOR;
+      this.part.time = SEPARATORS[0].time;
+      this.part.fileName = SEPARATORS[0].fileName;
+      this.part.separatorName = SEPARATORS[0].name;
     } else if (this.part.partType === TYPE_SILENCE) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
@@ -62,6 +66,14 @@ export class EditComponent implements OnChanges {
       this.part.timeBased = true;
       this.part.time = DEFAULT_METRONOME;
       this.part.sliceLength = 1;
+    }
+  }
+
+  separatorTypeChanged() {
+    const separator = SEPARATORS.find(s => s.name === this.part.separatorName);
+    if (separator) {
+      this.part.time = separator.time;
+      this.part.fileName = separator.fileName;
     }
   }
 
