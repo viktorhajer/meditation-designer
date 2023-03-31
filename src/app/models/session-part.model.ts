@@ -9,7 +9,12 @@ export const TYPE_MANTRA = 'mantra';
 export const TYPE_METRONOME = 'metronome';
 export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME];
 export const SEPARATORS = [
-  {name: 'China Bell Ring', fileName: 'china-bell-ring', time: 4}
+  {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
+  {name: 'Singing Bowl 458g', fileName: 'Singing Bowl 458g.mp3', time: 8},
+  {name: 'Singing Bowl 1029g', fileName: 'Singing Bowl 1029g.mp3', time: 15},
+  {name: 'Singing Bowl 1466g', fileName: 'Singing Bowl 1466g.mp3', time: 17},
+  {name: 'Singing Bowl 8003g', fileName: 'Singing Bowl 8003g.mp3', time: 25},
+  {name: 'Singing Bowl Jhumka 2564g', fileName: 'Singing Bowl Jhumka 2564g.mp3', time: 21}
 ];
 
 export class SessionPart {

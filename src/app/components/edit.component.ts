@@ -72,6 +72,7 @@ export class EditComponent implements OnChanges {
   separatorTypeChanged() {
     const separator = SEPARATORS.find(s => s.name === this.part.separatorName);
     if (separator) {
+      this.part.separatorName = separator.name;
       this.part.time = separator.time;
       this.part.fileName = separator.fileName;
     }
@@ -100,6 +101,8 @@ export class EditComponent implements OnChanges {
       originalPart.mantraName = this.part.mantraName;
       originalPart.mantraGroup = this.part.mantraGroup;
       originalPart.mantraGroupSpace = this.part.mantraGroup <= 1 ? 0 : this.part.mantraGroupSpace;
+      originalPart.separatorName = this.part.separatorName;
+      originalPart.fileName = this.part.fileName;
     }
     this.close.emit();
   }

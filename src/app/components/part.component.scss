@@ -106,11 +106,23 @@
       align-items: flex-start;
       flex-flow: column;
       cursor: pointer;
+      width: 120px;
 
       .title {
         font-weight: bold;
         color: #ffffff;
         font-size: 11px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 90%;
+        white-space: nowrap;
+      }
+
+      .info {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 90%;
+        white-space: nowrap;
       }
     }
 

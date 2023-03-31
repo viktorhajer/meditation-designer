@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SessionPart, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR} from '../models/session-part.model';
+import {SessionPart, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session-part.model';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
 
@@ -50,12 +50,13 @@ export class SessionService {
   }
 
   setPart(part: SessionPart, next = false) {
-    this.stop(part ? this.state : STATE_STOPPED);
+    this.stop(part && next ? this.state : STATE_STOPPED);
     this.part = part;
     this.logger.info(this.part ? 'Set part: ' + this.part.partType : 'Remove part');
-    // if (this.part?.partType === TYPE_MANTRA) {
-    //   this.logger.info('Load mantra');
-    // }
+    if (this.part?.partType === TYPE_SEPARATOR) {
+      this.logger.info('Load separator: ' + this.part.fileName);
+      this.separatorPlayer.src = '/assets/sounds/' + this.part.fileName;
+    }
     this.reset();
     if (this.part && this.state === STATE_RUNNING && next) {
       this.play();
