@@ -32,6 +32,13 @@
         <input type="number" [(ngModel)]="part.count">
       </div>
 
+      <div class="form-item" *ngIf="isType('mantra')">
+        <label>Type</label>
+        <select [(ngModel)]="part.mantraName" (change)="mantraTypeChanged()">
+          <option [value]="t.name" *ngFor="let t of mantraTypes">{{ t.name }}</option>
+        </select>
+      </div>
+
       <div class="form-item" *ngIf="isType('metronome') || isType('mantra')">
         <label>Length (sec)</label>
         <input type="number" [(ngModel)]="part.sliceLength">

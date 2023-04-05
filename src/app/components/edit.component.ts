@@ -3,7 +3,7 @@ import {
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
   DEFAULT_METRONOME,
-  DEFAULT_SILENCE, SEPARATORS,
+  DEFAULT_SILENCE, MANTRAS, SEPARATORS,
   SessionPart,
   TYPE_MANTRA,
   TYPE_METRONOME,
@@ -24,6 +24,7 @@ export class EditComponent implements OnChanges {
 
   partTypes = TYPES;
   separatorTypes = SEPARATORS;
+  mantraTypes = MANTRAS;
 
   part: SessionPart = new SessionPart();
 
@@ -59,9 +60,11 @@ export class EditComponent implements OnChanges {
       this.part.timeBased = false;
       this.part.time = DEFAULT_MANTRA_TIME;
       this.part.count = DEFAULT_MANTRA_COUNT;
-      this.part.sliceLength = 1;
+      this.part.sliceLength = MANTRAS[0].time;
       this.part.sliceSpace = 2;
       this.part.mantraGroup = 1;
+      this.part.fileName = MANTRAS[0].fileName;
+      this.part.mantraName = MANTRAS[0].name;
     } else if (this.part.partType === TYPE_METRONOME) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_METRONOME;
@@ -75,6 +78,15 @@ export class EditComponent implements OnChanges {
       this.part.separatorName = separator.name;
       this.part.time = separator.time;
       this.part.fileName = separator.fileName;
+    }
+  }
+
+  mantraTypeChanged() {
+    const mantra = MANTRAS.find(s => s.name === this.part.mantraName);
+    if (mantra) {
+      this.part.mantraName = mantra.name;
+      this.part.sliceLength = mantra.time;
+      this.part.fileName = mantra.fileName;
     }
   }
 
@@ -97,7 +109,6 @@ export class EditComponent implements OnChanges {
       originalPart.count = this.part.count;
       originalPart.sliceLength = this.part.sliceLength;
       originalPart.sliceSpace = this.part.sliceSpace;
-      originalPart.mantraTitle = this.part.mantraTitle;
       originalPart.mantraName = this.part.mantraName;
       originalPart.mantraGroup = this.part.mantraGroup;
       originalPart.mantraGroupSpace = this.part.mantraGroup <= 1 ? 0 : this.part.mantraGroupSpace;

@@ -45,7 +45,7 @@ export class SessionService {
       this.logger.info('Metronome sound loaded');
     });
     this.mantraPlayer.addEventListener('loadedmetadata', () => {
-      this.logger.info('MantraPlayer sound loaded');
+      this.logger.info('Mantra sound loaded');
     });
   }
 
@@ -56,7 +56,11 @@ export class SessionService {
     if (this.part?.partType === TYPE_SEPARATOR) {
       this.logger.info('Load separator: ' + this.part.fileName);
       this.separatorPlayer.src = '/assets/sounds/' + this.part.fileName;
+    } else if (this.part?.partType === TYPE_MANTRA) {
+      this.logger.info('Load mantra: ' + this.part.fileName);
+      this.mantraPlayer.src = '/assets/sounds/' + this.part.fileName;
     }
+
     this.reset();
     if (this.part && this.state === STATE_RUNNING && next) {
       this.play();

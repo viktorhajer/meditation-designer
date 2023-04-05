@@ -8,6 +8,7 @@ export const TYPE_SILENCE = 'silence';
 export const TYPE_MANTRA = 'mantra';
 export const TYPE_METRONOME = 'metronome';
 export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME];
+
 export const SEPARATORS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
   {name: 'Singing Bowl 458g', fileName: 'Singing Bowl 458g.mp3', time: 8},
@@ -15,6 +16,10 @@ export const SEPARATORS = [
   {name: 'Singing Bowl 1466g', fileName: 'Singing Bowl 1466g.mp3', time: 17},
   {name: 'Singing Bowl 8003g', fileName: 'Singing Bowl 8003g.mp3', time: 25},
   {name: 'Singing Bowl Jhumka 2564g', fileName: 'Singing Bowl Jhumka 2564g.mp3', time: 21}
+];
+
+export const MANTRAS = [
+  {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
 ];
 
 export class SessionPart {
@@ -28,7 +33,6 @@ export class SessionPart {
   fileName = '';
 
   // Mantra
-  mantraTitle = '';
   mantraName = '';
   mantraGroup = 1;
   mantraGroupSpace = 1;
@@ -48,7 +52,7 @@ export class SessionPart {
     if (this.partType === TYPE_METRONOME) {
       return this.sliceLength + ' secs';
     } else if (this.partType === TYPE_MANTRA) {
-      return this.mantraTitle + ' ' + (this.timeBased ? '' : this.count + '');
+      return this.mantraName + ' ' + (this.timeBased ? '' : this.count + '');
     } else if (this.partType === TYPE_SEPARATOR) {
       return this.separatorName;
     }
