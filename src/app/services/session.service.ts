@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
-import {SessionPart, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session-part.model';
+import {
+  SessionPart,
+  TYPE_GUIDED_SESSION,
+  TYPE_MANTRA,
+  TYPE_METRONOME,
+  TYPE_SEPARATOR,
+  TYPE_SILENCE
+} from '../models/session-part.model';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
 
@@ -16,6 +23,7 @@ export class SessionService {
   separatorPlayer: HTMLAudioElement = null as any;
   metronomePlayer: HTMLAudioElement = null as any;
   mantraPlayer: HTMLAudioElement = null as any;
+  guidedSessionPlayer: HTMLAudioElement = null as any;
   private part: SessionPart = null as any;
   state = STATE_STOPPED;
 
@@ -34,12 +42,17 @@ export class SessionService {
   constructor(private readonly logger: LogService) {
   }
 
-  init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement, mantraPlayer: HTMLAudioElement) {
+  init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement,
+       mantraPlayer: HTMLAudioElement, guidedSessionPlayer: HTMLAudioElement) {
     this.separatorPlayer = separatorPlayer;
     this.metronomePlayer = metronomePlayer;
     this.mantraPlayer = mantraPlayer;
+    this.guidedSessionPlayer = guidedSessionPlayer;
     this.separatorPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Separator sound loaded');
+    });
+    this.guidedSessionPlayer.addEventListener('loadedmetadata', () => {
+      this.logger.info('Guided session sound loaded');
     });
     this.metronomePlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Metronome sound loaded');
@@ -59,6 +72,9 @@ export class SessionService {
     } else if (this.part?.partType === TYPE_MANTRA) {
       this.logger.info('Load mantra: ' + this.part.fileName);
       this.mantraPlayer.src = '/assets/sounds/' + this.part.fileName;
+    } else if (this.part?.partType === TYPE_GUIDED_SESSION) {
+      this.logger.info('Load guided session: ' + this.part.fileName);
+      this.guidedSessionPlayer.src = '/assets/sounds/' + this.part.fileName;
     }
 
     this.reset();
@@ -163,6 +179,8 @@ export class SessionService {
         return this.metronomePlayer;
       } else if (this.part.partType === TYPE_MANTRA) {
         return this.mantraPlayer;
+      } else if (this.part.partType === TYPE_GUIDED_SESSION) {
+        return this.guidedSessionPlayer;
       }
     }
     return null;

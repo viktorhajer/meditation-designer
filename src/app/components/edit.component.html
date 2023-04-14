@@ -12,29 +12,36 @@
 
       <div class="form-item" *ngIf="isType('separator')">
         <label>Type</label>
-        <select [(ngModel)]="part.separatorName" (change)="separatorTypeChanged()">
+        <select [(ngModel)]="part.name" (change)="separatorTypeChanged()">
           <option [value]="t.name" *ngFor="let t of separatorTypes">{{ t.name }}</option>
         </select>
       </div>
 
-      <div class="form-item row" *ngIf="!isType() && !isType('silence')">
+      <div class="form-item" *ngIf="isType('guided session')">
+        <label>Type</label>
+        <select [(ngModel)]="part.name" (change)="guidedSessionTypeChanged()">
+          <option [value]="t.name" *ngFor="let t of guidedSessions">{{ t.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-item row" *ngIf="!isType() && !isType('silence') && !isType('guided session')">
         <label>Time based?</label>
         <input type="checkbox" [(ngModel)]="part.timeBased">
       </div>
 
-      <div class="form-item" *ngIf="part.timeBased && !isType()">
+      <div class="form-item" *ngIf="part.timeBased && !isType() && !isType('guided session')">
         <label>Time (sec)</label>
         <input type="number" [(ngModel)]="part.time">
       </div>
 
-      <div class="form-item" *ngIf="!part.timeBased && !isType() && !isType('silence')">
+      <div class="form-item" *ngIf="!part.timeBased">
         <label>Count</label>
         <input type="number" [(ngModel)]="part.count">
       </div>
 
       <div class="form-item" *ngIf="isType('mantra')">
         <label>Type</label>
-        <select [(ngModel)]="part.mantraName" (change)="mantraTypeChanged()">
+        <select [(ngModel)]="part.name" (change)="mantraTypeChanged()">
           <option [value]="t.name" *ngFor="let t of mantraTypes">{{ t.name }}</option>
         </select>
       </div>

@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
 import {
-  DEFAULT_MANTRA_TIME,
+  DEFAULT_MANTRA_TIME, GUIDED_SESSIONS,
   MANTRAS,
   SEPARATORS,
-  SessionPart,
+  SessionPart, TYPE_GUIDED_SESSION,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR, TYPE_SILENCE
@@ -104,7 +104,7 @@ export class SessionRepository {
     part3.partType = TYPE_SEPARATOR;
     part3.time = SEPARATORS[0].time;
     part3.fileName = SEPARATORS[0].fileName;
-    part3.separatorName = SEPARATORS[0].name;
+    part3.name = SEPARATORS[0].name;
     part3.timeBased = true;
     session.parts.push(part3);
 
@@ -116,16 +116,16 @@ export class SessionRepository {
     part4.sliceSpace = 0;
     part4.time = DEFAULT_MANTRA_TIME;
     part4.fileName = MANTRAS[0].fileName;
-    part4.mantraName = MANTRAS[0].name;
+    part4.name = MANTRAS[0].name;
     part4.mantraGroup = 2;
     part4.mantraGroupSpace = 3;
     session.parts.push(part4);
 
     const part5 = new SessionPart();
-    part5.partType = TYPE_SEPARATOR;
-    part5.time = SEPARATORS[0].time;
-    part5.fileName = SEPARATORS[0].fileName;
-    part5.separatorName = SEPARATORS[0].name;
+    part5.partType = TYPE_GUIDED_SESSION;
+    part5.time = GUIDED_SESSIONS[0].time;
+    part5.fileName = GUIDED_SESSIONS[0].fileName;
+    part5.name = GUIDED_SESSIONS[0].name;
     part5.timeBased = true;
     session.parts.push(part5);
 

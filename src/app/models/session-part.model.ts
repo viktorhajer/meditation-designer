@@ -7,7 +7,8 @@ export const TYPE_SEPARATOR = 'separator';
 export const TYPE_SILENCE = 'silence';
 export const TYPE_MANTRA = 'mantra';
 export const TYPE_METRONOME = 'metronome';
-export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME];
+export const TYPE_GUIDED_SESSION = 'guided session';
+export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME, TYPE_GUIDED_SESSION];
 
 export const SEPARATORS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
@@ -19,7 +20,11 @@ export const SEPARATORS = [
 ];
 
 export const MANTRAS = [
-  {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
+  {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4}
+];
+
+export const GUIDED_SESSIONS = [
+  {name: 'JME Meditation course 01-hu', fileName: 'JME Meditation course 01-hu.mp3', time: 2148}
 ];
 
 export class SessionPart {
@@ -30,15 +35,12 @@ export class SessionPart {
   count = 0;
   sliceLength = 1; // secs
   sliceSpace = 0; // secs
+  name = '';
   fileName = '';
 
   // Mantra
-  mantraName = '';
   mantraGroup = 1;
   mantraGroupSpace = 1;
-
-  // Separator
-  separatorName = '';
 
   get title(): string {
     return this.partType.charAt(0).toUpperCase() + this.partType.slice(1);
@@ -52,9 +54,9 @@ export class SessionPart {
     if (this.partType === TYPE_METRONOME) {
       return this.sliceLength + ' secs';
     } else if (this.partType === TYPE_MANTRA) {
-      return this.mantraName + ' ' + (this.timeBased ? '' : this.count + '');
-    } else if (this.partType === TYPE_SEPARATOR) {
-      return this.separatorName;
+      return this.name + ' ' + (this.timeBased ? '' : this.count + '');
+    } else if (this.partType === TYPE_SEPARATOR || this.partType === TYPE_GUIDED_SESSION) {
+      return this.name;
     }
     return this.timeBased ? '' : this.count + '';
   }
