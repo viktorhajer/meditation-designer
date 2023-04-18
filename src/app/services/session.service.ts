@@ -37,6 +37,8 @@ export class SessionService {
 
   private lock = false;
 
+  private partLoaded = false;
+
   partFinished = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly logger: LogService) {
@@ -50,21 +52,31 @@ export class SessionService {
     this.guidedSessionPlayer = guidedSessionPlayer;
     this.separatorPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Separator sound loaded');
+      if (this.part?.partType === TYPE_SEPARATOR) {
+        this.partLoaded = true;
+      }
     });
     this.guidedSessionPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Guided session sound loaded');
+      if (this.part?.partType === TYPE_GUIDED_SESSION) {
+        this.partLoaded = true;
+      }
     });
     this.metronomePlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Metronome sound loaded');
     });
     this.mantraPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Mantra sound loaded');
+      if (this.part?.partType === TYPE_MANTRA) {
+        this.partLoaded = true;
+      }
     });
   }
 
   setPart(part: SessionPart, next = false) {
     this.stop(part && next ? this.state : STATE_STOPPED);
     this.part = part;
+    this.partLoaded = false;
     this.logger.info(this.part ? 'Set part: ' + this.part.partType : 'Remove part');
     if (this.part?.partType === TYPE_SEPARATOR) {
       this.logger.info('Load separator: ' + this.part.fileName);
@@ -75,6 +87,8 @@ export class SessionService {
     } else if (this.part?.partType === TYPE_GUIDED_SESSION) {
       this.logger.info('Load guided session: ' + this.part.fileName);
       this.guidedSessionPlayer.src = '/assets/sounds/' + this.part.fileName;
+    } else {
+      this.partLoaded = true;
     }
 
     this.reset();
@@ -84,12 +98,17 @@ export class SessionService {
   }
 
   play() {
-    this.logger.info((this.state === STATE_PAUSED ? 'Resume: ' : 'Play: ') + this.part?.partType);
-    if (this.state === STATE_PAUSED || (this.part.partType !== TYPE_METRONOME && this.part.partType !== TYPE_MANTRA)) {
-      this.playSound();
+    if (this.partLoaded) {
+      this.logger.info((this.state === STATE_PAUSED ? 'Resume: ' : 'Play: ') + this.part?.partType);
+      if (this.state === STATE_PAUSED || (this.part.partType !== TYPE_METRONOME && this.part.partType !== TYPE_MANTRA)) {
+        this.playSound();
+      }
+      this.state = STATE_RUNNING;
+      this.clock();
+    } else {
+      this.logger.info('Play recheck');
+      setTimeout(() => this.play(), 1000);
     }
-    this.state = STATE_RUNNING;
-    this.clock();
   }
 
   pause() {

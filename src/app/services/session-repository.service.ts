@@ -55,10 +55,12 @@ export class SessionRepository {
   }
 
   remove() {
-    if (!this.sessionService.isStopped() && this.index >= 0 && this.index < this.session.parts.length) {
+    if (this.index >= 0 && this.index < this.session.parts.length) {
+      if (!this.sessionService.isStopped()) {
+        this.sessionService.stop();
+      }
       this.session.parts.splice(this.index, 1);
       this.index = -1;
-      this.sessionService.stop();
     }
   }
 
