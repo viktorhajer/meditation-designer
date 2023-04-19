@@ -4,8 +4,7 @@ import {
   TYPE_GUIDED_SESSION,
   TYPE_MANTRA,
   TYPE_METRONOME,
-  TYPE_SEPARATOR,
-  TYPE_SILENCE
+  TYPE_SEPARATOR
 } from '../models/session-part.model';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
@@ -15,6 +14,7 @@ export const STATE_RUNNING = 1;
 export const STATE_PAUSED = 2;
 
 const FREQUENCY = 10; //ms
+const SOUND_DIRECTORY = './assets/sounds/';
 
 @Injectable({
   providedIn: 'root'
@@ -80,13 +80,13 @@ export class SessionService {
     this.logger.info(this.part ? 'Set part: ' + this.part.partType : 'Remove part');
     if (this.part?.partType === TYPE_SEPARATOR) {
       this.logger.info('Load separator: ' + this.part.fileName);
-      this.separatorPlayer.src = '/assets/sounds/' + this.part.fileName;
+      this.separatorPlayer.src = SOUND_DIRECTORY + this.part.fileName;
     } else if (this.part?.partType === TYPE_MANTRA) {
       this.logger.info('Load mantra: ' + this.part.fileName);
-      this.mantraPlayer.src = '/assets/sounds/' + this.part.fileName;
+      this.mantraPlayer.src = SOUND_DIRECTORY + this.part.fileName;
     } else if (this.part?.partType === TYPE_GUIDED_SESSION) {
       this.logger.info('Load guided session: ' + this.part.fileName);
-      this.guidedSessionPlayer.src = '/assets/sounds/' + this.part.fileName;
+      this.guidedSessionPlayer.src = SOUND_DIRECTORY + this.part.fileName;
     } else {
       this.partLoaded = true;
     }
