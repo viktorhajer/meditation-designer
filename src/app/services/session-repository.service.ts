@@ -90,54 +90,34 @@ export class SessionRepository {
     session.parts = [];
 
     const part1 = new SessionPart();
-    part1.time = 3;
+    part1.time = 120;
     part1.partType = TYPE_SILENCE;
     part1.timeBased = true;
     session.parts.push(part1);
 
+    const sepa = new SessionPart();
+    sepa.partType = TYPE_SEPARATOR;
+    sepa.time = SEPARATORS[0].time;
+    sepa.fileName = SEPARATORS[0].fileName;
+    sepa.name = SEPARATORS[0].name;
+    sepa.timeBased = true;
+    session.parts.push(sepa);
+
     const part2 = new SessionPart();
-    part2.partType = TYPE_METRONOME;
-    part2.timeBased = false;
-    part2.count = 5;
-    part2.sliceLength = 2;
+    part2.time = 150;
+    part2.partType = TYPE_SILENCE;
+    part2.timeBased = true;
     session.parts.push(part2);
 
+    session.parts.push(sepa);
+
     const part3 = new SessionPart();
-    part3.partType = TYPE_SEPARATOR;
-    part3.time = SEPARATORS[0].time;
-    part3.fileName = SEPARATORS[0].fileName;
-    part3.name = SEPARATORS[0].name;
+    part3.time = 1200;
+    part3.partType = TYPE_SILENCE;
     part3.timeBased = true;
     session.parts.push(part3);
 
-    const part4 = new SessionPart();
-    part4.partType = TYPE_MANTRA;
-    part4.timeBased = false;
-    part4.count = 4;
-    part4.sliceLength = MANTRAS[0].time;
-    part4.sliceSpace = 0;
-    part4.time = DEFAULT_MANTRA_TIME;
-    part4.fileName = MANTRAS[0].fileName;
-    part4.name = MANTRAS[0].name;
-    part4.mantraGroup = 2;
-    part4.mantraGroupSpace = 3;
-    session.parts.push(part4);
-
-    const part5 = new SessionPart();
-    part5.partType = TYPE_GUIDED_SESSION;
-    part5.time = GUIDED_SESSIONS[0].time;
-    part5.fileName = GUIDED_SESSIONS[0].fileName;
-    part5.name = GUIDED_SESSIONS[0].name;
-    part5.timeBased = true;
-    session.parts.push(part5);
-
-    const part6 = new SessionPart();
-    part6.partType = TYPE_METRONOME;
-    part6.timeBased = false;
-    part6.time = 10;
-    part6.count = 3;
-    part6.sliceLength = 3;
-    session.parts.push(part6);
+    session.parts.push(sepa);
 
     return session;
   }
