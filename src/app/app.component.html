@@ -3,7 +3,7 @@
 <audio #metronomeAudioElement src="./assets/sounds/metronome.mp3"></audio>
 <audio #mantraAudioElement></audio>
 
-<div class="main">
+<div class="main" (window:keydown)="onKeyDown($event)">
   <div class="sessions-container" [class.hidden]="editActive">
     <app-session #sessionRef></app-session>
   </div>

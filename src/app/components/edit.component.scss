@@ -15,8 +15,8 @@
     grid-auto-rows: 0fr 1fr 0fr;
     grid-template-columns: 1fr;
 
-    &.separator {
-      height: 150px;
+    &.separator, &.guided {
+      height: 190px;
       top: 250px;
     }
 

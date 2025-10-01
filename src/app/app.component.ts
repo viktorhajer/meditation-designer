@@ -16,7 +16,6 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('mantraAudioElement') mantraAudioElementRef: ElementRef = null as any;
   @ViewChild('sessionRef') sessionComponent: SessionComponent = null as any;
 
-
   editActive = false;
   createNew = true;
 
@@ -47,5 +46,13 @@ export class AppComponent implements AfterViewInit {
   updatePart() {
     this.editActive = false;
     this.sessionService.setPart(this.repository.getSelectedPart());
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === '+') {
+      this.newPart();
+    } else if (event.key === 'Delete') {
+      this.repository.remove();
+    }
   }
 }
