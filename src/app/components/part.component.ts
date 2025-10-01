@@ -4,9 +4,10 @@ import {SessionRepository} from '../services/session-repository.service';
 import {SessionService, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../services/session.service';
 
 @Component({
-  selector: 'app-part',
-  templateUrl: './part.component.html',
-  styleUrls: ['./part.component.scss']
+    selector: 'app-part',
+    templateUrl: './part.component.html',
+    styleUrls: ['./part.component.scss'],
+    standalone: false
 })
 export class PartComponent {
   @Input() part: SessionPart = new SessionPart();

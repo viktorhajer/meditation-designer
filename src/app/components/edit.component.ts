@@ -13,9 +13,10 @@ import {
 import {SessionRepository} from '../services/session-repository.service';
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+    selector: 'app-edit',
+    templateUrl: './edit.component.html',
+    styleUrls: ['./edit.component.scss'],
+    standalone: false
 })
 export class EditComponent implements OnChanges {
   @Input() active = false;

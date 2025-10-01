@@ -1,6 +1,9 @@
 import {Pipe, PipeTransform} from "@angular/core";
 
-@Pipe({name: 'timeformat'})
+@Pipe({
+    name: 'timeformat',
+    standalone: false
+})
 export class DatePipe implements PipeTransform {
   static formatTime(time: number): string {
     if (!time) {

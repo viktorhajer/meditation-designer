@@ -117,7 +117,13 @@ export class SessionRepository {
     part3.timeBased = true;
     session.parts.push(part3);
 
-    session.parts.push(sepa);
+    const sepa2 = new SessionPart();
+    sepa2.partType = TYPE_SEPARATOR;
+    sepa2.time = SEPARATORS[1].time;
+    sepa2.fileName = SEPARATORS[1].fileName;
+    sepa2.name = SEPARATORS[1].name;
+    sepa2.timeBased = true;
+    session.parts.push(sepa2);
 
     return session;
   }

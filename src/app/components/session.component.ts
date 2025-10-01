@@ -3,9 +3,10 @@ import {SessionRepository} from '../services/session-repository.service';
 import {SessionService, STATE_STOPPED} from '../services/session.service';
 
 @Component({
-  selector: 'app-session',
-  templateUrl: './session.component.html',
-  styleUrls: ['./session.component.scss']
+    selector: 'app-session',
+    templateUrl: './session.component.html',
+    styleUrls: ['./session.component.scss'],
+    standalone: false
 })
 export class SessionComponent {
 
