@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
+  DEFAULT_LEFT_FREQ,
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
-  DEFAULT_METRONOME,
+  DEFAULT_METRONOME, DEFAULT_RIGHT_FREQ,
   DEFAULT_SILENCE, GUIDED_SESSIONS, MANTRAS, SEPARATORS,
-  SessionPart, TYPE_GUIDED_SESSION,
+  SessionPart, TYPE_BINAURAL_BEATS, TYPE_GUIDED_SESSION,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR,
@@ -76,6 +77,11 @@ export class EditComponent implements OnChanges {
       this.part.time = GUIDED_SESSIONS[0].time;
       this.part.fileName = GUIDED_SESSIONS[0].fileName;
       this.part.name = GUIDED_SESSIONS[0].name;
+    } else if (this.part.partType === TYPE_BINAURAL_BEATS) {
+      this.part.timeBased = true;
+      this.part.time = DEFAULT_SILENCE;
+      this.part.value1 = DEFAULT_LEFT_FREQ;
+      this.part.value2 = DEFAULT_RIGHT_FREQ;
     }
   }
 
@@ -130,6 +136,8 @@ export class EditComponent implements OnChanges {
       originalPart.mantraGroupSpace = this.part.mantraGroup <= 1 ? 0 : this.part.mantraGroupSpace;
       originalPart.name = this.part.name;
       originalPart.fileName = this.part.fileName;
+      originalPart.value1 = this.part.value1;
+      originalPart.value2 = this.part.value2;
     }
     this.close.emit();
   }

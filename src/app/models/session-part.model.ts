@@ -2,13 +2,16 @@ export const DEFAULT_SILENCE = 3 * 60; // 3 mins
 export const DEFAULT_METRONOME = 5 * 60; // 5 mins
 export const DEFAULT_MANTRA_TIME = 10 * 60; // 10 mins
 export const DEFAULT_MANTRA_COUNT = 108;
+export const DEFAULT_LEFT_FREQ = 202; // Hz
+export const DEFAULT_RIGHT_FREQ = 210; // Hz
 
 export const TYPE_SEPARATOR = 'separator';
 export const TYPE_SILENCE = 'silence';
 export const TYPE_MANTRA = 'mantra';
 export const TYPE_METRONOME = 'metronome';
 export const TYPE_GUIDED_SESSION = 'guided session';
-export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME, TYPE_GUIDED_SESSION];
+export const TYPE_BINAURAL_BEATS = 'binaural beats';
+export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_MANTRA, TYPE_METRONOME, TYPE_GUIDED_SESSION, TYPE_BINAURAL_BEATS];
 
 export const SEPARATORS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
@@ -37,6 +40,8 @@ export class SessionPart {
   sliceSpace = 0; // secs
   name = '';
   fileName = '';
+  value1 = 0;
+  value2 = 0;
 
   // Mantra
   mantraGroup = 1;

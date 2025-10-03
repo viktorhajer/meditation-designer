@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  SessionPart,
+  SessionPart, TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
   TYPE_MANTRA,
   TYPE_METRONOME,
@@ -8,6 +8,7 @@ import {
 } from '../models/session-part.model';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
+import {BinauralService} from './binaural.service';
 
 export const STATE_STOPPED = 0;
 export const STATE_RUNNING = 1;
@@ -41,7 +42,7 @@ export class SessionService {
 
   partFinished = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly logger: LogService) {
+  constructor(private readonly logger: LogService, private readonly binaural: BinauralService) {
   }
 
   init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement,
@@ -103,6 +104,9 @@ export class SessionService {
       if (this.state === STATE_PAUSED || (this.part.partType !== TYPE_METRONOME && this.part.partType !== TYPE_MANTRA)) {
         this.playSound();
       }
+      if (this.part.partType === TYPE_BINAURAL_BEATS) {
+        this.binaural.start(this.part.value1, this.part.value2);
+      }
       this.state = STATE_RUNNING;
       this.clock();
     } else {
@@ -115,6 +119,7 @@ export class SessionService {
     this.state = STATE_PAUSED;
     this.logger.info('Pause: ' + this.part?.partType);
     this.getPlayer()?.pause();
+    this.binaural.stop();
   }
 
   stop(state = STATE_STOPPED) {
@@ -125,6 +130,7 @@ export class SessionService {
       player.pause();
       player.currentTime = 0;
     }
+    this.binaural.stop();
     this.reset();
   }
 

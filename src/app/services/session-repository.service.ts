@@ -1,14 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
-import {
-  DEFAULT_MANTRA_TIME, GUIDED_SESSIONS,
-  MANTRAS,
-  SEPARATORS,
-  SessionPart, TYPE_GUIDED_SESSION,
-  TYPE_MANTRA,
-  TYPE_METRONOME,
-  TYPE_SEPARATOR, TYPE_SILENCE
-} from '../models/session-part.model';
+import {SEPARATORS, SessionPart, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session-part.model';
 import {SessionService} from './session.service';
 import {LogService} from './log.service';
 
