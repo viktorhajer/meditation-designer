@@ -1,11 +1,13 @@
 .main {
   height: 100vh;
   background: rgb(255 255 255 / 20%);
+  display: flex
+;
+  flex-flow: column;
 
   .sessions-container {
-    position: absolute;
-    left: 0;
     transition: all 250ms ease-in-out;
+    overflow: hidden;
 
     &.hidden {
       left: -200px;
@@ -25,11 +27,9 @@
     height: 50px;
     background: linear-gradient(45deg, #72b8bbf0, #a6b998e0);
     border-top: 3px solid #fff;
-    position: fixed;
     justify-content: space-between;
     padding: 0 20px;
     width: calc(100% - 40px);
-    bottom: 0;
     transition: all 250ms ease-in-out;
 
     .button {

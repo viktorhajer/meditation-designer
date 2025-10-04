@@ -26,6 +26,7 @@
          *ngIf="!sessionService.isStopped() && sessionService.getTime() !== -1">
       {{ sessionService.getTime() | timeformat }}
     </div>
+    <div>&nbsp;</div>
   </div>
 
   <div class="tools" [class.hidden]="editActive">
