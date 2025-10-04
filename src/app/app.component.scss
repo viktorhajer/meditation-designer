@@ -42,10 +42,6 @@
       box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
       cursor: pointer;
 
-      &.plus {
-        font-size: 34px;
-      }
-
       img {
         width: 16px;
       }
@@ -57,6 +53,14 @@
         img {
           width: 10px;
         }
+      }
+
+      &.start {
+        position: fixed;
+        bottom: 22px;
+        right: 8px;
+        width: 60px;
+        height: 60px;
       }
 
       &.disabled {
@@ -82,7 +86,7 @@
     position: absolute;
     width: 50px;
     height: 60px;
-    top: 90px;
+    top: 20px;
     right: 0;
     background: #fff;
     display: flex;
@@ -93,11 +97,21 @@
 
     &.disabled {
       cursor: auto;
-      opacity: 0.5;
+      opacity: 0.7;
     }
 
     &.edit {
-      top: 20px;
+      top: 90px;
+    }
+
+    &.remove {
+      top: 160px;
+    }
+
+    &.add {
+      img {
+        width: 28px;
+      }
     }
 
     img {

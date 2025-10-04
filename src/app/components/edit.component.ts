@@ -1,23 +1,30 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
+  DEFAULT_DIFF_FREQ_BETA, DEFAULT_DIFF_FREQ_THETA,
   DEFAULT_LEFT_FREQ,
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
-  DEFAULT_METRONOME, DEFAULT_RIGHT_FREQ,
-  DEFAULT_SILENCE, GUIDED_SESSIONS, MANTRAS, SEPARATORS,
-  SessionPart, TYPE_BINAURAL_BEATS, TYPE_GUIDED_SESSION,
+  DEFAULT_METRONOME,
+  DEFAULT_SILENCE,
+  GUIDED_SESSIONS,
+  MANTRAS,
+  SEPARATORS,
+  SessionPart,
+  TYPE_BINAURAL_BEATS,
+  TYPE_GUIDED_SESSION,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR,
-  TYPE_SILENCE, TYPES
+  TYPE_SILENCE,
+  TYPES
 } from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
 
 @Component({
-    selector: 'app-edit',
-    templateUrl: './edit.component.html',
-    styleUrls: ['./edit.component.scss'],
-    standalone: false
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss'],
+  standalone: false
 })
 export class EditComponent implements OnChanges {
   @Input() active = false;
@@ -81,7 +88,8 @@ export class EditComponent implements OnChanges {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
       this.part.value1 = DEFAULT_LEFT_FREQ;
-      this.part.value2 = DEFAULT_RIGHT_FREQ;
+      this.part.value2 = DEFAULT_DIFF_FREQ_BETA;
+      this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
     }
   }
 
@@ -117,6 +125,7 @@ export class EditComponent implements OnChanges {
   }
 
   save() {
+    this.normalize();
     if (this.isInvalid()) {
       // TODO error message
       return;
@@ -138,6 +147,7 @@ export class EditComponent implements OnChanges {
       originalPart.fileName = this.part.fileName;
       originalPart.value1 = this.part.value1;
       originalPart.value2 = this.part.value2;
+      originalPart.value3 = this.part.value3;
     }
     this.close.emit();
   }
@@ -153,5 +163,29 @@ export class EditComponent implements OnChanges {
   private isInvalid(): boolean {
     // TODO validation
     return false;
+  }
+
+  private normalize() {
+    // TODO
+    if (this.part.partType === TYPE_BINAURAL_BEATS) {
+      if (this.part.value1 > 1000) {
+        this.part.value1 = 1000;
+      }
+      if (this.part.value1 < 50) {
+        this.part.value1 = 50;
+      }
+      if (this.part.value2 > 100) {
+        this.part.value2 = 100;
+      }
+      if (this.part.value2 < 0) {
+        this.part.value2 = 0;
+      }
+      if (this.part.value3 > 100) {
+        this.part.value3 = 100;
+      }
+      if (this.part.value3 < 0) {
+        this.part.value3 = 0;
+      }
+    }
   }
 }

@@ -11,14 +11,8 @@
     <app-edit [active]="editActive" (close)="updatePart()" [createNew]="createNew"></app-edit>
   </div>
   <div class="footer flex-center" [class.hidden]="editActive">
-    <div class="button flex-center plus" (click)="newPart()">+</div>
-    <div class="timer"
-         *ngIf="!sessionService.isStopped() && sessionService.getTime() !== -1">
-      {{ sessionService.getTime() | timeformat }}
-    </div>
     <div class="flex-center">
-      <div class="button flex-center" (click)="sessionService.play()" *ngIf="!sessionService.isRunning()"
-           [class.disabled]="!repository.isSelected()">
+      <div class="button flex-center start" (click)="play()" *ngIf="!sessionService.isRunning()">
         <img src="./assets/images/play.png" alt="">
       </div>
       <div class="button flex-center" (click)="sessionService.pause()" *ngIf="sessionService.isRunning()">
@@ -27,6 +21,10 @@
       <div class="button flex-center stop" (click)="sessionService.stop()" *ngIf="!sessionService.isStopped()">
         <img src="./assets/images/stop.png" alt="">
       </div>
+    </div>
+    <div class="timer"
+         *ngIf="!sessionService.isStopped() && sessionService.getTime() !== -1">
+      {{ sessionService.getTime() | timeformat }}
     </div>
   </div>
 
@@ -37,6 +35,10 @@
 
     <div class="action edit" (click)="editPart()" [class.disabled]="!repository.isSelected()">
       <img src="./assets/images/edit.png" alt="">
+    </div>
+
+    <div class="action add" (click)="newPart()">
+      <img src="./assets/images/add.png" alt="">
     </div>
   </div>
 </div>

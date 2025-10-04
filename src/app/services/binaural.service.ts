@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {DEFAULT_DIFF_FREQ_BETA} from '../models/session-part.model';
 
 const VOLUME = 0.8;
 
@@ -7,12 +8,15 @@ const VOLUME = 0.8;
 })
 export class BinauralService {
 
+  difference = DEFAULT_DIFF_FREQ_BETA;
   private oscillatorLeft: OscillatorNode | undefined;
   private oscillatorRight: OscillatorNode | undefined;
 
-  start(freqLeft: number, freqRight: number) {
-    this.startSound(freqRight, false);
-    this.startSound(freqLeft, true);
+  start(base: number, difference: number) {
+    this.difference = difference;
+    this.stop();
+    this.startSound(base + difference, false);
+    this.startSound(base, true);
   }
 
   stop() {
@@ -21,6 +25,12 @@ export class BinauralService {
     }
     if (this.oscillatorRight) {
       (this.oscillatorRight as OscillatorNode).stop();
+    }
+  }
+
+  changeRight(base: number, difference: number) {
+    if (this.oscillatorRight?.frequency) {
+      this.oscillatorRight.frequency.value = base + difference;
     }
   }
 

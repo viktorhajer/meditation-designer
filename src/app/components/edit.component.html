@@ -51,31 +51,40 @@
         <input type="number" [(ngModel)]="part.sliceLength">
       </div>
 
-      <div class="form-item" *ngIf="isType('mantra')">
-        <label>Space (sec)</label>
-        <input type="number" [(ngModel)]="part.sliceSpace">
-      </div>
+      @if (isType('mantra')) {
+        <div class="form-item">
+          <label>Space (sec)</label>
+          <input type="number" [(ngModel)]="part.sliceSpace">
+        </div>
 
-      <div class="form-item" *ngIf="isType('mantra')">
-        <label>Group size</label>
-        <input type="number" [(ngModel)]="part.mantraGroup">
-      </div>
+        <div class="form-item">
+          <label>Group size</label>
+          <input type="number" [(ngModel)]="part.mantraGroup">
+        </div>
+        @if (part.mantraGroup > 1) {
+          <div class="form-item">
+            <label>Group space (sec)</label>
+            <input type="number" [(ngModel)]="part.mantraGroupSpace">
+          </div>
+        }
+      }
 
-      <div class="form-item" *ngIf="isType('mantra') && part.mantraGroup > 1">
-        <label>Group space (sec)</label>
-        <input type="number" [(ngModel)]="part.mantraGroupSpace">
-      </div>
+      @if (isType('binaural beats')) {
+        <div class="form-item">
+          <label>Base (L) frequency (Hz, [50, 1000])</label>
+          <input type="number" [(ngModel)]="part.value1">
+        </div>
 
-      <div class="form-item" *ngIf="isType('binaural beats')">
-        <label>Left frequency (Hz)</label>
-        <input type="number" [(ngModel)]="part.value1">
-      </div>
+        <div class="form-item">
+          <label>Start diff (Hz, [0, 100])</label>
+          <input type="number" [(ngModel)]="part.value2">
+        </div>
 
-      <div class="form-item" *ngIf="isType('binaural beats')">
-        <label>Right frequency (Hz)</label>
-        <input type="number" [(ngModel)]="part.value2">
-      </div>
-
+        <div class="form-item">
+          <label>End diff (Hz, [0, 100])</label>
+          <input type="number" [(ngModel)]="part.value3">
+        </div>
+      }
     </div>
     <div class="footer flex-center">
       <div class="button flex-center primary" (click)="save()"><img src="./assets/images/ok.png" alt=""></div>

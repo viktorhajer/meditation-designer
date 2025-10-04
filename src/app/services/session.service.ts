@@ -153,6 +153,7 @@ export class SessionService {
   private clock() {
     if (this.state === STATE_RUNNING) {
       this.processMetronomeOrMantra();
+      this.processBinauralBeats();
       this.actualMs += FREQUENCY;
       if (this.totalMs - this.actualMs <= 0) {
         this.actualMs = 0;
@@ -180,6 +181,18 @@ export class SessionService {
       this.sliceActualMs += FREQUENCY;
       if (this.sliceTotalMs - this.sliceActualMs <= 0) {
         this.sliceActualMs = 0;
+      }
+    }
+  }
+
+  private processBinauralBeats() {
+    if (this.part.partType === TYPE_BINAURAL_BEATS && this.isInFreq(500)) {
+      const totalDiff = this.part.value3 - this.part.value2;
+      const timeDiffPercent = Math.floor(this.actualMs / this.totalMs * 100) / 100;
+      const newDiff = this.part.value2 + Math.floor(totalDiff * timeDiffPercent);
+      if (newDiff !== this.binaural.difference) {
+        this.logger.info('Binaural beats change: ' + newDiff);
+        this.binaural.changeRight(this.part.value1, newDiff);
       }
     }
   }
@@ -219,5 +232,9 @@ export class SessionService {
     this.sliceTotalMs = this.part ? (this.part.sliceLength + this.part.sliceSpace) * 1000 : 0;
     this.sliceActualMs = 0;
     this.sliceCount = 0;
+  }
+
+  private isInFreq(freqMs = 500): boolean {
+    return this.actualMs % freqMs === 0;
   }
 }

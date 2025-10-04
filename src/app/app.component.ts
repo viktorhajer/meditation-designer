@@ -30,6 +30,13 @@ export class AppComponent implements AfterViewInit {
       this.guidedSessionAudioElementRef.nativeElement as HTMLAudioElement);
   }
 
+  play() {
+    if (!this.repository.isSelected()) {
+      this.repository.select(0);
+    }
+    this.sessionService.play();
+  }
+
   newPart() {
     this.createNew = true;
     this.editActive = true;

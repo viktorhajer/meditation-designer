@@ -17,6 +17,9 @@
            *ngIf="!selected && (part.partType === 'mantra' || part.partType === 'separator' || part.partType === 'guided session')">
         {{ part.name }}
       </div>
+      <div class="title" *ngIf="!selected && (part.partType === 'binaural beats')">
+        {{ part.getInfo() }}
+      </div>
       <div class="time" [class.selected]="selected">{{ getTime() | timeformat }}</div>
       <div class="info" *ngIf="selected">{{ part.getInfo() }}</div>
     </div>
