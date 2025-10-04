@@ -8,6 +8,7 @@
   .sessions-container {
     transition: all 250ms ease-in-out;
     overflow: hidden;
+    height: 100vh;
 
     &.hidden {
       left: -200px;
