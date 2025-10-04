@@ -4,17 +4,16 @@
 <audio #mantraAudioElement></audio>
 
 <div class="main" (window:keydown)="onKeyDown($event)">
-  <div class="sessions-container" [class.hidden]="editActive">
-    <app-session #sessionRef></app-session>
+
+  <div class="button flex-center start" (click)="play()" *ngIf="!sessionService.isRunning()">
+    <img src="./assets/images/play.png" alt="">
   </div>
-  <div class="edit-container">
-    <app-edit [active]="editActive" (close)="updatePart()" [createNew]="createNew"></app-edit>
-  </div>
+
   <div class="footer flex-center" [class.hidden]="editActive">
+
+    <h1 *ngIf="sessionService.isStopped()">Meditation Designer</h1>
+
     <div class="flex-center">
-      <div class="button flex-center start" (click)="play()" *ngIf="!sessionService.isRunning()">
-        <img src="./assets/images/play.png" alt="">
-      </div>
       <div class="button flex-center" (click)="sessionService.pause()" *ngIf="sessionService.isRunning()">
         <img src="./assets/images/pause.png" alt="">
       </div>
@@ -26,7 +25,14 @@
          *ngIf="!sessionService.isStopped() && sessionService.getTime() !== -1">
       {{ sessionService.getTime() | timeformat }}
     </div>
-    <div>&nbsp;</div>
+  </div>
+
+  <div class="sessions-container" [class.hidden]="editActive">
+    <app-session #sessionRef></app-session>
+  </div>
+
+  <div class="edit-container">
+    <app-edit [active]="editActive" (close)="updatePart()" [createNew]="createNew"></app-edit>
   </div>
 
   <div class="tools" [class.hidden]="editActive">

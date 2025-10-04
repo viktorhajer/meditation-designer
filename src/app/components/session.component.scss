@@ -36,10 +36,10 @@
   .separator {
     border-right: 2px dotted #ffffff;
     position: absolute;
-    top: 0;
+    top: 60px;
     left: 135px;
     width: 2px;
-    height: calc(100% - 53px);
+    height: 100%;
     opacity: 0.3;
     box-shadow: 0px 0px 1px black;
   }
