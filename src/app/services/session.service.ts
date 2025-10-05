@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {
   SessionPart, TYPE_BINAURAL_BEATS,
-  TYPE_GUIDED_SESSION,
+  TYPE_GUIDED_SESSION, TYPE_HEARTBEAT,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR
@@ -25,6 +25,7 @@ export class SessionService {
   metronomePlayer: HTMLAudioElement = null as any;
   mantraPlayer: HTMLAudioElement = null as any;
   guidedSessionPlayer: HTMLAudioElement = null as any;
+  heartBeatPlayer: HTMLAudioElement = null as any;
   private part: SessionPart = null as any;
   state = STATE_STOPPED;
 
@@ -46,11 +47,12 @@ export class SessionService {
   }
 
   init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement,
-       mantraPlayer: HTMLAudioElement, guidedSessionPlayer: HTMLAudioElement) {
+       mantraPlayer: HTMLAudioElement, guidedSessionPlayer: HTMLAudioElement, heartBeatPlayer: HTMLAudioElement) {
     this.separatorPlayer = separatorPlayer;
     this.metronomePlayer = metronomePlayer;
     this.mantraPlayer = mantraPlayer;
     this.guidedSessionPlayer = guidedSessionPlayer;
+    this.heartBeatPlayer = heartBeatPlayer;
     this.separatorPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Separator sound loaded');
       if (this.part?.partType === TYPE_SEPARATOR) {
@@ -71,6 +73,9 @@ export class SessionService {
       if (this.part?.partType === TYPE_MANTRA) {
         this.partLoaded = true;
       }
+    });
+    this.heartBeatPlayer.addEventListener('loadedmetadata', () => {
+      this.logger.info('Heart beat sound loaded');
     });
   }
 
@@ -101,7 +106,8 @@ export class SessionService {
   play() {
     if (this.partLoaded) {
       this.logger.info((this.state === STATE_PAUSED ? 'Resume: ' : 'Play: ') + this.part?.partType);
-      if (this.state === STATE_PAUSED || (this.part.partType !== TYPE_METRONOME && this.part.partType !== TYPE_MANTRA)) {
+      if (this.state === STATE_PAUSED ||
+        (this.part.partType !== TYPE_METRONOME && this.part.partType !== TYPE_MANTRA && this.part.partType !== TYPE_HEARTBEAT)) {
         this.playSound();
       }
       if (this.part.partType === TYPE_BINAURAL_BEATS) {
@@ -165,7 +171,8 @@ export class SessionService {
   }
 
   private processMetronomeOrMantra() {
-    if (!this.lock && (this.part.partType === TYPE_METRONOME || this.part.partType === TYPE_MANTRA)) {
+    if (!this.lock &&
+      (this.part.partType === TYPE_HEARTBEAT || this.part.partType === TYPE_METRONOME || this.part.partType === TYPE_MANTRA)) {
       if (this.sliceActualMs === 0) {
         if (!this.part.timeBased && this.part.count === this.sliceCount) {
           return;
@@ -219,6 +226,8 @@ export class SessionService {
         return this.mantraPlayer;
       } else if (this.part.partType === TYPE_GUIDED_SESSION) {
         return this.guidedSessionPlayer;
+      } else if (this.part.partType === TYPE_HEARTBEAT) {
+        return this.heartBeatPlayer;
       }
     }
     return null;

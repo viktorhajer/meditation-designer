@@ -13,6 +13,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('separatorAudioElement') separatorAudioElementRef: ElementRef = null as any;
   @ViewChild('guidedSessionAudioElement') guidedSessionAudioElementRef: ElementRef = null as any;
   @ViewChild('metronomeAudioElement') metronomeAudioElementRef: ElementRef = null as any;
+  @ViewChild('heartAudioElement') heartAudioElementRef: ElementRef = null as any;
   @ViewChild('mantraAudioElement') mantraAudioElementRef: ElementRef = null as any;
   @ViewChild('sessionRef') sessionComponent: SessionComponent = null as any;
 
@@ -27,7 +28,8 @@ export class AppComponent implements AfterViewInit {
     this.sessionService.init(this.separatorAudioElementRef.nativeElement as HTMLAudioElement,
       this.metronomeAudioElementRef.nativeElement as HTMLAudioElement,
       this.mantraAudioElementRef.nativeElement as HTMLAudioElement,
-      this.guidedSessionAudioElementRef.nativeElement as HTMLAudioElement);
+      this.guidedSessionAudioElementRef.nativeElement as HTMLAudioElement,
+      this.heartAudioElementRef.nativeElement as HTMLAudioElement);
   }
 
   play() {

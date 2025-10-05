@@ -24,7 +24,7 @@
         </select>
       </div>
 
-      <div class="form-item row" *ngIf="!isType() && !isType('silence') && !isType('guided session') && !isType('binaural beats')">
+      <div class="form-item row" *ngIf="!isType() && !isType('silence') && !isType('guided session') && !isType('binaural beats') && !isType('heart beat')">
         <label>Time based?</label>
         <input type="checkbox" [(ngModel)]="part.timeBased">
       </div>
@@ -49,6 +49,11 @@
       <div class="form-item" *ngIf="isType('metronome') || isType('mantra')">
         <label>Length (sec)</label>
         <input type="number" [(ngModel)]="part.sliceLength">
+      </div>
+
+      <div class="form-item" *ngIf="isType('heart beat')">
+        <label>Heart beat rate (bpm, [30, 150])</label>
+        <input type="number" [(ngModel)]="part.value1">
       </div>
 
       @if (isType('mantra')) {

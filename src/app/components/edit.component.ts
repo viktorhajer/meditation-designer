@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
-  DEFAULT_DIFF_FREQ_BETA, DEFAULT_DIFF_FREQ_THETA,
+  DEFAULT_DIFF_FREQ_BETA,
+  DEFAULT_DIFF_FREQ_THETA,
+  DEFAULT_HEAT_BEAT,
   DEFAULT_LEFT_FREQ,
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
@@ -12,6 +14,7 @@ import {
   SessionPart,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
+  TYPE_HEARTBEAT,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR,
@@ -90,6 +93,11 @@ export class EditComponent implements OnChanges {
       this.part.value1 = DEFAULT_LEFT_FREQ;
       this.part.value2 = DEFAULT_DIFF_FREQ_BETA;
       this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
+    } else if (this.part.partType === TYPE_HEARTBEAT) {
+      this.part.timeBased = true;
+      this.part.time = DEFAULT_SILENCE;
+      this.part.value1 = DEFAULT_HEAT_BEAT;
+      this.part.sliceLength = 60 / DEFAULT_HEAT_BEAT;
     }
   }
 
@@ -126,6 +134,7 @@ export class EditComponent implements OnChanges {
 
   save() {
     this.normalize();
+    this.postProcess();
     if (this.isInvalid()) {
       // TODO error message
       return;
@@ -165,8 +174,23 @@ export class EditComponent implements OnChanges {
     return false;
   }
 
+  private postProcess() {
+    if (this.part.partType === TYPE_HEARTBEAT) {
+      this.part.sliceLength = 60 / this.part.value1;
+      this.part.sliceSpace = 0;
+    }
+  }
+
   private normalize() {
     // TODO
+    if (this.part.partType === TYPE_HEARTBEAT) {
+      if (this.part.value1 > 150) {
+        this.part.value1 = 150;
+      }
+      if (this.part.value1 < 30) {
+        this.part.value1 = 30;
+      }
+    }
     if (this.part.partType === TYPE_BINAURAL_BEATS) {
       if (this.part.value1 > 1000) {
         this.part.value1 = 1000;
