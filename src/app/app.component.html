@@ -26,6 +26,10 @@
          *ngIf="!sessionService.isStopped() && sessionService.getTime() !== -1">
       {{ sessionService.getTime() | timeformat }}
     </div>
+    <div class="timer"
+         *ngIf="sessionService.isStopped() && repository.session.getTime()">
+      {{ repository.session.getTime() | timeformat }}
+    </div>
   </div>
 
   <div class="sessions-container" [class.hidden]="editActive">
@@ -48,6 +52,17 @@
     <div class="action add" (click)="newPart()">
       <img src="./assets/images/add.png" alt="">
     </div>
+
+    <div class="action save" (click)="repository.saveWorkplace()">
+      <img src="./assets/images/save.png" alt="">
+    </div>
+
+    @for (i of [0,1,2,3]; track $index) {
+      <div class="action workplace workplace{{ i + 1 }}" [class.selected]="repository.isSelectedWorkspace(i)"
+           (click)="repository.selectWorkspace(i)">{{ i + 1 }}</div>
+    }
+
+
   </div>
 </div>
 

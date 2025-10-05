@@ -3,21 +3,57 @@ import {Session} from '../models/session.model';
 import {SEPARATORS, SessionPart, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session-part.model';
 import {SessionService} from './session.service';
 import {LogService} from './log.service';
+import {StorageService} from './storage.service';
+
+const STORAGE_KEY = 'session_';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionRepository {
   index = -1;
-  session: Session;
+  session: Session = new Session();
+  selectedWorkspace = 0;
 
-  constructor(private readonly logger: LogService, private readonly sessionService: SessionService) {
-    this.session = this.buildDemo();
+  constructor(private readonly logger: LogService,
+              private readonly sessionService: SessionService,
+              private readonly storageService: StorageService) {
+    this.selectWorkspace(this.selectedWorkspace);
     this.sessionService.partFinished.subscribe(r => r ? this.next() : {});
   }
 
   isSelected() {
     return this.index !== -1;
+  }
+
+  saveWorkplace() {
+    this.storageService.setItem(STORAGE_KEY + this.selectedWorkspace, JSON.stringify(this.session));
+    this.logger.info('Workspace ' + this.selectedWorkspace + ' saved');
+  }
+
+  selectWorkspace(index: number) {
+    this.selectedWorkspace = index;
+    const session = this.storageService.getItem(STORAGE_KEY + this.selectedWorkspace);
+    if (session) {
+      this.session = JSON.parse(session) as Session;
+      this.session.parts.forEach((part, index) => {
+        this.session.parts[index] = Object.assign(new SessionPart(), part);
+      });
+      this.session = Object.assign(new Session(), this.session);
+      this.index = -1;
+      this.sessionService.setPart(null as any);
+      this.logger.info('Workspace ' + this.selectedWorkspace + ' loaded');
+      this.logger.info('Total session time: ' + this.session.getTime() + ' seconds');
+    } else {
+      this.session = this.buildDemo();
+      this.index = -1;
+      this.sessionService.setPart(null as any);
+      this.logger.info('Workspace ' + this.selectedWorkspace + ' initialized with demo session');
+    }
+  }
+
+  isSelectedWorkspace(index: number): boolean {
+    return this.selectedWorkspace === index;
   }
 
   select(index: number) {
@@ -76,9 +112,6 @@ export class SessionRepository {
 
   private buildDemo(): Session {
     const session = new Session();
-    session.title = 'Demo Session';
-    session.description = 'This is a demo meditation session.';
-    session.space = 2;
     session.parts = [];
 
     const part1 = new SessionPart();
@@ -116,6 +149,8 @@ export class SessionRepository {
     sepa2.name = SEPARATORS[1].name;
     sepa2.timeBased = true;
     session.parts.push(sepa2);
+
+    this.session.getTime();
 
     return session;
   }

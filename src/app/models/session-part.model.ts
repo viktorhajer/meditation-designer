@@ -88,6 +88,8 @@ export class SessionPart {
       return this.name;
     } else if (this.partType === TYPE_BINAURAL_BEATS) {
       return this.value1 + ' Hz (' + this.value2 + '-' + this.value3 + ' Hz)';
+    } else if (this.partType === TYPE_HEARTBEAT) {
+      return this.value1 + ' BPM';
     }
     return this.timeBased ? '' : this.count + '';
   }

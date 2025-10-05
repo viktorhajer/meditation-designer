@@ -2,10 +2,7 @@ import {SessionPart} from './session-part.model';
 
 export class Session {
   id = 0;
-  title = '';
-  description = '';
   parts: SessionPart[] = [];
-  space = 2;
 
   getTime(): number {
     let sum = 0;

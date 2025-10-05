@@ -212,17 +212,17 @@ export class EditComponent implements OnChanges {
       if (this.part.value1 < 50) {
         this.part.value1 = 50;
       }
-      if (this.part.value2 > 100) {
-        this.part.value2 = 100;
+      if (this.part.value2 > 30) {
+        this.part.value2 = 30;
       }
-      if (this.part.value2 < 0) {
-        this.part.value2 = 0;
+      if (this.part.value2 < 1) {
+        this.part.value2 = 1;
       }
-      if (this.part.value3 > 100) {
-        this.part.value3 = 100;
+      if (this.part.value3 > 30) {
+        this.part.value3 = 30;
       }
-      if (this.part.value3 < 0) {
-        this.part.value3 = 0;
+      if (this.part.value3 < 1) {
+        this.part.value3 = 1;
       }
     }
   }
