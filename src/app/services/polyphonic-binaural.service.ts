@@ -39,6 +39,7 @@ export class PolyphonicBinauralService {
     if (this.state === STATE_RUNNING) {
       this.state = STATE_PAUSED;
       this.oscillators.forEach(osc => osc.oscillator.stop());
+      this.oscillators = [];
     }
   }
 
