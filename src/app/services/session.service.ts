@@ -3,18 +3,19 @@ import {
   SessionPart, TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION, TYPE_HEARTBEAT,
   TYPE_MANTRA,
-  TYPE_METRONOME,
+  TYPE_METRONOME, TYPE_POLYPHONIC_BB,
   TYPE_SEPARATOR
 } from '../models/session-part.model';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
 import {BinauralService} from './binaural.service';
+import {PolyphonicBinauralService} from './polyphonic-binaural.service';
 
 export const STATE_STOPPED = 0;
 export const STATE_RUNNING = 1;
 export const STATE_PAUSED = 2;
 
-const FREQUENCY = 10; //ms
+export const FREQUENCY = 10; //ms
 const SOUND_DIRECTORY = './assets/sounds/';
 
 @Injectable({
@@ -43,7 +44,9 @@ export class SessionService {
 
   partFinished = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly logger: LogService, private readonly binaural: BinauralService) {
+  constructor(private readonly logger: LogService,
+              private readonly binaural: BinauralService,
+              private readonly polyphonicBinaural: PolyphonicBinauralService) {
   }
 
   init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement,
@@ -112,6 +115,8 @@ export class SessionService {
       }
       if (this.part.partType === TYPE_BINAURAL_BEATS) {
         this.binaural.start(this.part.value1, this.part.value2);
+      } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
+        this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.part.valueStr);
       }
       this.state = STATE_RUNNING;
       this.clock();
@@ -126,6 +131,11 @@ export class SessionService {
     this.logger.info('Pause: ' + this.part?.partType);
     this.getPlayer()?.pause();
     this.binaural.stop();
+    if (this.part.partType === TYPE_BINAURAL_BEATS) {
+      this.binaural.stop();
+    } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
+      this.polyphonicBinaural.pause();
+    }
   }
 
   stop(state = STATE_STOPPED) {
@@ -137,6 +147,7 @@ export class SessionService {
       player.currentTime = 0;
     }
     this.binaural.stop();
+    this.polyphonicBinaural.reset();
     this.reset();
   }
 

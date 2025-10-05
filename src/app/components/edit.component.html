@@ -1,5 +1,5 @@
 <div class="edit-container" [class.active]="active">
-  <div class="content flex-center {{ part.partType }}">
+  <div class="content flex-center">
     <h1 *ngIf="createNew">Add new</h1>
     <h1 *ngIf="!createNew">{{ part.title }}</h1>
     <div class="form">
@@ -24,12 +24,12 @@
         </select>
       </div>
 
-      <div class="form-item row" *ngIf="!isType() && !isType('silence') && !isType('guided session') && !isType('binaural beats') && !isType('heart beat')">
+      <div class="form-item row" *ngIf="isType('mantra') && isType('metronome')">
         <label>Time based?</label>
         <input type="checkbox" [(ngModel)]="part.timeBased">
       </div>
 
-      <div class="form-item" *ngIf="part.timeBased && !isType() && !isType('guided session')">
+      <div class="form-item" *ngIf="part.timeBased && !isType() && !isType('guided session') && !isType('polyphonic binaural beats')">
         <label>Time (sec)</label>
         <input type="number" [(ngModel)]="part.time">
       </div>
@@ -72,6 +72,24 @@
             <input type="number" [(ngModel)]="part.mantraGroupSpace">
           </div>
         }
+      }
+
+      @if (isType('polyphonic binaural beats')) {
+        <div class="form-item">
+          <label>Description (max. 3 threads)</label>
+          <textarea type="text" [(ngModel)]="part.valueStr"></textarea>
+        </div>
+        <div class="form-item">
+          <p>Format: </p>
+          <p class="code-block">T1[A1-A2-V1|B1-B2-V2|...],T2[C1-C2-V3|...],...</p>
+          <p>Where:</p>
+          <p class="code-block">T1, T2 ... duration in seconds</p>
+          <p class="code-block">A1, B1 ... frequency for left ear in Hz</p>
+          <p class="code-block">A2, B2 ... frequency for right ear in Hz</p>
+          <p class="code-block">V1, V2 ... volume level: L (low), M (medium), H (high)</p>
+          <p>Example:</p>
+          <p class="code-block">5[450-458-L],10[450-458-L|300-305-M]</p>
+        </div>
       }
 
       @if (isType('binaural beats')) {

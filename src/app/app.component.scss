@@ -3,6 +3,7 @@
   background: rgb(255 255 255 / 20%);
   display: flex;
   flex-flow: column;
+  overflow: hidden;
 
   .sessions-container {
     transition: all 250ms ease-in-out;

@@ -6,7 +6,7 @@ import {
   DEFAULT_LEFT_FREQ,
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
-  DEFAULT_METRONOME,
+  DEFAULT_METRONOME, DEFAULT_POLYPHONIC_BB_DESCRIPTION,
   DEFAULT_SILENCE,
   GUIDED_SESSIONS,
   MANTRAS,
@@ -16,12 +16,13 @@ import {
   TYPE_GUIDED_SESSION,
   TYPE_HEARTBEAT,
   TYPE_MANTRA,
-  TYPE_METRONOME,
+  TYPE_METRONOME, TYPE_POLYPHONIC_BB,
   TYPE_SEPARATOR,
   TYPE_SILENCE,
   TYPES
 } from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
+import {LogService} from '../services/log.service';
 
 @Component({
   selector: 'app-edit',
@@ -41,7 +42,8 @@ export class EditComponent implements OnChanges {
 
   part: SessionPart = new SessionPart();
 
-  constructor(private readonly repository: SessionRepository) {
+  constructor(private readonly logger: LogService,
+              private readonly repository: SessionRepository) {
   }
 
   ngOnChanges() {
@@ -93,6 +95,10 @@ export class EditComponent implements OnChanges {
       this.part.value1 = DEFAULT_LEFT_FREQ;
       this.part.value2 = DEFAULT_DIFF_FREQ_BETA;
       this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
+    } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
+      this.part.timeBased = true;
+      this.part.valueStr = DEFAULT_POLYPHONIC_BB_DESCRIPTION;
+      this.part.time = this.calculateTimeForPBB(this.part.valueStr);
     } else if (this.part.partType === TYPE_HEARTBEAT) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
@@ -157,6 +163,7 @@ export class EditComponent implements OnChanges {
       originalPart.value1 = this.part.value1;
       originalPart.value2 = this.part.value2;
       originalPart.value3 = this.part.value3;
+      originalPart.valueStr = this.part.valueStr;
     }
     this.close.emit();
   }
@@ -178,11 +185,16 @@ export class EditComponent implements OnChanges {
     if (this.part.partType === TYPE_HEARTBEAT) {
       this.part.sliceLength = 60 / this.part.value1;
       this.part.sliceSpace = 0;
+    } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
+      this.part.time = this.calculateTimeForPBB(this.part.valueStr);
     }
   }
 
   private normalize() {
     // TODO
+    if (this.part.partType === TYPE_POLYPHONIC_BB) {
+      this.part.valueStr = this.part.valueStr.replace(/\s+/g, '');
+    }
     if (this.part.partType === TYPE_HEARTBEAT) {
       if (this.part.value1 > 150) {
         this.part.value1 = 150;
@@ -211,5 +223,16 @@ export class EditComponent implements OnChanges {
         this.part.value3 = 0;
       }
     }
+  }
+
+  calculateTimeForPBB(description: string): number {
+    let totalTime = 0;
+    const sessions = description.split(',');
+    sessions.forEach(session => {
+      const timeInSeconds = Number(session.split('[')[0]);
+      totalTime += timeInSeconds;
+    });
+    this.logger.info('Calculated time for PBB: ' + totalTime + ' secs');
+    return totalTime;
   }
 }

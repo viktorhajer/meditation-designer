@@ -6,6 +6,13 @@ export const DEFAULT_LEFT_FREQ = 200; // Hz
 export const DEFAULT_DIFF_FREQ_BETA = 14; // Hz
 export const DEFAULT_DIFF_FREQ_THETA = 6; // Hz
 export const DEFAULT_HEAT_BEAT = 40; // BPM
+export const DEFAULT_POLYPHONIC_BB_DESCRIPTION =
+  '240[450-458-L],' +                       // Ráhangolódás
+  '300[450-458-L|300-305-M],' +             // Lemerülés: Alfa (8Hz), Theta (5Hz)
+  '480[450-458-L|300-305-M|230-232-M],' +   // Mély meditáció: Alfa (8Hz), Theta (5Hz), Delta (1Hz)
+  '480[450-457-L|300-304-M|230-231-M],' +   // Mély meditáció: Alfa (8Hz), Theta (4Hz), Delta (1Hz)
+  '300[450-458-L|300-304-M],' +             // Lemerülés: Alfa (8Hz), Theta (5Hz)
+  '180[450-458-L]';                         // Visszatérés
 
 export const TYPE_SEPARATOR = 'separator';
 export const TYPE_SILENCE = 'silence';
@@ -14,7 +21,9 @@ export const TYPE_METRONOME = 'metronome';
 export const TYPE_GUIDED_SESSION = 'guided session';
 export const TYPE_BINAURAL_BEATS = 'binaural beats';
 export const TYPE_HEARTBEAT = 'heart beat';
-export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_METRONOME, TYPE_BINAURAL_BEATS, TYPE_HEARTBEAT/*, TYPE_MANTRA, TYPE_GUIDED_SESSION */];
+export const TYPE_POLYPHONIC_BB = 'polyphonic binaural beats';
+export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_METRONOME,
+  TYPE_BINAURAL_BEATS, TYPE_POLYPHONIC_BB, TYPE_HEARTBEAT/*, TYPE_MANTRA, TYPE_GUIDED_SESSION */];
 
 export const SEPARATORS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
@@ -46,6 +55,7 @@ export class SessionPart {
   value1 = 0;
   value2 = 0;
   value3 = 0;
+  valueStr = '';
 
   // Mantra
   mantraGroup = 1;
