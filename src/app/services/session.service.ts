@@ -1,9 +1,12 @@
 import {Injectable} from '@angular/core';
 import {
-  SessionPart, TYPE_BINAURAL_BEATS,
-  TYPE_GUIDED_SESSION, TYPE_HEARTBEAT,
+  SessionPart,
+  TYPE_BINAURAL_BEATS,
+  TYPE_GUIDED_SESSION,
+  TYPE_HEARTBEAT,
   TYPE_MANTRA,
-  TYPE_METRONOME, TYPE_POLYPHONIC_BB,
+  TYPE_METRONOME,
+  TYPE_POLYPHONIC_BB,
   TYPE_SEPARATOR
 } from '../models/session-part.model';
 import {LogService} from './log.service';
@@ -114,7 +117,8 @@ export class SessionService {
         this.playSound();
       }
       if (this.part.partType === TYPE_BINAURAL_BEATS) {
-        this.binaural.start(this.part.value1, this.part.value2);
+        this.state === STATE_PAUSED ? this.binaural.resume() :
+          this.binaural.start(this.part.time, this.part.value1, this.part.value2, this.part.value3, this.part.name);
       } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
         this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.part.valueStr);
       }
@@ -130,9 +134,8 @@ export class SessionService {
     this.state = STATE_PAUSED;
     this.logger.info('Pause: ' + this.part?.partType);
     this.getPlayer()?.pause();
-    this.binaural.stop();
     if (this.part.partType === TYPE_BINAURAL_BEATS) {
-      this.binaural.stop();
+      this.binaural.pause();
     } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
       this.polyphonicBinaural.pause();
     }
@@ -146,7 +149,7 @@ export class SessionService {
       player.pause();
       player.currentTime = 0;
     }
-    this.binaural.stop();
+    this.binaural.reset();
     this.polyphonicBinaural.reset();
     this.reset();
   }
@@ -159,10 +162,6 @@ export class SessionService {
     return this.state === STATE_RUNNING;
   }
 
-  isPaused(): boolean {
-    return this.state === STATE_PAUSED;
-  }
-
   isStopped(): boolean {
     return this.state === STATE_STOPPED;
   }
@@ -170,7 +169,6 @@ export class SessionService {
   private clock() {
     if (this.state === STATE_RUNNING) {
       this.processMetronomeOrMantra();
-      this.processBinauralBeats();
       this.actualMs += FREQUENCY;
       if (this.totalMs - this.actualMs <= 0) {
         this.actualMs = 0;
@@ -199,18 +197,6 @@ export class SessionService {
       this.sliceActualMs += FREQUENCY;
       if (this.sliceTotalMs - this.sliceActualMs <= 0) {
         this.sliceActualMs = 0;
-      }
-    }
-  }
-
-  private processBinauralBeats() {
-    if (this.part.partType === TYPE_BINAURAL_BEATS && this.isInFreq(500)) {
-      const totalDiff = this.part.value3 - this.part.value2;
-      const timeDiffPercent = Math.floor(this.actualMs / this.totalMs * 100) / 100;
-      const newDiff = this.part.value2 + Math.floor(totalDiff * timeDiffPercent);
-      if (newDiff !== this.binaural.difference) {
-        this.logger.info('Binaural beats change: ' + newDiff);
-        this.binaural.changeRight(this.part.value1, newDiff);
       }
     }
   }
@@ -252,9 +238,5 @@ export class SessionService {
     this.sliceTotalMs = this.part ? (this.part.sliceLength + this.part.sliceSpace) * 1000 : 0;
     this.sliceActualMs = 0;
     this.sliceCount = 0;
-  }
-
-  private isInFreq(freqMs = 500): boolean {
-    return this.actualMs % freqMs === 0;
   }
 }

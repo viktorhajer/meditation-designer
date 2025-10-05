@@ -34,6 +34,16 @@ export const SEPARATORS = [
   {name: 'Singing Bowl Jhumka 2564g', fileName: 'Singing Bowl Jhumka 2564g.mp3', time: 21}
 ];
 
+export const INTERPOLATION_LINEAR = 'Linear';
+export const INTERPOLATION_EASE_IN = 'Ease In';
+export const INTERPOLATION_EASE_OUT = 'Ease Out';
+export const INTERPOLATION_EASE_IN_OUT = 'Ease In-Out';
+export const INTERPOLATION_INTERMITTENT = 'Intermittent';
+
+export const INTERPOLATIONS = [
+  INTERPOLATION_LINEAR, INTERPOLATION_EASE_IN, INTERPOLATION_EASE_OUT, INTERPOLATION_EASE_IN_OUT, INTERPOLATION_INTERMITTENT
+];
+
 export const MANTRAS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4}
 ];

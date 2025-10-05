@@ -8,7 +8,7 @@ import {
   DEFAULT_MANTRA_TIME,
   DEFAULT_METRONOME, DEFAULT_POLYPHONIC_BB_DESCRIPTION,
   DEFAULT_SILENCE,
-  GUIDED_SESSIONS,
+  GUIDED_SESSIONS, INTERPOLATION_EASE_OUT, INTERPOLATIONS,
   MANTRAS,
   SEPARATORS,
   SessionPart,
@@ -39,6 +39,7 @@ export class EditComponent implements OnChanges {
   separatorTypes = SEPARATORS;
   mantraTypes = MANTRAS;
   guidedSessions = GUIDED_SESSIONS;
+  interpolations = INTERPOLATIONS;
 
   part: SessionPart = new SessionPart();
 
@@ -95,6 +96,7 @@ export class EditComponent implements OnChanges {
       this.part.value1 = DEFAULT_LEFT_FREQ;
       this.part.value2 = DEFAULT_DIFF_FREQ_BETA;
       this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
+      this.part.name = INTERPOLATION_EASE_OUT;
     } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
       this.part.timeBased = true;
       this.part.valueStr = DEFAULT_POLYPHONIC_BB_DESCRIPTION;

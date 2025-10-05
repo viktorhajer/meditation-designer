@@ -14,7 +14,6 @@ import {LogService} from './log.service';
 export class PolyphonicBinauralService {
 
   private audioContext = new AudioContext();
-  private gainNodes: GainNode[] = [];
   private oscillators: { oscillator: OscillatorNode, gainNode: GainNode }[] = [];
   private sessions: string[] = [];
   state = STATE_STOPPED;

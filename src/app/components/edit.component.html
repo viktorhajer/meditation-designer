@@ -97,15 +97,19 @@
           <label>Base (L) frequency (Hz, [50, 1000])</label>
           <input type="number" [(ngModel)]="part.value1">
         </div>
-
         <div class="form-item">
           <label>Start diff (Hz, [0, 100])</label>
           <input type="number" [(ngModel)]="part.value2">
         </div>
-
         <div class="form-item">
           <label>End diff (Hz, [0, 100])</label>
           <input type="number" [(ngModel)]="part.value3">
+        </div>
+        <div class="form-item">
+          <label>Interpolation mode</label>
+          <select [(ngModel)]="part.name">
+            <option [value]="mode" *ngFor="let mode of interpolations">{{ mode }}</option>
+          </select>
         </div>
       }
     </div>
