@@ -44,6 +44,13 @@ export const INTERPOLATIONS = [
   INTERPOLATION_LINEAR, INTERPOLATION_EASE_IN, INTERPOLATION_EASE_OUT, INTERPOLATION_EASE_IN_OUT, INTERPOLATION_INTERMITTENT
 ];
 
+export const ADVANCED_BB_BINEURAL = 'Binaural Beat';
+export const ADVANCED_BB_MONAURAL = 'Monaural Beat';
+export const ADVANCED_BB_HORIZONTAL = 'Horizontal Modulation';
+export const ADVANCED_BB_VERTICAL = 'Vertical Modulation';
+export const ADVANCED_BB_TYPES = [ADVANCED_BB_BINEURAL, ADVANCED_BB_MONAURAL,
+  ADVANCED_BB_HORIZONTAL, ADVANCED_BB_VERTICAL];
+
 export const MANTRAS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4}
 ];
@@ -66,6 +73,7 @@ export class SessionPart {
   value2 = 0;
   value3 = 0;
   valueStr = '';
+  valueStr2 = '';
 
   // Mantra
   mantraGroup = 1;

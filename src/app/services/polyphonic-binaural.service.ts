@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from './session.service';
 import {LogService} from './log.service';
+import {SessionPart} from '../models/session-part.model';
 
 // description format: T1[A1-A2-V1|B1-B2-V2|...],T2[C1-C2-V3|...],...
 // T1, T2 ... duration in seconds
@@ -25,9 +26,9 @@ export class PolyphonicBinauralService {
   constructor(private readonly logger: LogService) {
   }
 
-  start(description: string) {
+  start(part: SessionPart) {
     this.logger.info('[PBB] Start');
-    this.sessions = description.split(',');
+    this.sessions = part.valueStr.split(',');
     this.reset();
     this.state = STATE_RUNNING;
     this.next();

@@ -76,7 +76,7 @@
 
       @if (isType('polyphonic binaural beats')) {
         <div class="form-item">
-          <label>Description (max. 3 threads)</label>
+          <label>Description</label>
           <textarea type="text" [(ngModel)]="part.valueStr"></textarea>
         </div>
         <div class="form-item">
@@ -109,6 +109,12 @@
           <label>Interpolation mode</label>
           <select [(ngModel)]="part.name">
             <option [value]="mode" *ngFor="let mode of interpolations">{{ mode }}</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label>Advanced binaural beat</label>
+          <select [(ngModel)]="part.valueStr2">
+            <option [value]="mode" *ngFor="let mode of advancedBBTypes">{{ mode }}</option>
           </select>
         </div>
       }

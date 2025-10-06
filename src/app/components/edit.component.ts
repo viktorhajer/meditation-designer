@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
+  ADVANCED_BB_BINEURAL,
+  ADVANCED_BB_TYPES,
   DEFAULT_DIFF_FREQ_BETA,
   DEFAULT_DIFF_FREQ_THETA,
   DEFAULT_HEAT_BEAT,
@@ -40,6 +42,7 @@ export class EditComponent implements OnChanges {
   mantraTypes = MANTRAS;
   guidedSessions = GUIDED_SESSIONS;
   interpolations = INTERPOLATIONS;
+  advancedBBTypes = ADVANCED_BB_TYPES;
 
   part: SessionPart = new SessionPart();
 
@@ -97,6 +100,7 @@ export class EditComponent implements OnChanges {
       this.part.value2 = DEFAULT_DIFF_FREQ_BETA;
       this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
       this.part.name = INTERPOLATION_EASE_OUT;
+      this.part.valueStr2 = ADVANCED_BB_BINEURAL;
     } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
       this.part.timeBased = true;
       this.part.valueStr = DEFAULT_POLYPHONIC_BB_DESCRIPTION;
@@ -166,6 +170,7 @@ export class EditComponent implements OnChanges {
       originalPart.value2 = this.part.value2;
       originalPart.value3 = this.part.value3;
       originalPart.valueStr = this.part.valueStr;
+      originalPart.valueStr2 = this.part.valueStr2;
     }
     this.close.emit();
   }

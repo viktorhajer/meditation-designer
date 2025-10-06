@@ -118,9 +118,9 @@ export class SessionService {
       }
       if (this.part.partType === TYPE_BINAURAL_BEATS) {
         this.state === STATE_PAUSED ? this.binaural.resume() :
-          this.binaural.start(this.part.time, this.part.value1, this.part.value2, this.part.value3, this.part.name);
+          this.binaural.start(this.part);
       } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
-        this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.part.valueStr);
+        this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.part);
       }
       this.state = STATE_RUNNING;
       this.clock();
