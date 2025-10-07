@@ -1,6 +1,6 @@
 import {
   TYPE_BINAURAL_BEATS,
-  TYPE_GUIDED_SESSION, TYPE_HEARTBEAT,
+  TYPE_GUIDED_SESSION, TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_SEPARATOR
@@ -43,6 +43,8 @@ export class SessionPart {
       return this.name;
     } else if (this.partType === TYPE_BINAURAL_BEATS) {
       return this.value1 + ' Hz (' + this.value2 + '-' + this.value3 + ' Hz)';
+    } else if (this.partType === TYPE_ISOCHRONIC_TONES) {
+      return this.value1 + ' Hz / ' + this.value2 + ' Hz';
     } else if (this.partType === TYPE_HEARTBEAT) {
       return this.value1 + ' BPM';
     }

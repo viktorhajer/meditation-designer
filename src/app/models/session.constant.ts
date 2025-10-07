@@ -3,6 +3,8 @@ export const DEFAULT_METRONOME = 5 * 60; // 5 mins
 export const DEFAULT_MANTRA_TIME = 10 * 60; // 10 mins
 export const DEFAULT_MANTRA_COUNT = 108;
 export const DEFAULT_LEFT_FREQ = 200; // Hz
+export const DEFAULT_FREQ_LOW = 130; // Hz
+export const DEFAULT_DIFF_FREQ_ISO = 4.5; // Hz
 export const DEFAULT_DIFF_FREQ_BETA = 14; // Hz
 export const DEFAULT_DIFF_FREQ_THETA = 6; // Hz
 export const DEFAULT_HEAT_BEAT = 40; // BPM
@@ -22,8 +24,9 @@ export const TYPE_GUIDED_SESSION = 'guided session';
 export const TYPE_BINAURAL_BEATS = 'binaural beats';
 export const TYPE_HEARTBEAT = 'heart beat';
 export const TYPE_POLYPHONIC_BB = 'polyphonic binaural beats';
+export const TYPE_ISOCHRONIC_TONES = 'isochronic tones';
 export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_METRONOME,
-  TYPE_BINAURAL_BEATS, TYPE_POLYPHONIC_BB, TYPE_HEARTBEAT/*, TYPE_MANTRA, TYPE_GUIDED_SESSION */];
+  TYPE_BINAURAL_BEATS, TYPE_POLYPHONIC_BB, TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES/*, TYPE_MANTRA, TYPE_GUIDED_SESSION */];
 
 export const SEPARATORS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},

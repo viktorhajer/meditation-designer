@@ -2,7 +2,13 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SessionPart} from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
 import {SessionService} from '../services/session.service';
-import {STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../models/session.constant';
+import {
+  STATE_PAUSED,
+  STATE_RUNNING,
+  STATE_STOPPED,
+  TYPE_BINAURAL_BEATS,
+  TYPE_ISOCHRONIC_TONES, TYPE_POLYPHONIC_BB
+} from '../models/session.constant';
 
 @Component({
     selector: 'app-part',
@@ -34,5 +40,12 @@ export class PartComponent {
 
   isPaused(): boolean {
     return this.state === STATE_PAUSED;
+  }
+
+  getImage(): string {
+    if (this.part.partType === TYPE_ISOCHRONIC_TONES || this.part.partType === TYPE_POLYPHONIC_BB) {
+      return `./assets/images/${TYPE_BINAURAL_BEATS}.png`;
+    }
+    return `./assets/images/${this.part.partType}.png`;
   }
 }

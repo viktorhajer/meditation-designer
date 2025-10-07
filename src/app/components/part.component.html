@@ -7,21 +7,14 @@
       <ng-container *ngIf="selected && !isRunning()">&#x21bb;</ng-container>
     </div>
     <div class="icon flex-center">
-      <img src="./assets/images/{{part.partType}}.png" alt="">
+      <img [src]="getImage()" alt="">
     </div>
   </div>
   <div class="column-right flex-center">
     <div class="details flex-center" (click)="select.emit()">
-      <div class="title" *ngIf="selected">{{ part.title }}</div>
-      <div class="title"
-           *ngIf="!selected && (part.partType === 'mantra' || part.partType === 'separator' || part.partType === 'guided session')">
-        {{ part.name }}
-      </div>
-      <div class="title" *ngIf="!selected && (part.partType === 'binaural beats')">
-        {{ part.getInfo() }}
-      </div>
+      <div class="title">{{ part.title }}</div>
       <div class="time" [class.selected]="selected">{{ getTime() | timeformat }}</div>
-      <div class="info" *ngIf="selected">{{ part.getInfo() }}</div>
+      <div class="info">{{ part.getInfo() }}</div>
     </div>
     <div class="toolbar">
       <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0">

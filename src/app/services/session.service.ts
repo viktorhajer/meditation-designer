@@ -6,7 +6,7 @@ import {
   STATE_STOPPED,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
-  TYPE_HEARTBEAT,
+  TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_POLYPHONIC_BB,
@@ -17,6 +17,7 @@ import {BehaviorSubject} from 'rxjs';
 import {BinauralService} from './binaural.service';
 import {PolyphonicBinauralService} from './polyphonic-binaural.service';
 import {SessionPart} from '../models/session-part.model';
+import {IsochronicTonesService} from './isochronic-tones.service';
 
 const SOUND_DIRECTORY = './assets/sounds/';
 
@@ -48,7 +49,8 @@ export class SessionService {
 
   constructor(private readonly logger: LogService,
               private readonly binaural: BinauralService,
-              private readonly polyphonicBinaural: PolyphonicBinauralService) {
+              private readonly polyphonicBinaural: PolyphonicBinauralService,
+              private readonly isochronicTones: IsochronicTonesService) {
   }
 
   init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement,
@@ -116,10 +118,11 @@ export class SessionService {
         this.playSound();
       }
       if (this.part.partType === TYPE_BINAURAL_BEATS) {
-        this.state === STATE_PAUSED ? this.binaural.resume() :
-          this.binaural.start(this.part);
+        this.state === STATE_PAUSED ? this.binaural.resume() : this.binaural.start(this.part);
       } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
         this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.part);
+      } else if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
+        this.state === STATE_PAUSED ? this.isochronicTones.resume() : this.isochronicTones.start(this.part);
       }
       this.state = STATE_RUNNING;
       this.clock();
@@ -137,6 +140,8 @@ export class SessionService {
       this.binaural.pause();
     } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
       this.polyphonicBinaural.pause();
+    } else if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
+      this.isochronicTones.pause();
     }
   }
 
@@ -148,8 +153,6 @@ export class SessionService {
       player.pause();
       player.currentTime = 0;
     }
-    this.binaural.reset();
-    this.polyphonicBinaural.reset();
     this.reset();
   }
 
@@ -230,6 +233,9 @@ export class SessionService {
   }
 
   private reset() {
+    this.binaural.reset();
+    this.polyphonicBinaural.reset();
+    this.isochronicTones.reset();
     clearTimeout(this.timeout);
     this.timeout = null;
     this.totalMs = this.part ? this.part.getTime() * 1000 : 0;

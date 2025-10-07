@@ -2,8 +2,8 @@ import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
   ADVANCED_BB_BINEURAL,
   ADVANCED_BB_TYPES,
-  DEFAULT_DIFF_FREQ_BETA,
-  DEFAULT_DIFF_FREQ_THETA,
+  DEFAULT_DIFF_FREQ_BETA, DEFAULT_DIFF_FREQ_ISO,
+  DEFAULT_DIFF_FREQ_THETA, DEFAULT_FREQ_LOW,
   DEFAULT_HEAT_BEAT,
   DEFAULT_LEFT_FREQ,
   DEFAULT_MANTRA_COUNT,
@@ -18,7 +18,7 @@ import {
   SEPARATORS,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
-  TYPE_HEARTBEAT,
+  TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_POLYPHONIC_BB,
@@ -114,6 +114,11 @@ export class EditComponent implements OnChanges {
       this.part.time = DEFAULT_SILENCE;
       this.part.value1 = DEFAULT_HEAT_BEAT;
       this.part.sliceLength = 60 / DEFAULT_HEAT_BEAT;
+    } else if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
+      this.part.timeBased = true;
+      this.part.time = DEFAULT_SILENCE;
+      this.part.value1 = DEFAULT_FREQ_LOW;
+      this.part.value2 = DEFAULT_DIFF_FREQ_ISO;
     }
   }
 
@@ -212,6 +217,20 @@ export class EditComponent implements OnChanges {
       }
       if (this.part.value1 < 30) {
         this.part.value1 = 30;
+      }
+    }
+    if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
+      if (this.part.value1 > 1000) {
+        this.part.value1 = 1000;
+      }
+      if (this.part.value1 < 50) {
+        this.part.value1 = 50;
+      }
+      if (this.part.value2 > 10) {
+        this.part.value2 = 10;
+      }
+      if (this.part.value2 < 1) {
+        this.part.value2 = 1;
       }
     }
     if (this.part.partType === TYPE_BINAURAL_BEATS) {

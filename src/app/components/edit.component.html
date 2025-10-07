@@ -118,6 +118,17 @@
           </select>
         </div>
       }
+
+      @if (isType('isochronic tones')) {
+        <div class="form-item">
+          <label>Base frequency (Hz, [50, 1000])</label>
+          <input type="number" [(ngModel)]="part.value1">
+        </div>
+        <div class="form-item">
+          <label>Pulsation (Hz, [1, 10])</label>
+          <input type="number" [(ngModel)]="part.value2">
+        </div>
+      }
     </div>
     <div class="footer flex-center">
       <div class="button flex-center primary" (click)="save()"><img src="./assets/images/ok.png" alt=""></div>
