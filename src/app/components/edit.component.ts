@@ -8,23 +8,27 @@ import {
   DEFAULT_LEFT_FREQ,
   DEFAULT_MANTRA_COUNT,
   DEFAULT_MANTRA_TIME,
-  DEFAULT_METRONOME, DEFAULT_POLYPHONIC_BB_DESCRIPTION,
+  DEFAULT_METRONOME,
+  DEFAULT_POLYPHONIC_BB_DESCRIPTION,
   DEFAULT_SILENCE,
-  GUIDED_SESSIONS, INTERPOLATION_EASE_OUT, INTERPOLATIONS,
+  GUIDED_SESSIONS,
+  INTERPOLATION_EASE_OUT,
+  INTERPOLATIONS,
   MANTRAS,
   SEPARATORS,
-  SessionPart,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
   TYPE_HEARTBEAT,
   TYPE_MANTRA,
-  TYPE_METRONOME, TYPE_POLYPHONIC_BB,
+  TYPE_METRONOME,
+  TYPE_POLYPHONIC_BB,
   TYPE_SEPARATOR,
   TYPE_SILENCE,
   TYPES
-} from '../models/session-part.model';
+} from '../models/session.constant';
 import {SessionRepository} from '../services/session-repository.service';
 import {LogService} from '../services/log.service';
+import {SessionPart} from '../models/session-part.model';
 
 @Component({
   selector: 'app-edit',

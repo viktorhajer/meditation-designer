@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SessionPart} from '../models/session-part.model';
 import {SessionRepository} from '../services/session-repository.service';
-import {SessionService, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../services/session.service';
+import {SessionService} from '../services/session.service';
+import {STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../models/session.constant';
 
 @Component({
     selector: 'app-part',

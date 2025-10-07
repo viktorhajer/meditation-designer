@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {
-  SessionPart,
+  FREQUENCY,
+  STATE_PAUSED,
+  STATE_RUNNING,
+  STATE_STOPPED,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
   TYPE_HEARTBEAT,
@@ -8,17 +11,13 @@ import {
   TYPE_METRONOME,
   TYPE_POLYPHONIC_BB,
   TYPE_SEPARATOR
-} from '../models/session-part.model';
+} from '../models/session.constant';
 import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
 import {BinauralService} from './binaural.service';
 import {PolyphonicBinauralService} from './polyphonic-binaural.service';
+import {SessionPart} from '../models/session-part.model';
 
-export const STATE_STOPPED = 0;
-export const STATE_RUNNING = 1;
-export const STATE_PAUSED = 2;
-
-export const FREQUENCY = 10; //ms
 const SOUND_DIRECTORY = './assets/sounds/';
 
 @Injectable({

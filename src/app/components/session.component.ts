@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {SessionRepository} from '../services/session-repository.service';
-import {SessionService, STATE_STOPPED} from '../services/session.service';
+import {SessionService} from '../services/session.service';
+import {STATE_STOPPED} from '../models/session.constant';
 
 @Component({
     selector: 'app-session',

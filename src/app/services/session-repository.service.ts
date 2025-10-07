@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
-import {SEPARATORS, SessionPart, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session-part.model';
+import {SEPARATORS, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session.constant';
 import {SessionService} from './session.service';
 import {LogService} from './log.service';
 import {StorageService} from './storage.service';
+import {SessionPart} from '../models/session-part.model';
 
 const STORAGE_KEY = 'session_';
 

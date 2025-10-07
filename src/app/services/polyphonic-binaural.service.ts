@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from './session.service';
 import {LogService} from './log.service';
 import {SessionPart} from '../models/session-part.model';
+import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../models/session.constant';
 
 // description format: T1[A1-A2-V1|B1-B2-V2|...],T2[C1-C2-V3|...],...
 // T1, T2 ... duration in seconds

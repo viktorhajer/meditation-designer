@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {
-  ADVANCED_BB_BINEURAL, ADVANCED_BB_HORIZONTAL, ADVANCED_BB_MONAURAL, ADVANCED_BB_VERTICAL,
+  ADVANCED_BB_BINEURAL, ADVANCED_BB_HORIZONTAL, ADVANCED_BB_MONAURAL, ADVANCED_BB_VERTICAL, ADVANCED_BB_VH,
   DEFAULT_DIFF_FREQ_BETA,
-  DEFAULT_LEFT_FREQ,
+  DEFAULT_LEFT_FREQ, FREQUENCY,
   INTERPOLATION_EASE_IN,
   INTERPOLATION_EASE_IN_OUT,
   INTERPOLATION_EASE_OUT,
-  INTERPOLATION_LINEAR, SessionPart
-} from '../models/session-part.model';
+  INTERPOLATION_LINEAR, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED
+} from '../models/session.constant';
 import {LogService} from './log.service';
-import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from './session.service';
+import {SessionPart} from '../models/session-part.model';
 
 const VOLUME = 0.7;
 
@@ -149,18 +149,19 @@ export class BinauralService {
   }
 
   private setVolume(freq: number) {
-    if (this.advanced === ADVANCED_BB_HORIZONTAL) {
+    if (this.advanced === ADVANCED_BB_HORIZONTAL || this.advanced === ADVANCED_BB_VH) {
       const size = 0.6;
       const value = (size/2) * Math.sin(Math.PI * 0.5 * this.advancedTime) + (size/2) + 0.1;
       const roundedValue = Math.floor(value * 100) / 100;
       this.oscillators[0].gainNode.gain.value = roundedValue;
       this.oscillators[1].gainNode.gain.value = VOLUME - roundedValue;
-    } else if (this.advanced === ADVANCED_BB_VERTICAL) {
+    }
+    if (this.advanced === ADVANCED_BB_VERTICAL || this.advanced === ADVANCED_BB_VH) {
       const size = 50;
       this.verticalValue = Math.floor((size/2) * Math.sin(Math.PI * 1 * this.advancedTime) + (size/2));
       this.setOscillators();
     }
-    if(this.advanced === ADVANCED_BB_HORIZONTAL || this.advanced === ADVANCED_BB_VERTICAL) {
+    if(this.advanced === ADVANCED_BB_HORIZONTAL || this.advanced === ADVANCED_BB_VERTICAL || this.advanced === ADVANCED_BB_VH) {
       this.advancedTime += 1 / (1000 / freq - 1);
     }
   }
