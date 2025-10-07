@@ -132,9 +132,9 @@ export class SessionRepository {
 
     const sepa = new SessionPart();
     sepa.partType = TYPE_SEPARATOR;
-    sepa.time = SEPARATORS[0].time;
+    sepa.time = SEPARATORS[0].length;
     sepa.fileName = SEPARATORS[0].fileName;
-    sepa.fileTitle = SEPARATORS[0].name;
+    sepa.fileTitle = SEPARATORS[0].title;
     sepa.timeBased = true;
     session.parts.push(sepa);
 
@@ -154,9 +154,9 @@ export class SessionRepository {
 
     const sepa2 = new SessionPart();
     sepa2.partType = TYPE_SEPARATOR;
-    sepa2.time = SEPARATORS[1].time;
+    sepa2.time = SEPARATORS[1].length;
     sepa2.fileName = SEPARATORS[1].fileName;
-    sepa2.fileTitle = SEPARATORS[1].name;
+    sepa2.fileTitle = SEPARATORS[1].title;
     sepa2.timeBased = true;
     session.parts.push(sepa2);
 

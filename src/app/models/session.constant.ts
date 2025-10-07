@@ -1,3 +1,5 @@
+import {FileInfo} from './file-info';
+
 export const DEFAULT_SILENCE = 3 * 60; // 3 mins
 export const DEFAULT_METRONOME = 5 * 60; // 5 mins
 export const DEFAULT_MANTRA_TIME = 10 * 60; // 10 mins
@@ -28,13 +30,13 @@ export const TYPE_ISOCHRONIC_TONES = 'isochronic tones';
 export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_METRONOME,
   TYPE_BINAURAL_BEATS, TYPE_POLYPHONIC_BB, TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES, TYPE_MANTRA/*, TYPE_GUIDED_SESSION*/];
 
-export const SEPARATORS = [
-  {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},
-  {name: 'Singing Bowl 458g', fileName: 'Singing Bowl 458g.mp3', time: 8},
-  {name: 'Singing Bowl 1029g', fileName: 'Singing Bowl 1029g.mp3', time: 15},
-  {name: 'Singing Bowl 1466g', fileName: 'Singing Bowl 1466g.mp3', time: 17},
-  {name: 'Singing Bowl 8003g', fileName: 'Singing Bowl 8003g.mp3', time: 25},
-  {name: 'Singing Bowl Jhumka 2564g', fileName: 'Singing Bowl Jhumka 2564g.mp3', time: 21}
+export const SEPARATORS: FileInfo[] = [
+  {title: 'China Bell Ring', fileName: 'china-bell-ring.mp3', length: 4},
+  {title: 'Singing Bowl 458g', fileName: 'Singing Bowl 458g.mp3', length: 8},
+  {title: 'Singing Bowl 1029g', fileName: 'Singing Bowl 1029g.mp3', length: 15},
+  {title: 'Singing Bowl 1466g', fileName: 'Singing Bowl 1466g.mp3', length: 17},
+  {title: 'Singing Bowl 8003g', fileName: 'Singing Bowl 8003g.mp3', length: 25},
+  {title: 'Singing Bowl Jhumka 2564g', fileName: 'Singing Bowl Jhumka 2564g.mp3', length: 21}
 ];
 
 export const INTERPOLATION_LINEAR = 'Linear';
@@ -55,12 +57,12 @@ export const ADVANCED_BB_VH = 'Vertical+Horizontal Modulation';
 export const ADVANCED_BB_TYPES = [ADVANCED_BB_BINEURAL, ADVANCED_BB_MONAURAL,
   ADVANCED_BB_HORIZONTAL, ADVANCED_BB_VERTICAL, ADVANCED_BB_VH];
 
-export const MANTRAS = [
-  {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4}
+export const MANTRAS: FileInfo[] = [
+  {title: 'China Bell Ring', fileName: 'china-bell-ring.mp3', length: 4}
 ];
 
-export const GUIDED_SESSIONS = [
-  {name: 'JME Meditation course 01-hu', fileName: 'JME Meditation course 01-hu.mp3', time: 2148}
+export const GUIDED_SESSIONS: FileInfo[] = [
+  {title: 'JME Meditation course 01-hu', fileName: 'JME Meditation course 01-hu.mp3', length: 2148}
 ];
 
 export const FREQUENCY = 10; //ms
