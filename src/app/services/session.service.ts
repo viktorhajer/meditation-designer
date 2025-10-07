@@ -6,7 +6,8 @@ import {
   STATE_STOPPED,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
-  TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES,
+  TYPE_HEARTBEAT,
+  TYPE_ISOCHRONIC_TONES,
   TYPE_MANTRA,
   TYPE_METRONOME,
   TYPE_POLYPHONIC_BB,
@@ -19,6 +20,7 @@ import {PolyphonicBinauralService} from './polyphonic-binaural.service';
 import {SessionPart} from '../models/session-part.model';
 import {IsochronicTonesService} from './isochronic-tones.service';
 import {SessionUtil} from './session.util';
+import {PeriodicalAudioService} from './periodical-audio.service';
 
 const SOUND_DIRECTORY = './assets/sounds/';
 
@@ -38,17 +40,11 @@ export class SessionService {
   private actualMs = 0;
   private timeout = null as any;
 
-  private sliceCount = 0;
-  private sliceActualMs = 0;
-  private sliceTotalMs = 0;
-
-  private lock = false;
-
   private partLoaded = false;
-
   partFinished = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly logger: LogService,
+              private readonly periodicalAudioService: PeriodicalAudioService,
               private readonly binaural: BinauralService,
               private readonly polyphonicBinaural: PolyphonicBinauralService,
               private readonly isochronicTones: IsochronicTonesService) {
@@ -92,6 +88,7 @@ export class SessionService {
     this.part = part;
     this.partLoaded = false;
     this.logger.info(this.part ? 'Set part: ' + this.part.partType : 'Remove part');
+
     if (this.part?.partType === TYPE_SEPARATOR) {
       this.logger.info('Load separator: ' + this.part.fileName);
       this.separatorPlayer.src = SOUND_DIRECTORY + this.part.fileName;
@@ -171,35 +168,15 @@ export class SessionService {
 
   private clock() {
     if (this.state === STATE_RUNNING) {
-      this.processMetronomeOrMantra();
+      if (this.periodicalAudioService.process(this.part)) {
+        this.playSound(true);
+      }
       this.actualMs += FREQUENCY;
       if (this.totalMs - this.actualMs <= 0) {
         this.actualMs = 0;
         this.partFinished.next(true);
       } else {
         this.timeout = setTimeout(() => this.clock(), FREQUENCY);
-      }
-    }
-  }
-
-  private processMetronomeOrMantra() {
-    if (!this.lock &&
-      (this.part.partType === TYPE_HEARTBEAT || this.part.partType === TYPE_METRONOME || this.part.partType === TYPE_MANTRA)) {
-      if (this.sliceActualMs === 0) {
-        if (!this.part.timeBased && this.part.count === this.sliceCount) {
-          return;
-        }
-        this.playSound(true);
-        this.sliceCount++;
-
-        if (this.part.partType === TYPE_MANTRA && this.sliceCount % this.part.value1 === 0) {
-          this.lock = true;
-          setTimeout(() => this.lock = false, this.part.value2 * 1000);
-        }
-      }
-      this.sliceActualMs += FREQUENCY;
-      if (this.sliceTotalMs - this.sliceActualMs <= 0) {
-        this.sliceActualMs = 0;
       }
     }
   }
@@ -218,22 +195,24 @@ export class SessionService {
 
   private getPlayer(): HTMLAudioElement | null {
     if (this.part) {
-      if (this.part.partType === TYPE_SEPARATOR) {
-        return this.separatorPlayer;
-      } else if (this.part.partType === TYPE_METRONOME) {
-        return this.metronomePlayer;
-      } else if (this.part.partType === TYPE_MANTRA) {
-        return this.mantraPlayer;
-      } else if (this.part.partType === TYPE_GUIDED_SESSION) {
-        return this.guidedSessionPlayer;
-      } else if (this.part.partType === TYPE_HEARTBEAT) {
-        return this.heartBeatPlayer;
+      switch (this.part.partType) {
+        case TYPE_SEPARATOR:
+          return this.separatorPlayer;
+        case TYPE_METRONOME:
+          return this.metronomePlayer;
+        case TYPE_MANTRA:
+          return this.mantraPlayer;
+        case TYPE_GUIDED_SESSION:
+          return this.guidedSessionPlayer;
+        case TYPE_HEARTBEAT:
+          return this.heartBeatPlayer;
       }
     }
     return null;
   }
 
   private reset() {
+    this.periodicalAudioService.reset(this.part);
     this.binaural.reset();
     this.polyphonicBinaural.reset();
     this.isochronicTones.reset();
@@ -241,8 +220,5 @@ export class SessionService {
     this.timeout = null;
     this.totalMs = this.part ? SessionUtil.getSessionPartTime(this.part) * 1000 : 0;
     this.actualMs = 0;
-    this.sliceTotalMs = this.part ? (this.part.sliceLength + this.part.sliceSpace) * 1000 : 0;
-    this.sliceActualMs = 0;
-    this.sliceCount = 0;
   }
 }
