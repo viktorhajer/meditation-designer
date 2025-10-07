@@ -192,9 +192,9 @@ export class SessionService {
         this.playSound(true);
         this.sliceCount++;
 
-        if (this.part.partType === TYPE_MANTRA && this.sliceCount % this.part.mantraGroup === 0) {
+        if (this.part.partType === TYPE_MANTRA && this.sliceCount % this.part.value1 === 0) {
           this.lock = true;
-          setTimeout(() => this.lock = false, this.part.mantraGroupSpace * 1000);
+          setTimeout(() => this.lock = false, this.part.value2 * 1000);
         }
       }
       this.sliceActualMs += FREQUENCY;

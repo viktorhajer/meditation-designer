@@ -64,12 +64,12 @@
 
         <div class="form-item">
           <label>Group size</label>
-          <input type="number" [(ngModel)]="part.mantraGroup">
+          <input type="number" [(ngModel)]="part.value1">
         </div>
-        @if (part.mantraGroup > 1) {
+        @if (part.value1 > 1) {
           <div class="form-item">
             <label>Group space (sec)</label>
-            <input type="number" [(ngModel)]="part.mantraGroupSpace">
+            <input type="number" [(ngModel)]="part.value2">
           </div>
         }
       }
@@ -107,7 +107,7 @@
         </div>
         <div class="form-item">
           <label>Interpolation mode</label>
-          <select [(ngModel)]="part.name">
+          <select [(ngModel)]="part.valueStr">
             <option [value]="mode" *ngFor="let mode of interpolations">{{ mode }}</option>
           </select>
         </div>

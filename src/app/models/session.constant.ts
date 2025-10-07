@@ -26,7 +26,7 @@ export const TYPE_HEARTBEAT = 'heart beat';
 export const TYPE_POLYPHONIC_BB = 'polyphonic binaural beats';
 export const TYPE_ISOCHRONIC_TONES = 'isochronic tones';
 export const TYPES = [TYPE_SEPARATOR, TYPE_SILENCE, TYPE_METRONOME,
-  TYPE_BINAURAL_BEATS, TYPE_POLYPHONIC_BB, TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES/*, TYPE_MANTRA, TYPE_GUIDED_SESSION */];
+  TYPE_BINAURAL_BEATS, TYPE_POLYPHONIC_BB, TYPE_HEARTBEAT, TYPE_ISOCHRONIC_TONES/*, TYPE_MANTRA, TYPE_GUIDED_SESSION*/];
 
 export const SEPARATORS = [
   {name: 'China Bell Ring', fileName: 'china-bell-ring.mp3', time: 4},

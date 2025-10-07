@@ -7,11 +7,11 @@ export class SessionUtil {
     if (part.timeBased) {
       return part.time;
     }
-    if (part.partType === TYPE_METRONOME || (part.partType === TYPE_MANTRA && part.mantraGroup <= 1)) {
+    if (part.partType === TYPE_METRONOME || (part.partType === TYPE_MANTRA && part.value1 <= 1)) {
       return part.count * (part.sliceLength + part.sliceSpace);
-    } else if (part.partType === TYPE_MANTRA && part.mantraGroup > 1) {
-      const groupNumber = Math.floor(part.count / part.mantraGroup);
-      return part.count * (part.sliceLength + part.sliceSpace) + groupNumber * part.mantraGroupSpace;
+    } else if (part.partType === TYPE_MANTRA && part.value1 > 1) {
+      const groupNumber = Math.floor(part.count / part.value1);
+      return part.count * (part.sliceLength + part.sliceSpace) + groupNumber * part.value2;
     }
     return part.count;
   }

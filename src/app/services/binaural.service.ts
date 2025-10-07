@@ -51,7 +51,7 @@ export class BinauralService extends AbstractOscillatorService {
     this.base = part.value1;
     this.differenceStart = part.value2;
     this.differenceEnd = part.value3;
-    this.mode = part.name;
+    this.mode = part.valueStr;
     this.advanced = part.valueStr2;
     this.totalMs = part.time * 1000;
   }

@@ -85,7 +85,7 @@ export class EditComponent implements OnChanges {
       this.part.count = DEFAULT_MANTRA_COUNT;
       this.part.sliceLength = MANTRAS[0].time;
       this.part.sliceSpace = 2;
-      this.part.mantraGroup = 1;
+      this.part.value1 = 1;
       this.part.fileName = MANTRAS[0].fileName;
       this.part.name = MANTRAS[0].name;
     } else if (this.part.partType === TYPE_METRONOME) {
@@ -103,7 +103,7 @@ export class EditComponent implements OnChanges {
       this.part.value1 = DEFAULT_LEFT_FREQ;
       this.part.value2 = DEFAULT_DIFF_FREQ_BETA;
       this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
-      this.part.name = INTERPOLATION_EASE_OUT;
+      this.part.valueStr = INTERPOLATION_EASE_OUT;
       this.part.valueStr2 = ADVANCED_BB_BINEURAL;
     } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
       this.part.timeBased = true;
@@ -171,8 +171,8 @@ export class EditComponent implements OnChanges {
       originalPart.sliceLength = this.part.sliceLength;
       originalPart.sliceSpace = this.part.sliceSpace;
       originalPart.name = this.part.name;
-      originalPart.mantraGroup = this.part.mantraGroup;
-      originalPart.mantraGroupSpace = this.part.mantraGroup <= 1 ? 0 : this.part.mantraGroupSpace;
+      originalPart.value1 = this.part.value1;
+      originalPart.value2 = this.part.value1 <= 1 ? 0 : this.part.value2;
       originalPart.name = this.part.name;
       originalPart.fileName = this.part.fileName;
       originalPart.value1 = this.part.value1;
