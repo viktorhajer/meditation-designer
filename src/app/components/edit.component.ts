@@ -62,7 +62,7 @@ export class EditComponent implements OnChanges {
         this.part.timeBased = true;
         this.part.time = SEPARATORS[0].time;
         this.part.fileName = SEPARATORS[0].fileName;
-        this.part.name = SEPARATORS[0].name;
+        this.part.fileTitle = SEPARATORS[0].name;
       } else {
         this.part = Object.assign(new SessionPart(), this.repository.getSelectedPart());
       }
@@ -75,7 +75,7 @@ export class EditComponent implements OnChanges {
       this.part.timeBased = true;
       this.part.time = SEPARATORS[0].time;
       this.part.fileName = SEPARATORS[0].fileName;
-      this.part.name = SEPARATORS[0].name;
+      this.part.fileTitle = SEPARATORS[0].name;
     } else if (this.part.partType === TYPE_SILENCE) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
@@ -87,7 +87,7 @@ export class EditComponent implements OnChanges {
       this.part.sliceSpace = 2;
       this.part.value1 = 1;
       this.part.fileName = MANTRAS[0].fileName;
-      this.part.name = MANTRAS[0].name;
+      this.part.fileTitle = MANTRAS[0].name;
     } else if (this.part.partType === TYPE_METRONOME) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_METRONOME;
@@ -96,7 +96,7 @@ export class EditComponent implements OnChanges {
       this.part.timeBased = true;
       this.part.time = GUIDED_SESSIONS[0].time;
       this.part.fileName = GUIDED_SESSIONS[0].fileName;
-      this.part.name = GUIDED_SESSIONS[0].name;
+      this.part.fileTitle = GUIDED_SESSIONS[0].name;
     } else if (this.part.partType === TYPE_BINAURAL_BEATS) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
@@ -123,27 +123,27 @@ export class EditComponent implements OnChanges {
   }
 
   separatorTypeChanged() {
-    const separator = SEPARATORS.find(s => s.name === this.part.name);
+    const separator = SEPARATORS.find(s => s.name === this.part.fileTitle);
     if (separator) {
-      this.part.name = separator.name;
+      this.part.fileTitle = separator.name;
       this.part.time = separator.time;
       this.part.fileName = separator.fileName;
     }
   }
 
   mantraTypeChanged() {
-    const mantra = MANTRAS.find(s => s.name === this.part.name);
+    const mantra = MANTRAS.find(s => s.name === this.part.fileTitle);
     if (mantra) {
-      this.part.name = mantra.name;
+      this.part.fileTitle = mantra.name;
       this.part.sliceLength = mantra.time;
       this.part.fileName = mantra.fileName;
     }
   }
 
   guidedSessionTypeChanged() {
-    const session = GUIDED_SESSIONS.find(s => s.name === this.part.name);
+    const session = GUIDED_SESSIONS.find(s => s.name === this.part.fileTitle);
     if (session) {
-      this.part.name = session.name;
+      this.part.fileTitle = session.name;
       this.part.time = session.time;
       this.part.fileName = session.fileName;
     }
@@ -170,12 +170,12 @@ export class EditComponent implements OnChanges {
       originalPart.count = this.part.count;
       originalPart.sliceLength = this.part.sliceLength;
       originalPart.sliceSpace = this.part.sliceSpace;
-      originalPart.name = this.part.name;
-      originalPart.value1 = this.part.value1;
-      originalPart.value2 = this.part.value1 <= 1 ? 0 : this.part.value2;
-      originalPart.name = this.part.name;
+      originalPart.fileTitle = this.part.fileTitle;
       originalPart.fileName = this.part.fileName;
       originalPart.value1 = this.part.value1;
+      if (this.part.partType === TYPE_MANTRA) {
+        originalPart.value2 = this.part.value1 <= 1 ? 0 : this.part.value2;
+      }
       originalPart.value2 = this.part.value2;
       originalPart.value3 = this.part.value3;
       originalPart.valueStr = this.part.valueStr;

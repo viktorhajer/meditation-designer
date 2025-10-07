@@ -5,7 +5,7 @@ export class SessionPart {
   count = 0;
   sliceLength = 1; // secs
   sliceSpace = 0; // secs
-  name = '';
+  fileTitle = '';
   fileName = '';
   value1 = 0; // mantra: mantraGroup, oscillator: base
   value2 = 0; // mantra: mantraGroupSpace, oscillator: diff1, pulse

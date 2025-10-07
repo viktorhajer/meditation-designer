@@ -12,14 +12,14 @@
 
       <div class="form-item" *ngIf="isType('separator')">
         <label>Type</label>
-        <select [(ngModel)]="part.name" (change)="separatorTypeChanged()">
+        <select [(ngModel)]="part.fileTitle" (change)="separatorTypeChanged()">
           <option [value]="t.name" *ngFor="let t of separatorTypes">{{ t.name }}</option>
         </select>
       </div>
 
       <div class="form-item" *ngIf="isType('guided session')">
         <label>Type</label>
-        <select [(ngModel)]="part.name" (change)="guidedSessionTypeChanged()">
+        <select [(ngModel)]="part.fileTitle" (change)="guidedSessionTypeChanged()">
           <option [value]="t.name" *ngFor="let t of guidedSessions">{{ t.name }}</option>
         </select>
       </div>
@@ -41,7 +41,7 @@
 
       <div class="form-item" *ngIf="isType('mantra')">
         <label>Type</label>
-        <select [(ngModel)]="part.name" (change)="mantraTypeChanged()">
+        <select [(ngModel)]="part.fileTitle" (change)="mantraTypeChanged()">
           <option [value]="t.name" *ngFor="let t of mantraTypes">{{ t.name }}</option>
         </select>
       </div>

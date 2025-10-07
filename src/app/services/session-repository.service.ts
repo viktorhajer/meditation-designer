@@ -134,7 +134,7 @@ export class SessionRepository {
     sepa.partType = TYPE_SEPARATOR;
     sepa.time = SEPARATORS[0].time;
     sepa.fileName = SEPARATORS[0].fileName;
-    sepa.name = SEPARATORS[0].name;
+    sepa.fileTitle = SEPARATORS[0].name;
     sepa.timeBased = true;
     session.parts.push(sepa);
 
@@ -156,7 +156,7 @@ export class SessionRepository {
     sepa2.partType = TYPE_SEPARATOR;
     sepa2.time = SEPARATORS[1].time;
     sepa2.fileName = SEPARATORS[1].fileName;
-    sepa2.name = SEPARATORS[1].name;
+    sepa2.fileTitle = SEPARATORS[1].name;
     sepa2.timeBased = true;
     session.parts.push(sepa2);
 

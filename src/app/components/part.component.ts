@@ -58,9 +58,9 @@ export class PartComponent {
     if (this.part.partType === TYPE_METRONOME) {
       return this.part.sliceLength + ' secs';
     } else if (this.part.partType === TYPE_MANTRA) {
-      return this.part.name + ' ' + (this.part.timeBased ? '' : this.part.count + '');
+      return this.part.fileTitle + ' ' + (this.part.timeBased ? '' : this.part.count + '');
     } else if (this.part.partType === TYPE_SEPARATOR || this.part.partType === TYPE_GUIDED_SESSION) {
-      return this.part.name;
+      return this.part.fileTitle;
     } else if (this.part.partType === TYPE_BINAURAL_BEATS) {
       return this.part.value1 + ' Hz (' + this.part.value2 + '-' + this.part.value3 + ' Hz)';
     } else if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
