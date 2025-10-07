@@ -33,6 +33,7 @@ import {SessionRepository} from '../services/session-repository.service';
 import {LogService} from '../services/log.service';
 import {SessionPart} from '../models/session-part.model';
 import {FileInfo} from '../models/file-info';
+import {SessionPartValidator} from '../utils/validators/session-part.validator';
 
 @Component({
   selector: 'app-edit',
@@ -143,7 +144,7 @@ export class EditComponent implements OnChanges {
   }
 
   save() {
-    this.normalize();
+    new SessionPartValidator().validate(this.part);
     this.postProcess();
     if (this.isInvalid()) {
       // TODO error message
@@ -204,55 +205,6 @@ export class EditComponent implements OnChanges {
       this.part.sliceSpace = 0;
     } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
       this.part.time = this.calculateTimeForPBB(this.part.valueStr);
-    }
-  }
-
-  private normalize() {
-    // TODO
-    if (this.part.partType === TYPE_POLYPHONIC_BB) {
-      this.part.valueStr = this.part.valueStr.replace(/\s+/g, '');
-    }
-    if (this.part.partType === TYPE_HEARTBEAT) {
-      if (this.part.value1 > 150) {
-        this.part.value1 = 150;
-      }
-      if (this.part.value1 < 30) {
-        this.part.value1 = 30;
-      }
-    }
-    if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
-      if (this.part.value1 > 1000) {
-        this.part.value1 = 1000;
-      }
-      if (this.part.value1 < 50) {
-        this.part.value1 = 50;
-      }
-      if (this.part.value2 > 10) {
-        this.part.value2 = 10;
-      }
-      if (this.part.value2 < 1) {
-        this.part.value2 = 1;
-      }
-    }
-    if (this.part.partType === TYPE_BINAURAL_BEATS) {
-      if (this.part.value1 > 1000) {
-        this.part.value1 = 1000;
-      }
-      if (this.part.value1 < 50) {
-        this.part.value1 = 50;
-      }
-      if (this.part.value2 > 30) {
-        this.part.value2 = 30;
-      }
-      if (this.part.value2 < 1) {
-        this.part.value2 = 1;
-      }
-      if (this.part.value3 > 30) {
-        this.part.value3 = 30;
-      }
-      if (this.part.value3 < 1) {
-        this.part.value3 = 1;
-      }
     }
   }
 
