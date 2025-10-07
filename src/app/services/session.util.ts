@@ -1,0 +1,18 @@
+import {SessionPart} from '../models/session-part.model';
+import {TYPE_MANTRA, TYPE_METRONOME} from '../models/session.constant';
+
+export class SessionUtil {
+
+  static getSessionPartTime(part: SessionPart): number {
+    if (part.timeBased) {
+      return part.time;
+    }
+    if (part.partType === TYPE_METRONOME || (part.partType === TYPE_MANTRA && part.mantraGroup <= 1)) {
+      return part.count * (part.sliceLength + part.sliceSpace);
+    } else if (part.partType === TYPE_MANTRA && part.mantraGroup > 1) {
+      const groupNumber = Math.floor(part.count / part.mantraGroup);
+      return part.count * (part.sliceLength + part.sliceSpace) + groupNumber * part.mantraGroupSpace;
+    }
+    return part.count;
+  }
+}

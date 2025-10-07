@@ -192,6 +192,10 @@ export class EditComponent implements OnChanges {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
+  getTitle(): string {
+    return this.part.partType.charAt(0).toUpperCase() + this.part.partType.slice(1);
+  }
+
   private isInvalid(): boolean {
     // TODO validation
     return false;

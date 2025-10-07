@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
-import {SEPARATORS, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session.constant';
+import {SEPARATORS, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session.constant';
 import {SessionService} from './session.service';
 import {LogService} from './log.service';
 import {StorageService} from './storage.service';
 import {SessionPart} from '../models/session-part.model';
+import {SessionUtil} from './session.util';
 
 const STORAGE_KEY = 'session_';
 
@@ -44,7 +45,6 @@ export class SessionRepository {
       this.index = -1;
       this.sessionService.setPart(null as any);
       this.logger.info('Workspace ' + this.selectedWorkspace + ' loaded');
-      this.logger.info('Total session time: ' + this.session.getTime() + ' seconds');
     } else {
       this.session = this.buildDemo();
       this.index = -1;
@@ -111,6 +111,15 @@ export class SessionRepository {
     }
   }
 
+  getTotalTime(): number {
+    if (this.session?.parts.length) {
+      let sum = 0;
+      this.session.parts.forEach(p => sum += SessionUtil.getSessionPartTime(p));
+      return sum;
+    }
+    return 0;
+  }
+
   private buildDemo(): Session {
     const session = new Session();
     session.parts = [];
@@ -150,8 +159,6 @@ export class SessionRepository {
     sepa2.name = SEPARATORS[1].name;
     sepa2.timeBased = true;
     session.parts.push(sepa2);
-
-    this.session.getTime();
 
     return session;
   }

@@ -1,91 +1,50 @@
 import {Injectable} from '@angular/core';
-import {
-  ADVANCED_BB_BINEURAL, ADVANCED_BB_HORIZONTAL, ADVANCED_BB_MONAURAL, ADVANCED_BB_VERTICAL, ADVANCED_BB_VH,
-  DEFAULT_DIFF_FREQ_BETA,
-  DEFAULT_LEFT_FREQ, FREQUENCY,
-  INTERPOLATION_EASE_IN,
-  INTERPOLATION_EASE_IN_OUT,
-  INTERPOLATION_EASE_OUT,
-  INTERPOLATION_LINEAR, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED
-} from '../models/session.constant';
+import {DEFAULT_DIFF_FREQ_BETA, DEFAULT_LEFT_FREQ, STATE_RUNNING} from '../models/session.constant';
 import {LogService} from './log.service';
 import {SessionPart} from '../models/session-part.model';
+import {AbstractOscillatorService} from './abstract-oscillator.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class IsochronicTonesService {
+export class IsochronicTonesService extends AbstractOscillatorService {
 
-  private audioContext = new AudioContext();
   base = DEFAULT_LEFT_FREQ;
   pulsation = DEFAULT_DIFF_FREQ_BETA;
-  state = STATE_STOPPED;
-  private oscillators: { oscillator: OscillatorNode, gainNode: GainNode }[] = [];
-  private timeout = null as any;
-  private muted = false;
 
-  constructor(private readonly logger: LogService) {
+  constructor(logger: LogService) {
+    super(logger);
   }
 
-  start(part: SessionPart) {
-    this.logger.info('[BB] Start');
+  override reset() {
+    this.logger.info('[BB] Reset');
+    this.resetBasic();
+  }
+
+  protected init(part: SessionPart) {
+    this.logger.info('[ISO] Start');
     this.base = part.value1;
     this.pulsation = Math.round(1000 / part.value2) / 2;
-    this.reset();
-    this.state = STATE_RUNNING;
+  }
+
+  protected update() {
     this.setOscillators();
-    this.timeout = setTimeout(() => this.clock(), FREQUENCY);
+    this.timeout = setTimeout(() => this.clock(), this.pulsation);
   }
 
-  pause() {
-    this.logger.info('[BB] Pause');
-    if (this.state === STATE_RUNNING) {
-      this.state = STATE_PAUSED;
-      this.oscillators.forEach(osc => osc.oscillator.stop());
-      this.oscillators = [];
-    }
-  }
-
-  resume() {
-    this.logger.info('[BB] Resume');
-    if (this.state === STATE_PAUSED) {
-      this.state = STATE_RUNNING;
-      this.setOscillators();
-      this.timeout = setTimeout(() => this.clock(), FREQUENCY);
-    }
-  }
-
-  reset() {
-    this.logger.info('[BB] Reset');
-    clearTimeout(this.timeout);
-    this.timeout = null;
-    this.state = STATE_STOPPED;
-    this.oscillators.forEach(osc => osc.oscillator.stop());
-    this.oscillators = [];
-    this.muted = false;
-  }
-
-  private setOscillators() {
+  protected setOscillators() {
     this.oscillators.push(this.createThread(this.base, this.getVolume()));
   }
 
-  private createThread(frequency: number, volume: number, left = true) {
-    const oscillator = this.audioContext.createOscillator();
-    const stereoNode = new StereoPannerNode(this.audioContext, {pan: 0});
-    const gainNode = this.audioContext.createGain();
-    gainNode.gain.value = volume;
-    stereoNode.pan.value = 0;
-    oscillator.connect(stereoNode).connect(gainNode).connect(this.audioContext.destination);
-    oscillator.frequency.value = frequency;
-    oscillator.start();
-    return {oscillator, gainNode};
-  }
-
-  private clock() {
+  protected clock() {
     if (this.state === STATE_RUNNING) {
       this.setVolume();
       this.timeout = setTimeout(() => this.clock(), this.pulsation);
     }
+  }
+
+  override getPan(left = true): number {
+    return 0;
   }
 
   private setVolume() {

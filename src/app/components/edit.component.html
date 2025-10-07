@@ -1,7 +1,7 @@
 <div class="edit-container" [class.active]="active">
   <div class="content flex-center">
     <h1 *ngIf="createNew">Add new</h1>
-    <h1 *ngIf="!createNew">{{ part.title }}</h1>
+    <h1 *ngIf="!createNew">{{ getTitle() }}</h1>
     <div class="form">
       <div class="form-item" *ngIf="createNew">
         <label>Type</label>

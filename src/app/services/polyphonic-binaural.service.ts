@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {LogService} from './log.service';
 import {SessionPart} from '../models/session-part.model';
-import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../models/session.constant';
+import {FREQUENCY, STATE_RUNNING} from '../models/session.constant';
+import {AbstractOscillatorService} from './abstract-oscillator.service';
 
 // description format: T1[A1-A2-V1|B1-B2-V2|...],T2[C1-C2-V3|...],...
 // T1, T2 ... duration in seconds
@@ -12,57 +13,29 @@ import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../models/s
 @Injectable({
   providedIn: 'root'
 })
-export class PolyphonicBinauralService {
+export class PolyphonicBinauralService extends AbstractOscillatorService {
 
-  private audioContext = new AudioContext();
-  private oscillators: { oscillator: OscillatorNode, gainNode: GainNode }[] = [];
   private sessions: string[] = [];
-  state = STATE_STOPPED;
   private actualSessionIndex = 0;
   private totalMs = 0;
   private actualMs = 0;
-  private timeout = null as any;
 
-  constructor(private readonly logger: LogService) {
+  constructor(logger: LogService) {
+    super(logger);
   }
 
-  start(part: SessionPart) {
-    this.logger.info('[PBB] Start');
-    this.sessions = part.valueStr.split(',');
-    this.reset();
-    this.state = STATE_RUNNING;
-    this.next();
-  }
-
-  pause() {
-    this.logger.info('[PBB] Pause');
-    if (this.state === STATE_RUNNING) {
-      this.state = STATE_PAUSED;
-      this.oscillators.forEach(osc => osc.oscillator.stop());
-      this.oscillators = [];
-    }
-  }
-
-  resume() {
-    this.logger.info('[PBB] Resume');
-    if (this.state === STATE_PAUSED) {
-      this.state = STATE_RUNNING;
-      this.setOscillators();
-      this.timeout = setTimeout(() => this.clock(), FREQUENCY);
-    }
-  }
-
-  reset() {
+  override reset() {
     this.logger.info('[PBB] Reset');
-    clearTimeout(this.timeout);
-    this.timeout = null;
-    this.state = STATE_STOPPED;
-    this.oscillators.forEach(osc => osc.oscillator.stop());
-    this.oscillators = [];
+    this.resetBasic();
     this.actualSessionIndex = -1;
   }
 
-  private next() {
+  protected init(part: SessionPart) {
+    this.logger.info('[PBB] Start');
+    this.sessions = part.valueStr.split(',');
+  }
+
+  protected update() {
     this.actualSessionIndex++;
     if (this.actualSessionIndex < this.sessions.length) {
       this.logger.info('[PBB] Next');
@@ -75,13 +48,7 @@ export class PolyphonicBinauralService {
     }
   }
 
-  private setTimes() {
-    const description = this.sessions[this.actualSessionIndex];
-    this.totalMs = Number(description.split('[')[0]) * 1000;
-    this.actualMs = 0;
-  }
-
-  private setOscillators() {
+  protected setOscillators() {
     const description = this.sessions[this.actualSessionIndex];
     const parts = description.split('[');
     if (parts.length > 1) {
@@ -115,27 +82,21 @@ export class PolyphonicBinauralService {
     }
   }
 
-  private createThread(frequency: number, volume: number, left = true) {
-    const oscillator = this.audioContext.createOscillator();
-    const stereoNode = new StereoPannerNode(this.audioContext, {pan: 0});
-    const gainNode = this.audioContext.createGain();
-    gainNode.gain.value = volume;
-    stereoNode.pan.value = left ? -1 : 1;
-    oscillator.connect(stereoNode).connect(gainNode).connect(this.audioContext.destination);
-    oscillator.frequency.value = frequency;
-    oscillator.start();
-    return {oscillator, gainNode};
-  }
-
-  private clock() {
+  protected clock() {
     if (this.state === STATE_RUNNING) {
       this.actualMs += FREQUENCY;
       if (this.totalMs - this.actualMs <= 0) {
-        this.next();
+        this.update();
       } else {
         this.timeout = setTimeout(() => this.clock(), FREQUENCY);
       }
     }
+  }
+
+  private setTimes() {
+    const description = this.sessions[this.actualSessionIndex];
+    this.totalMs = Number(description.split('[')[0]) * 1000;
+    this.actualMs = 0;
   }
 
   private getVolume(level: string): number {

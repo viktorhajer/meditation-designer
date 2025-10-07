@@ -18,6 +18,7 @@ import {BinauralService} from './binaural.service';
 import {PolyphonicBinauralService} from './polyphonic-binaural.service';
 import {SessionPart} from '../models/session-part.model';
 import {IsochronicTonesService} from './isochronic-tones.service';
+import {SessionUtil} from './session.util';
 
 const SOUND_DIRECTORY = './assets/sounds/';
 
@@ -238,7 +239,7 @@ export class SessionService {
     this.isochronicTones.reset();
     clearTimeout(this.timeout);
     this.timeout = null;
-    this.totalMs = this.part ? this.part.getTime() * 1000 : 0;
+    this.totalMs = this.part ? SessionUtil.getSessionPartTime(this.part) * 1000 : 0;
     this.actualMs = 0;
     this.sliceTotalMs = this.part ? (this.part.sliceLength + this.part.sliceSpace) * 1000 : 0;
     this.sliceActualMs = 0;
