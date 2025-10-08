@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
   ADVANCED_BB_BINEURAL,
-  ADVANCED_BB_TYPES,
+  ADVANCED_BB_TYPES, BRAINWAVE_FREQUENCY_BANDS,
   DEFAULT_DIFF_FREQ_BETA,
   DEFAULT_DIFF_FREQ_ISO,
   DEFAULT_DIFF_FREQ_THETA,
@@ -17,7 +17,7 @@ import {
   INTERPOLATION_EASE_OUT,
   INTERPOLATIONS,
   MANTRAS,
-  SEPARATORS,
+  SEPARATORS, SOLFEGGIO_SCALE,
   TYPE_BINAURAL_BEATS,
   TYPE_GUIDED_SESSION,
   TYPE_HEARTBEAT,
@@ -52,8 +52,13 @@ export class EditComponent implements OnChanges {
   guidedSessions = GUIDED_SESSIONS;
   interpolations = INTERPOLATIONS;
   advancedBBTypes = ADVANCED_BB_TYPES;
+  solfeggioScale = SOLFEGGIO_SCALE;
+  brainwaveFrequency  = BRAINWAVE_FREQUENCY_BANDS;
 
   part: SessionPart = new SessionPart();
+  showBaseSelector = false;
+  showDiff1Selector = false;
+  showDiff2Selector = false;
 
   constructor(private readonly logger: LogService,
               private readonly repository: SessionRepository) {

@@ -18,6 +18,11 @@ export const DEFAULT_POLYPHONIC_BB_DESCRIPTION =
   '300[450-458-L|300-304-M],' +             // Lemerülés: Alfa (8Hz), Theta (5Hz)
   '180[450-458-L]';                         // Visszatérés
 
+export const MAX_BASE_FREQUENCY = 1000; // Hz
+export const MIN_BASE_FREQUENCY = 50; // Hz
+export const MAX_BRAINWAVE_FREQUENCY = 40; // Hz
+export const MIN_BRAINWAVE_FREQUENCY = 1; // Hz
+
 export const TYPE_SEPARATOR = 'separator';
 export const TYPE_SILENCE = 'silence';
 export const TYPE_MANTRA = 'mantra';
@@ -63,6 +68,26 @@ export const MANTRAS: FileInfo[] = [
 
 export const GUIDED_SESSIONS: FileInfo[] = [
   {title: 'JME Meditation course 01-hu', fileName: 'JME Meditation course 01-hu.mp3', length: 2148}
+];
+
+export const SOLFEGGIO_SCALE = [
+  {value: 174, name: 'Reduces pain, promotes physical safety (174)'},
+  {value: 285, name: 'Heals tissues, restores energy balance (285)'},
+  {value: 396, name: 'Liberates from fear and guilt (396)'},
+  {value: 417, name: 'Facilitates change, cleanses negative energy (417)'},
+  {value: 528, name: 'DNA repair, transformation, love frequency (528)'},
+  {value: 639, name: 'Harmonizes relationships and communication (639)'},
+  {value: 741, name: 'Awakens intuition, purifies mind and body (741)'},
+  {value: 852, name: 'Raises awareness, returns to spiritual order (852)'},
+  {value: 963, name: 'Connects with the divine consciousness, unity (963)'}
+]; // Hz
+
+export const BRAINWAVE_FREQUENCY_BANDS = [
+  {value: 2, name: 'Delta: deep sleep, healing, unconscious mind (0.5 – 4 Hz)'},
+  {value: 6, name: 'Theta: meditation, creativity, intuition, dream state (4 – 8 Hz)'},
+  {value: 10, name: 'Alpha: relaxation, calm focus, light meditation (8 – 12 Hz)'},
+  {value: 20, name: 'Beta: alertness, active thinking, problem-solving (12 – 30 Hz)'},
+  {value: 40, name: 'Gamma: high-level cognition, peak awareness, integration (30 – 100 Hz)'}
 ];
 
 export const FREQUENCY = 10; //ms

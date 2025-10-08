@@ -71,7 +71,22 @@
 
       select {
         padding: 4px 8px;
-        width: 196px;
+        width: 200px;
+      }
+
+      .input-with-icon {
+        img {
+          width: 16px;
+          height: 16px;
+          margin-left: 6px;
+          position: relative;
+          top: 2px;
+          cursor: pointer;
+          opacity: 0.6;
+        }
+        img:hover {
+          opacity: 1;
+        }
       }
     }
 
@@ -113,7 +128,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    transition: all 250ms ease-in-out;
+    transition: opacity 250ms ease-in-out;
     z-index: 100;
   }
 

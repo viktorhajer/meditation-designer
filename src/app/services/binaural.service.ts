@@ -48,12 +48,12 @@ export class BinauralService extends AbstractOscillatorService {
 
   protected init(part: SessionPart) {
     this.logger.info('[BB] Start');
-    this.base = part.value1;
-    this.differenceStart = part.value2;
-    this.differenceEnd = part.value3;
+    this.base = Number(part.value1);
+    this.differenceStart = Number(part.value2);
+    this.differenceEnd = Number(part.value3);
     this.mode = part.valueStr;
     this.advanced = part.valueStr2;
-    this.totalMs = part.time * 1000;
+    this.totalMs = Number(part.time) * 1000;
   }
 
   protected update() {

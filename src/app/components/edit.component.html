@@ -30,7 +30,7 @@
       </div>
 
       <div class="form-item" *ngIf="part.timeBased && !isType() && !isType('guided session') && !isType('polyphonic binaural beats')">
-        <label>Time (sec)</label>
+        <label>Period of time (sec)</label>
         <input type="number" [(ngModel)]="part.time">
       </div>
 
@@ -92,18 +92,39 @@
         </div>
       }
 
-      @if (isType('binaural beats')) {
+      @if (isType('binaural beats') || isType('isochronic tones')) {
         <div class="form-item">
           <label>Base (L) frequency (Hz, [50, 1000])</label>
-          <input type="number" [(ngModel)]="part.value1">
+          <div class="input-with-icon">
+            <input type="number" [(ngModel)]="part.value1" *ngIf="!showBaseSelector">
+            <select [(ngModel)]="part.value1" *ngIf="showBaseSelector">
+              <option [value]="s.value" *ngFor="let s of solfeggioScale">{{ s.name }}</option>
+            </select>
+            <img src="./assets/images/load.png" alt="" (click)="showBaseSelector = !showBaseSelector">
+          </div>
+        </div>
+      }
+
+      @if (isType('binaural beats')) {
+        <div class="form-item">
+          <label>Start frequency (Hz, [1, 30])</label>
+          <div class="input-with-icon">
+            <input type="number" [(ngModel)]="part.value2" *ngIf="!showDiff1Selector">
+            <select [(ngModel)]="part.value2" *ngIf="showDiff1Selector">
+              <option [value]="s.value" *ngFor="let s of brainwaveFrequency">{{ s.name }}</option>
+            </select>
+            <img src="./assets/images/load.png" alt="" (click)="showDiff1Selector = !showDiff1Selector">
+          </div>
         </div>
         <div class="form-item">
-          <label>Start diff (Hz, [1, 30])</label>
-          <input type="number" [(ngModel)]="part.value2">
-        </div>
-        <div class="form-item">
-          <label>End diff (Hz, [1, 30])</label>
-          <input type="number" [(ngModel)]="part.value3">
+          <label>End frequency (Hz, [1, 30])</label>
+          <div class="input-with-icon">
+            <input type="number" [(ngModel)]="part.value3" *ngIf="!showDiff2Selector">
+            <select [(ngModel)]="part.value3" *ngIf="showDiff2Selector">
+              <option [value]="s.value" *ngFor="let s of brainwaveFrequency">{{ s.name }}</option>
+            </select>
+            <img src="./assets/images/load.png" alt="" (click)="showDiff2Selector = !showDiff2Selector">
+          </div>
         </div>
         <div class="form-item">
           <label>Interpolation mode</label>
@@ -112,7 +133,7 @@
           </select>
         </div>
         <div class="form-item">
-          <label>Advanced binaural beat</label>
+          <label>Advanced modes</label>
           <select [(ngModel)]="part.valueStr2">
             <option [value]="mode" *ngFor="let mode of advancedBBTypes">{{ mode }}</option>
           </select>
@@ -120,10 +141,6 @@
       }
 
       @if (isType('isochronic tones')) {
-        <div class="form-item">
-          <label>Base frequency (Hz, [50, 1000])</label>
-          <input type="number" [(ngModel)]="part.value1">
-        </div>
         <div class="form-item">
           <label>Pulsation (Hz, [1, 10])</label>
           <input type="number" [(ngModel)]="part.value2">

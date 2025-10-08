@@ -23,8 +23,8 @@ export class IsochronicTonesService extends AbstractOscillatorService {
 
   protected init(part: SessionPart) {
     this.logger.info('[ISO] Start');
-    this.base = part.value1;
-    this.pulsation = Math.round(1000 / part.value2) / 2;
+    this.base = Number(part.value1);
+    this.pulsation = Math.round(1000 / Number(part.value2)) / 2;
   }
 
   protected update() {
