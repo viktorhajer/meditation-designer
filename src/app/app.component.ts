@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {SessionComponent} from './components/session.component';
 import {SessionRepository} from './services/session-repository.service';
 import {SessionService} from './services/session.service';
+import {MediaPreloadService} from './services/media-preload.service';
 
 @Component({
     selector: 'app-root',
@@ -20,11 +21,13 @@ export class AppComponent implements AfterViewInit {
   editActive = false;
   createNew = true;
 
-  constructor(public readonly repository: SessionRepository,
+  constructor(private readonly preloadService: MediaPreloadService,
+              public readonly repository: SessionRepository,
               public readonly sessionService: SessionService) {
   }
 
   ngAfterViewInit() {
+    this.preloadService.preload();
     this.sessionService.init(this.separatorAudioElementRef.nativeElement as HTMLAudioElement,
       this.metronomeAudioElementRef.nativeElement as HTMLAudioElement,
       this.mantraAudioElementRef.nativeElement as HTMLAudioElement,
