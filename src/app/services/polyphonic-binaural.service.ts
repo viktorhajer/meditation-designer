@@ -30,9 +30,9 @@ export class PolyphonicBinauralService extends AbstractOscillatorService {
     this.actualSessionIndex = -1;
   }
 
-  protected init(part: SessionComponent) {
+  protected init(component: SessionComponent) {
     this.logger.info('[PBB] Start');
-    this.sessions = part.valueStr.split(',');
+    this.sessions = component.valueStr.split(',');
   }
 
   protected update() {

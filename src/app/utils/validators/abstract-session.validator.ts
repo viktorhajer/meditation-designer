@@ -9,7 +9,7 @@ export class AbstractSessionValidator {
   }
 
   validate(component: SessionComponent): boolean {
-    if (this.type === component.partType) {
+    if (this.type === component.type) {
       this.normalizeFields(component);
       return this.validateFields(component);
     } else {

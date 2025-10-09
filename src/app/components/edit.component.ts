@@ -68,28 +68,28 @@ export class EditComponent implements OnChanges {
     if (this.active) {
       if (this.createNew) {
         this.part = new SessionComponent();
-        this.part.partType = TYPE_SEPARATOR;
+        this.part.type = TYPE_SEPARATOR;
         this.part.timeBased = true;
         this.part.time = SEPARATORS[0].length;
         this.part.fileName = SEPARATORS[0].fileName;
         this.part.fileTitle = SEPARATORS[0].title;
       } else {
-        this.part = Object.assign(new SessionComponent(), this.repository.getSelectedPart());
+        this.part = Object.assign(new SessionComponent(), this.repository.getSelectedComponent());
       }
     }
   }
 
   typeChanged() {
     this.part.sliceSpace = 0;
-    if (this.part.partType === TYPE_SEPARATOR) {
+    if (this.isType(TYPE_SEPARATOR)) {
       this.part.timeBased = true;
       this.part.time = SEPARATORS[0].length;
       this.part.fileName = SEPARATORS[0].fileName;
       this.part.fileTitle = SEPARATORS[0].title;
-    } else if (this.part.partType === TYPE_SILENCE) {
+    } else if (this.isType(TYPE_SILENCE)) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
-    } else if (this.part.partType === TYPE_MANTRA) {
+    } else if (this.isType(TYPE_MANTRA)) {
       this.part.timeBased = false;
       this.part.time = DEFAULT_MANTRA_TIME;
       this.part.count = DEFAULT_MANTRA_COUNT;
@@ -99,16 +99,16 @@ export class EditComponent implements OnChanges {
       this.part.value2 = 0;
       this.part.fileName = MANTRAS[0].fileName;
       this.part.fileTitle = MANTRAS[0].title;
-    } else if (this.part.partType === TYPE_METRONOME) {
+    } else if (this.isType(TYPE_METRONOME)) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_METRONOME;
       this.part.sliceLength = 1;
-    } else if (this.part.partType === TYPE_GUIDED_SESSION) {
+    } else if (this.isType(TYPE_GUIDED_SESSION)) {
       this.part.timeBased = true;
       this.part.time = GUIDED_SESSIONS[0].length;
       this.part.fileName = GUIDED_SESSIONS[0].fileName;
       this.part.fileTitle = GUIDED_SESSIONS[0].title;
-    } else if (this.part.partType === TYPE_BINAURAL_BEATS) {
+    } else if (this.isType(TYPE_BINAURAL_BEATS)) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
       this.part.value1 = DEFAULT_LEFT_FREQ;
@@ -116,16 +116,16 @@ export class EditComponent implements OnChanges {
       this.part.value3 = DEFAULT_DIFF_FREQ_THETA;
       this.part.valueStr = INTERPOLATION_EASE_OUT;
       this.part.valueStr2 = ADVANCED_BB_BINEURAL;
-    } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
+    } else if (this.isType(TYPE_POLYPHONIC_BB)) {
       this.part.timeBased = true;
       this.part.valueStr = DEFAULT_POLYPHONIC_BB_DESCRIPTION;
       this.part.time = this.calculateTimeForPBB(this.part.valueStr);
-    } else if (this.part.partType === TYPE_HEARTBEAT) {
+    } else if (this.isType(TYPE_HEARTBEAT)) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
       this.part.value1 = DEFAULT_HEAT_BEAT;
       this.part.sliceLength = 60 / DEFAULT_HEAT_BEAT;
-    } else if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
+    } else if (this.isType(TYPE_ISOCHRONIC_TONES)) {
       this.part.timeBased = true;
       this.part.time = DEFAULT_SILENCE;
       this.part.value1 = DEFAULT_FREQ_LOW;
@@ -145,8 +145,8 @@ export class EditComponent implements OnChanges {
     this.setFileInfo(GUIDED_SESSIONS.find(s => s.title === this.part.fileTitle));
   }
 
-  isType(partType = 'separator'): boolean {
-    return this.part.partType === partType;
+  isType(type = 'separator'): boolean {
+    return this.part.type === type;
   }
 
   save() {
@@ -155,12 +155,12 @@ export class EditComponent implements OnChanges {
     if (!valid) {
       // TODO error message
       return;
-    } else if (this.createNew && this.repository.getSelectedPart() === null) {
+    } else if (this.createNew && this.repository.getSelectedComponent() === null) {
       this.repository.session.components.push(this.part);
-    } else if (this.createNew && this.repository.getSelectedPart() !== null) {
+    } else if (this.createNew && this.repository.getSelectedComponent() !== null) {
       this.repository.session.components.splice(this.repository.index + 1, 0, this.part);
     } else {
-      const originalPart = this.repository.getSelectedPart();
+      const originalPart = this.repository.getSelectedComponent();
       originalPart.timeBased = this.part.timeBased;
       originalPart.time = this.part.time;
       originalPart.count = this.part.count;
@@ -169,7 +169,7 @@ export class EditComponent implements OnChanges {
       originalPart.fileTitle = this.part.fileTitle;
       originalPart.fileName = this.part.fileName;
       originalPart.value1 = this.part.value1;
-      if (this.part.partType === TYPE_MANTRA) {
+      if (this.isType(TYPE_MANTRA)) {
         originalPart.value2 = this.part.value1 <= 1 ? 0 : this.part.value2;
       }
       originalPart.value2 = this.part.value2;
@@ -189,7 +189,7 @@ export class EditComponent implements OnChanges {
   }
 
   getTitle(): string {
-    return this.part.partType.charAt(0).toUpperCase() + this.part.partType.slice(1);
+    return this.part.type.charAt(0).toUpperCase() + this.part.type.slice(1);
   }
 
   private setFileInfo(fileInfo: FileInfo | undefined) {
@@ -201,10 +201,10 @@ export class EditComponent implements OnChanges {
   }
 
   private postProcess() {
-    if (this.part.partType === TYPE_HEARTBEAT) {
+    if (this.isType(TYPE_HEARTBEAT)) {
       this.part.sliceLength = 60 / this.part.value1;
       this.part.sliceSpace = 0;
-    } else if (this.part.partType === TYPE_POLYPHONIC_BB) {
+    } else if (this.isType(TYPE_POLYPHONIC_BB)) {
       this.part.time = this.calculateTimeForPBB(this.part.valueStr);
     }
   }

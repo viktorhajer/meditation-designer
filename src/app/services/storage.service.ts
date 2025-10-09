@@ -13,10 +13,6 @@ export class StorageService {
     this.storage = localStorage;
   }
 
-  hasItem(key: string): boolean {
-    return !!this.getItem(key);
-  }
-
   getItem(key: string): string | null {
     return this.storage.getItem(STORAGE_PREFIX + key);
   }

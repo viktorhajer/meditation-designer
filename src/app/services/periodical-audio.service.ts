@@ -12,20 +12,20 @@ export class PeriodicalAudioService {
   private sliceTotalMs = 0;
   private lock = false;
 
-  process(part: SessionComponent) {
+  process(component: SessionComponent) {
     let playSound = false;
     if (!this.lock &&
-      (part.partType === TYPE_HEARTBEAT || part.partType === TYPE_METRONOME || part.partType === TYPE_MANTRA)) {
+      (component.type === TYPE_HEARTBEAT || component.type === TYPE_METRONOME || component.type === TYPE_MANTRA)) {
       if (this.sliceActualMs === 0) {
-        if (!part.timeBased && part.count === this.sliceCount) {
+        if (!component.timeBased && component.count === this.sliceCount) {
           return;
         }
         playSound = true;
         this.sliceCount++;
 
-        if (part.partType === TYPE_MANTRA && this.sliceCount % part.value1 === 0) {
+        if (component.type === TYPE_MANTRA && this.sliceCount % component.value1 === 0) {
           this.lock = true;
-          setTimeout(() => this.lock = false, part.value2 * 1000);
+          setTimeout(() => this.lock = false, component.value2 * 1000);
         }
       }
       this.sliceActualMs += FREQUENCY;
@@ -36,8 +36,8 @@ export class PeriodicalAudioService {
     return playSound;
   }
 
-  reset(part?: SessionComponent) {
-    this.sliceTotalMs = part ? (part.sliceLength + part.sliceSpace) * 1000 : 0;
+  reset(component?: SessionComponent) {
+    this.sliceTotalMs = component ? (component.sliceLength + component.sliceSpace) * 1000 : 0;
     this.sliceCount = 0;
     this.sliceActualMs = 0;
     this.lock = false;

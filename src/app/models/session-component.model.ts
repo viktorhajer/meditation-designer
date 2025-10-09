@@ -1,5 +1,5 @@
 export class SessionComponent {
-  partType = '';
+  type = '';
   timeBased = true;
   time = 0;
   count = 0;

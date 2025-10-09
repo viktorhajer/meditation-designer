@@ -5,7 +5,7 @@
     <div class="form">
       <div class="form-item" *ngIf="createNew">
         <label>Type</label>
-        <select [(ngModel)]="part.partType" (change)="typeChanged()">
+        <select [(ngModel)]="part.type" (change)="typeChanged()">
           <option [value]="t" *ngFor="let t of types">{{ capitalizeFirstLetter(t) }}</option>
         </select>
       </div>
@@ -31,7 +31,10 @@
 
       <div class="form-item" *ngIf="part.timeBased && !isType() && !isType('guided session') && !isType('polyphonic binaural beats')">
         <label>Period of time (sec)</label>
-        <input type="number" [(ngModel)]="part.time">
+        <div class="input-with-icon">
+          <input type="number" [(ngModel)]="part.time">
+          <div>{{ part.time | timeformat }}</div>
+        </div>
       </div>
 
       <div class="form-item" *ngIf="!part.timeBased">

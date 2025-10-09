@@ -32,7 +32,7 @@ export class PartComponent {
 
   getTime(): number {
     const total = this.selected ? this.service.getTime() : -1;
-    return total === -1 ? SessionUtil.getSessionPartTime(this.part) : total;
+    return total === -1 ? SessionUtil.getSessionComponentTime(this.part) : total;
   }
 
   isRunning(): boolean {
@@ -44,28 +44,28 @@ export class PartComponent {
   }
 
   getImage(): string {
-    if (this.part.partType === TYPE_ISOCHRONIC_TONES || this.part.partType === TYPE_POLYPHONIC_BB) {
+    if (this.part.type === TYPE_ISOCHRONIC_TONES || this.part.type === TYPE_POLYPHONIC_BB) {
       return `./assets/images/${TYPE_BINAURAL_BEATS}.png`;
     }
-    return `./assets/images/${this.part.partType}.png`;
+    return `./assets/images/${this.part.type}.png`;
   }
 
   getTitleLine(): string {
-    return this.part.partType.charAt(0).toUpperCase() + this.part.partType.slice(1);
+    return this.part.type.charAt(0).toUpperCase() + this.part.type.slice(1);
   }
 
   getInfoLine(): string {
-    if (this.part.partType === TYPE_METRONOME) {
+    if (this.part.type === TYPE_METRONOME) {
       return this.part.sliceLength + ' secs';
-    } else if (this.part.partType === TYPE_MANTRA) {
+    } else if (this.part.type === TYPE_MANTRA) {
       return this.part.fileTitle + ' ' + (this.part.timeBased ? '' : this.part.count + '');
-    } else if (this.part.partType === TYPE_SEPARATOR || this.part.partType === TYPE_GUIDED_SESSION) {
+    } else if (this.part.type === TYPE_SEPARATOR || this.part.type === TYPE_GUIDED_SESSION) {
       return this.part.fileTitle;
-    } else if (this.part.partType === TYPE_BINAURAL_BEATS) {
+    } else if (this.part.type === TYPE_BINAURAL_BEATS) {
       return this.part.value1 + ' Hz (' + this.part.value2 + '-' + this.part.value3 + ' Hz)';
-    } else if (this.part.partType === TYPE_ISOCHRONIC_TONES) {
+    } else if (this.part.type === TYPE_ISOCHRONIC_TONES) {
       return this.part.value1 + ' Hz / ' + this.part.value2 + ' Hz';
-    } else if (this.part.partType === TYPE_HEARTBEAT) {
+    } else if (this.part.type === TYPE_HEARTBEAT) {
       return this.part.value1 + ' BPM';
     }
     return this.part.timeBased ? '' : this.part.count + '';

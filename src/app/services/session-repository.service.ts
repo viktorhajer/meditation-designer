@@ -21,7 +21,7 @@ export class SessionRepository {
               private readonly sessionService: SessionService,
               private readonly storageService: StorageService) {
     this.selectWorkspace(this.selectedWorkspace);
-    this.sessionService.partFinished.subscribe(r => r ? this.next() : {});
+    this.sessionService.componentFinished.subscribe(r => r ? this.next() : {});
   }
 
   isSelected() {
@@ -38,8 +38,8 @@ export class SessionRepository {
     const session = this.storageService.getItem(STORAGE_KEY + this.selectedWorkspace);
     if (session) {
       this.session = JSON.parse(session) as Session;
-      this.session.components.forEach((part, index) => {
-        this.session.components[index] = Object.assign(new SessionComponent(), part);
+      this.session.components.forEach((component, index) => {
+        this.session.components[index] = Object.assign(new SessionComponent(), component);
       });
       this.session = Object.assign(new Session(), this.session);
       this.index = -1;
@@ -59,23 +59,23 @@ export class SessionRepository {
 
   select(index: number) {
     if (this.index === index) {
-      this.logger.info('Deselect part');
+      this.logger.info('Deselect component');
       this.index = -1;
       this.sessionService.setPart(null as any);
     } else {
-      this.logger.info('Select part: ' + this.session.components[index]?.partType);
+      this.logger.info('Select component: ' + this.session.components[index]?.type);
       this.index = index;
       this.sessionService.setPart(this.session.components[this.index]);
     }
   }
 
-  getSelectedPart(): SessionComponent {
+  getSelectedComponent(): SessionComponent {
     return this.session.components[this.index];
   }
 
   next() {
     this.index = this.index < (this.session.components.length - 1) ? (this.index + 1) : 0;
-    this.logger.info('Next part: ' + this.session.components[this.index]?.partType);
+    this.logger.info('Next component: ' + this.session.components[this.index]?.type);
     this.sessionService.setPart(this.session.components[this.index], true);
     if (this.index === 0) {
       this.logger.info('Queue finished');
@@ -94,19 +94,19 @@ export class SessionRepository {
   }
 
   move(index: number, direction = 0) {
-    const part1 = this.session.components[index];
+    const comp1 = this.session.components[index];
     if (this.sessionService.isRunning()) {
       this.sessionService.pause();
     }
-    let part2 = this.session.components[index + 1];
+    let comp2 = this.session.components[index + 1];
     if (direction === 1 && (index + 1) < this.session.components.length) {
-      this.session.components[index] = part2;
-      this.session.components[index + 1] = part1;
+      this.session.components[index] = comp2;
+      this.session.components[index + 1] = comp1;
       this.index = index + 1;
     } else if (direction === 0 && (index - 1) >= 0) {
-      part2 = this.session.components[index - 1];
-      this.session.components[index] = part2;
-      this.session.components[index - 1] = part1;
+      comp2 = this.session.components[index - 1];
+      this.session.components[index] = comp2;
+      this.session.components[index - 1] = comp1;
       this.index = index - 1;
     }
   }
@@ -114,7 +114,7 @@ export class SessionRepository {
   getTotalTime(): number {
     if (this.session?.components.length) {
       let sum = 0;
-      this.session.components.forEach(p => sum += SessionUtil.getSessionPartTime(p));
+      this.session.components.forEach(c => sum += SessionUtil.getSessionComponentTime(c));
       return sum;
     }
     return 0;
@@ -124,36 +124,36 @@ export class SessionRepository {
     const session = new Session();
     session.components = [];
 
-    const part1 = new SessionComponent();
-    part1.time = 120;
-    part1.partType = TYPE_SILENCE;
-    part1.timeBased = true;
-    session.components.push(part1);
+    const comp1 = new SessionComponent();
+    comp1.time = 120;
+    comp1.type = TYPE_SILENCE;
+    comp1.timeBased = true;
+    session.components.push(comp1);
 
     const sepa = new SessionComponent();
-    sepa.partType = TYPE_SEPARATOR;
+    sepa.type = TYPE_SEPARATOR;
     sepa.time = SEPARATORS[0].length;
     sepa.fileName = SEPARATORS[0].fileName;
     sepa.fileTitle = SEPARATORS[0].title;
     sepa.timeBased = true;
     session.components.push(sepa);
 
-    const part2 = new SessionComponent();
-    part2.time = 150;
-    part2.partType = TYPE_SILENCE;
-    part2.timeBased = true;
-    session.components.push(part2);
+    const comp2 = new SessionComponent();
+    comp2.time = 150;
+    comp2.type = TYPE_SILENCE;
+    comp2.timeBased = true;
+    session.components.push(comp2);
 
     session.components.push(sepa);
 
-    const part3 = new SessionComponent();
-    part3.time = 1200;
-    part3.partType = TYPE_SILENCE;
-    part3.timeBased = true;
-    session.components.push(part3);
+    const comp3 = new SessionComponent();
+    comp3.time = 1200;
+    comp3.type = TYPE_SILENCE;
+    comp3.timeBased = true;
+    session.components.push(comp3);
 
     const sepa2 = new SessionComponent();
-    sepa2.partType = TYPE_SEPARATOR;
+    sepa2.type = TYPE_SEPARATOR;
     sepa2.time = SEPARATORS[1].length;
     sepa2.fileName = SEPARATORS[1].fileName;
     sepa2.fileTitle = SEPARATORS[1].title;

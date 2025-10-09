@@ -11,6 +11,10 @@ export class DatePipe implements PipeTransform {
     }
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time - minutes * 60);
+    const hours = Math.floor(minutes / 60);
+    if (hours > 0) {
+      return this.formatTimePart(hours) + ':' + this.formatTimePart(minutes - hours * 60) + ':' + this.formatTimePart(seconds);
+    }
     return this.formatTimePart(minutes) + ':' + this.formatTimePart(seconds);
   }
 

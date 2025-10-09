@@ -57,7 +57,7 @@ export class AppComponent implements AfterViewInit {
 
   updatePart() {
     this.editActive = false;
-    this.sessionService.setPart(this.repository.getSelectedPart());
+    this.sessionService.setPart(this.repository.getSelectedComponent());
   }
 
   onKeyDown(event: KeyboardEvent) {

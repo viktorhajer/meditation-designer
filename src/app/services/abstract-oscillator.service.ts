@@ -13,8 +13,8 @@ export abstract class AbstractOscillatorService {
   protected constructor(protected readonly logger: LogService) {
   }
 
-  start(part: SessionComponent) {
-    this.init(part);
+  start(component: SessionComponent) {
+    this.init(component);
     this.reset();
     this.state = STATE_RUNNING;
     this.update();
@@ -36,7 +36,7 @@ export abstract class AbstractOscillatorService {
     }
   }
 
-  protected abstract init(part: SessionComponent): void;
+  protected abstract init(component: SessionComponent): void;
 
   protected abstract update(): void;
 

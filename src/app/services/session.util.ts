@@ -3,16 +3,16 @@ import {TYPE_MANTRA, TYPE_METRONOME} from '../models/session.constant';
 
 export class SessionUtil {
 
-  static getSessionPartTime(part: SessionComponent): number {
-    if (part.timeBased) {
-      return part.time;
+  static getSessionComponentTime(component: SessionComponent): number {
+    if (component.timeBased) {
+      return component.time;
     }
-    if (part.partType === TYPE_METRONOME || (part.partType === TYPE_MANTRA && part.value1 <= 1)) {
-      return part.count * (part.sliceLength + part.sliceSpace);
-    } else if (part.partType === TYPE_MANTRA && part.value1 > 1) {
-      const groupNumber = Math.floor(part.count / part.value1);
-      return part.count * (part.sliceLength + part.sliceSpace) + groupNumber * part.value2;
+    if (component.type === TYPE_METRONOME || (component.type === TYPE_MANTRA && component.value1 <= 1)) {
+      return component.count * (component.sliceLength + component.sliceSpace);
+    } else if (component.type === TYPE_MANTRA && component.value1 > 1) {
+      const groupNumber = Math.floor(component.count / component.value1);
+      return component.count * (component.sliceLength + component.sliceSpace) + groupNumber * component.value2;
     }
-    return part.count;
+    return component.count;
   }
 }
