@@ -31,7 +31,7 @@ import {
 } from '../models/session.constant';
 import {SessionRepository} from '../services/session-repository.service';
 import {LogService} from '../services/log.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {FileInfo} from '../models/file-info';
 import {SessionPartValidator} from '../utils/validators/session-part.validator';
 
@@ -46,7 +46,7 @@ export class EditComponent implements OnChanges {
   @Input() createNew = true;
   @Output() close = new EventEmitter();
 
-  partTypes = TYPES;
+  types = TYPES;
   separatorTypes = SEPARATORS;
   mantraTypes = MANTRAS;
   guidedSessions = GUIDED_SESSIONS;
@@ -55,7 +55,7 @@ export class EditComponent implements OnChanges {
   solfeggioScale = SOLFEGGIO_SCALE;
   brainwaveFrequency  = BRAINWAVE_FREQUENCY_BANDS;
 
-  part: SessionPart = new SessionPart();
+  part: SessionComponent = new SessionComponent();
   showBaseSelector = false;
   showDiff1Selector = false;
   showDiff2Selector = false;
@@ -67,14 +67,14 @@ export class EditComponent implements OnChanges {
   ngOnChanges() {
     if (this.active) {
       if (this.createNew) {
-        this.part = new SessionPart();
+        this.part = new SessionComponent();
         this.part.partType = TYPE_SEPARATOR;
         this.part.timeBased = true;
         this.part.time = SEPARATORS[0].length;
         this.part.fileName = SEPARATORS[0].fileName;
         this.part.fileTitle = SEPARATORS[0].title;
       } else {
-        this.part = Object.assign(new SessionPart(), this.repository.getSelectedPart());
+        this.part = Object.assign(new SessionComponent(), this.repository.getSelectedPart());
       }
     }
   }
@@ -96,6 +96,7 @@ export class EditComponent implements OnChanges {
       this.part.sliceLength = MANTRAS[0].length;
       this.part.sliceSpace = 2;
       this.part.value1 = 1;
+      this.part.value2 = 0;
       this.part.fileName = MANTRAS[0].fileName;
       this.part.fileTitle = MANTRAS[0].title;
     } else if (this.part.partType === TYPE_METRONOME) {
@@ -155,9 +156,9 @@ export class EditComponent implements OnChanges {
       // TODO error message
       return;
     } else if (this.createNew && this.repository.getSelectedPart() === null) {
-      this.repository.session.parts.push(this.part);
+      this.repository.session.components.push(this.part);
     } else if (this.createNew && this.repository.getSelectedPart() !== null) {
-      this.repository.session.parts.splice(this.repository.index + 1, 0, this.part);
+      this.repository.session.components.splice(this.repository.index + 1, 0, this.part);
     } else {
       const originalPart = this.repository.getSelectedPart();
       originalPart.timeBased = this.part.timeBased;

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LogService} from './log.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {FREQUENCY, STATE_RUNNING} from '../models/session.constant';
 import {AbstractOscillatorService} from './abstract-oscillator.service';
 
@@ -30,7 +30,7 @@ export class PolyphonicBinauralService extends AbstractOscillatorService {
     this.actualSessionIndex = -1;
   }
 
-  protected init(part: SessionPart) {
+  protected init(part: SessionComponent) {
     this.logger.info('[PBB] Start');
     this.sessions = part.valueStr.split(',');
   }

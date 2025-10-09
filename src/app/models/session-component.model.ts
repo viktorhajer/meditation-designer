@@ -1,4 +1,4 @@
-export class SessionPart {
+export class SessionComponent {
   partType = '';
   timeBased = true;
   time = 0;

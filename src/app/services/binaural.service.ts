@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {
   ADVANCED_BB_BINEURAL,
-  ADVANCED_BB_HORIZONTAL,
+  ADVANCED_BB_PANORAMA,
   ADVANCED_BB_MONAURAL,
-  ADVANCED_BB_VERTICAL,
-  ADVANCED_BB_VH,
+  ADVANCED_BB_SPECTRUM,
+  ADVANCED_BB_SP,
   DEFAULT_DIFF_FREQ_BETA,
   DEFAULT_LEFT_FREQ,
   FREQUENCY,
@@ -15,7 +15,7 @@ import {
   STATE_RUNNING
 } from '../models/session.constant';
 import {LogService} from './log.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {AbstractOscillatorService} from './abstract-oscillator.service';
 
 const VOLUME = 0.7;
@@ -46,7 +46,7 @@ export class BinauralService extends AbstractOscillatorService {
     this.actualMs = 0;
   }
 
-  protected init(part: SessionPart) {
+  protected init(part: SessionComponent) {
     this.logger.info('[BB] Start');
     this.base = Number(part.value1);
     this.differenceStart = Number(part.value2);
@@ -127,19 +127,19 @@ export class BinauralService extends AbstractOscillatorService {
   }
 
   private setVHModulation(freq: number) {
-    if (this.advanced === ADVANCED_BB_HORIZONTAL || this.advanced === ADVANCED_BB_VH) {
+    if (this.advanced === ADVANCED_BB_PANORAMA || this.advanced === ADVANCED_BB_SP) {
       const size = 0.6;
       const value = (size / 2) * Math.sin(Math.PI * 0.5 * this.advancedTime) + (size / 2) + 0.1;
       const roundedValue = Math.floor(value * 100) / 100;
       this.oscillators[0].gainNode.gain.value = roundedValue;
       this.oscillators[1].gainNode.gain.value = VOLUME - roundedValue;
     }
-    if (this.advanced === ADVANCED_BB_VERTICAL || this.advanced === ADVANCED_BB_VH) {
+    if (this.advanced === ADVANCED_BB_SPECTRUM || this.advanced === ADVANCED_BB_SP) {
       const size = 50;
       this.verticalValue = Math.floor((size / 2) * Math.sin(Math.PI * 1 * this.advancedTime) + (size / 2));
       this.setOscillators();
     }
-    if (this.advanced === ADVANCED_BB_HORIZONTAL || this.advanced === ADVANCED_BB_VERTICAL || this.advanced === ADVANCED_BB_VH) {
+    if (this.advanced === ADVANCED_BB_PANORAMA || this.advanced === ADVANCED_BB_SPECTRUM || this.advanced === ADVANCED_BB_SP) {
       this.advancedTime += 1 / (1000 / freq - 1);
     }
   }

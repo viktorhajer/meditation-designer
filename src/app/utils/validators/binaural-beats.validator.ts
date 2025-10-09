@@ -6,7 +6,7 @@ import {
   TYPE_BINAURAL_BEATS
 } from '../../models/session.constant';
 import {IsochronicTonesValidator} from './isochronic-tones.validator';
-import {SessionPart} from '../../models/session-part.model';
+import {SessionComponent} from '../../models/session-component.model';
 
 export class BinauralBeatsValidator extends AbstractSessionPartValidator {
 
@@ -16,7 +16,7 @@ export class BinauralBeatsValidator extends AbstractSessionPartValidator {
     this.nextValidator = new IsochronicTonesValidator();
   }
 
-  override normalizeFields(part: SessionPart) {
+  override normalizeFields(part: SessionComponent) {
     part.value1 = this.setValue(part.value1, MIN_BASE_FREQUENCY, MAX_BASE_FREQUENCY);  // base
     part.value2 = this.setValue(part.value2, MIN_BRAINWAVE_FREQUENCY, MAX_BRAINWAVE_FREQUENCY);     // diff1
     part.value3 = this.setValue(part.value3, MIN_BRAINWAVE_FREQUENCY, MAX_BRAINWAVE_FREQUENCY);     // diff2

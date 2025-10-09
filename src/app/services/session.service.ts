@@ -17,7 +17,7 @@ import {LogService} from './log.service';
 import {BehaviorSubject} from 'rxjs';
 import {BinauralService} from './binaural.service';
 import {PolyphonicBinauralService} from './polyphonic-binaural.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {IsochronicTonesService} from './isochronic-tones.service';
 import {SessionUtil} from './session.util';
 import {PeriodicalAudioService} from './periodical-audio.service';
@@ -33,7 +33,7 @@ export class SessionService {
   mantraPlayer: HTMLAudioElement = null as any;
   guidedSessionPlayer: HTMLAudioElement = null as any;
   heartBeatPlayer: HTMLAudioElement = null as any;
-  private part: SessionPart = null as any;
+  private part: SessionComponent = null as any;
   state = STATE_STOPPED;
 
   private totalMs = 0;
@@ -83,7 +83,7 @@ export class SessionService {
     });
   }
 
-  setPart(part: SessionPart, next = false) {
+  setPart(part: SessionComponent, next = false) {
     this.stop(part && next ? this.state : STATE_STOPPED);
     this.part = part;
     this.partLoaded = false;

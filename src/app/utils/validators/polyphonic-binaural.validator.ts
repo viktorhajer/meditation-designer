@@ -1,6 +1,6 @@
 import {AbstractSessionPartValidator} from './abstract-session-part.validator';
 import {TYPE_POLYPHONIC_BB} from '../../models/session.constant';
-import {SessionPart} from '../../models/session-part.model';
+import {SessionComponent} from '../../models/session-component.model';
 
 export class PolyphonicBinauralValidator extends AbstractSessionPartValidator {
 
@@ -9,7 +9,7 @@ export class PolyphonicBinauralValidator extends AbstractSessionPartValidator {
     this.type = TYPE_POLYPHONIC_BB;
   }
 
-  override normalizeFields(part: SessionPart) {
+  override normalizeFields(part: SessionComponent) {
     part.valueStr = part.valueStr.replace(/\s+/g, ''); // description
   }
 }

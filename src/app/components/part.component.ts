@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {SessionRepository} from '../services/session-repository.service';
 import {SessionService} from '../services/session.service';
 import {
@@ -18,7 +18,7 @@ import {SessionUtil} from '../services/session.util';
     standalone: false
 })
 export class PartComponent {
-  @Input() part: SessionPart = new SessionPart();
+  @Input() part: SessionComponent = new SessionComponent();
   @Input() selected = false;
   @Input() index = 0;
   @Input() state = STATE_STOPPED;

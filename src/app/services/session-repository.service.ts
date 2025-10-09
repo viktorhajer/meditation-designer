@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Session} from '../models/session.model';
-import {SEPARATORS, TYPE_MANTRA, TYPE_METRONOME, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session.constant';
+import {SEPARATORS, TYPE_SEPARATOR, TYPE_SILENCE} from '../models/session.constant';
 import {SessionService} from './session.service';
 import {LogService} from './log.service';
 import {StorageService} from './storage.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {SessionUtil} from './session.util';
 
 const STORAGE_KEY = 'session_';
@@ -38,8 +38,8 @@ export class SessionRepository {
     const session = this.storageService.getItem(STORAGE_KEY + this.selectedWorkspace);
     if (session) {
       this.session = JSON.parse(session) as Session;
-      this.session.parts.forEach((part, index) => {
-        this.session.parts[index] = Object.assign(new SessionPart(), part);
+      this.session.components.forEach((part, index) => {
+        this.session.components[index] = Object.assign(new SessionComponent(), part);
       });
       this.session = Object.assign(new Session(), this.session);
       this.index = -1;
@@ -63,20 +63,20 @@ export class SessionRepository {
       this.index = -1;
       this.sessionService.setPart(null as any);
     } else {
-      this.logger.info('Select part: ' + this.session.parts[index]?.partType);
+      this.logger.info('Select part: ' + this.session.components[index]?.partType);
       this.index = index;
-      this.sessionService.setPart(this.session.parts[this.index]);
+      this.sessionService.setPart(this.session.components[this.index]);
     }
   }
 
-  getSelectedPart(): SessionPart {
-    return this.session.parts[this.index];
+  getSelectedPart(): SessionComponent {
+    return this.session.components[this.index];
   }
 
   next() {
-    this.index = this.index < (this.session.parts.length - 1) ? (this.index + 1) : 0;
-    this.logger.info('Next part: ' + this.session.parts[this.index]?.partType);
-    this.sessionService.setPart(this.session.parts[this.index], true);
+    this.index = this.index < (this.session.components.length - 1) ? (this.index + 1) : 0;
+    this.logger.info('Next part: ' + this.session.components[this.index]?.partType);
+    this.sessionService.setPart(this.session.components[this.index], true);
     if (this.index === 0) {
       this.logger.info('Queue finished');
       this.sessionService.stop();
@@ -84,37 +84,37 @@ export class SessionRepository {
   }
 
   remove() {
-    if (this.index >= 0 && this.index < this.session.parts.length) {
+    if (this.index >= 0 && this.index < this.session.components.length) {
       if (!this.sessionService.isStopped()) {
         this.sessionService.stop();
       }
-      this.session.parts.splice(this.index, 1);
+      this.session.components.splice(this.index, 1);
       this.index = -1;
     }
   }
 
   move(index: number, direction = 0) {
-    const part1 = this.session.parts[index];
+    const part1 = this.session.components[index];
     if (this.sessionService.isRunning()) {
       this.sessionService.pause();
     }
-    let part2 = this.session.parts[index + 1];
-    if (direction === 1 && (index + 1) < this.session.parts.length) {
-      this.session.parts[index] = part2;
-      this.session.parts[index + 1] = part1;
+    let part2 = this.session.components[index + 1];
+    if (direction === 1 && (index + 1) < this.session.components.length) {
+      this.session.components[index] = part2;
+      this.session.components[index + 1] = part1;
       this.index = index + 1;
     } else if (direction === 0 && (index - 1) >= 0) {
-      part2 = this.session.parts[index - 1];
-      this.session.parts[index] = part2;
-      this.session.parts[index - 1] = part1;
+      part2 = this.session.components[index - 1];
+      this.session.components[index] = part2;
+      this.session.components[index - 1] = part1;
       this.index = index - 1;
     }
   }
 
   getTotalTime(): number {
-    if (this.session?.parts.length) {
+    if (this.session?.components.length) {
       let sum = 0;
-      this.session.parts.forEach(p => sum += SessionUtil.getSessionPartTime(p));
+      this.session.components.forEach(p => sum += SessionUtil.getSessionPartTime(p));
       return sum;
     }
     return 0;
@@ -122,43 +122,43 @@ export class SessionRepository {
 
   private buildDemo(): Session {
     const session = new Session();
-    session.parts = [];
+    session.components = [];
 
-    const part1 = new SessionPart();
+    const part1 = new SessionComponent();
     part1.time = 120;
     part1.partType = TYPE_SILENCE;
     part1.timeBased = true;
-    session.parts.push(part1);
+    session.components.push(part1);
 
-    const sepa = new SessionPart();
+    const sepa = new SessionComponent();
     sepa.partType = TYPE_SEPARATOR;
     sepa.time = SEPARATORS[0].length;
     sepa.fileName = SEPARATORS[0].fileName;
     sepa.fileTitle = SEPARATORS[0].title;
     sepa.timeBased = true;
-    session.parts.push(sepa);
+    session.components.push(sepa);
 
-    const part2 = new SessionPart();
+    const part2 = new SessionComponent();
     part2.time = 150;
     part2.partType = TYPE_SILENCE;
     part2.timeBased = true;
-    session.parts.push(part2);
+    session.components.push(part2);
 
-    session.parts.push(sepa);
+    session.components.push(sepa);
 
-    const part3 = new SessionPart();
+    const part3 = new SessionComponent();
     part3.time = 1200;
     part3.partType = TYPE_SILENCE;
     part3.timeBased = true;
-    session.parts.push(part3);
+    session.components.push(part3);
 
-    const sepa2 = new SessionPart();
+    const sepa2 = new SessionComponent();
     sepa2.partType = TYPE_SEPARATOR;
     sepa2.time = SEPARATORS[1].length;
     sepa2.fileName = SEPARATORS[1].fileName;
     sepa2.fileTitle = SEPARATORS[1].title;
     sepa2.timeBased = true;
-    session.parts.push(sepa2);
+    session.components.push(sepa2);
 
     return session;
   }

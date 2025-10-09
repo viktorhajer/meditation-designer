@@ -1,9 +1,9 @@
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {TYPE_MANTRA, TYPE_METRONOME} from '../models/session.constant';
 
 export class SessionUtil {
 
-  static getSessionPartTime(part: SessionPart): number {
+  static getSessionPartTime(part: SessionComponent): number {
     if (part.timeBased) {
       return part.time;
     }

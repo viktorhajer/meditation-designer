@@ -1,4 +1,4 @@
-import {SessionPart} from '../../models/session-part.model';
+import {SessionComponent} from '../../models/session-component.model';
 
 export class AbstractSessionPartValidator {
 
@@ -8,7 +8,7 @@ export class AbstractSessionPartValidator {
   constructor() {
   }
 
-  validate(part: SessionPart): boolean {
+  validate(part: SessionComponent): boolean {
     if (this.type === part.partType) {
       this.normalizeFields(part);
       return this.validateFields(part);
@@ -20,10 +20,10 @@ export class AbstractSessionPartValidator {
     }
   }
 
-  protected normalizeFields(part: SessionPart) {
+  protected normalizeFields(part: SessionComponent) {
   }
 
-  protected validateFields(part: SessionPart): boolean {
+  protected validateFields(part: SessionComponent): boolean {
     return true;
   }
 

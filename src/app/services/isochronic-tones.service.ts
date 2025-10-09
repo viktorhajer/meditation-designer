@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {DEFAULT_DIFF_FREQ_BETA, DEFAULT_LEFT_FREQ, STATE_RUNNING} from '../models/session.constant';
 import {LogService} from './log.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {AbstractOscillatorService} from './abstract-oscillator.service';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class IsochronicTonesService extends AbstractOscillatorService {
     this.resetBasic();
   }
 
-  protected init(part: SessionPart) {
+  protected init(part: SessionComponent) {
     this.logger.info('[ISO] Start');
     this.base = Number(part.value1);
     this.pulsation = Math.round(1000 / Number(part.value2)) / 2;

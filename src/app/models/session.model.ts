@@ -1,6 +1,6 @@
-import {SessionPart} from './session-part.model';
+import {SessionComponent} from './session-component.model';
 
 export class Session {
   id = 0;
-  parts: SessionPart[] = [];
+  components: SessionComponent[] = [];
 }

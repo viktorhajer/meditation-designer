@@ -1,5 +1,5 @@
 import {LogService} from './log.service';
-import {SessionPart} from '../models/session-part.model';
+import {SessionComponent} from '../models/session-component.model';
 import {FREQUENCY, STATE_PAUSED, STATE_RUNNING, STATE_STOPPED} from '../models/session.constant';
 
 
@@ -13,7 +13,7 @@ export abstract class AbstractOscillatorService {
   protected constructor(protected readonly logger: LogService) {
   }
 
-  start(part: SessionPart) {
+  start(part: SessionComponent) {
     this.init(part);
     this.reset();
     this.state = STATE_RUNNING;
@@ -36,7 +36,7 @@ export abstract class AbstractOscillatorService {
     }
   }
 
-  protected abstract init(part: SessionPart): void;
+  protected abstract init(part: SessionComponent): void;
 
   protected abstract update(): void;
 

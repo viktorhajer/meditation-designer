@@ -20,7 +20,7 @@
       <div class="button up" (click)="moveUp.emit()" *ngIf="index !== 0">
         <img src="./assets/images/arrow_order.png" alt="">
       </div>
-      <div class="button" (click)="moveDown.emit()" *ngIf="index < (repository.session.parts.length-1)">
+      <div class="button" (click)="moveDown.emit()" *ngIf="index < (repository.session.components.length-1)">
         <img src="./assets/images/arrow_order.png" alt="">
       </div>
     </div>

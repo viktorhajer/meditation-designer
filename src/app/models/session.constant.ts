@@ -54,13 +54,13 @@ export const INTERPOLATIONS = [
   INTERPOLATION_LINEAR, INTERPOLATION_EASE_IN, INTERPOLATION_EASE_OUT, INTERPOLATION_EASE_IN_OUT, INTERPOLATION_INTERMITTENT
 ];
 
-export const ADVANCED_BB_BINEURAL = 'Binaural Beat';
+export const ADVANCED_BB_BINEURAL = 'Normal';
 export const ADVANCED_BB_MONAURAL = 'Monaural Beat';
-export const ADVANCED_BB_HORIZONTAL = 'Horizontal Modulation';
-export const ADVANCED_BB_VERTICAL = 'Vertical Modulation';
-export const ADVANCED_BB_VH = 'Vertical+Horizontal Modulation';
+export const ADVANCED_BB_PANORAMA = 'Panorama Modulation';
+export const ADVANCED_BB_SPECTRUM = 'Spectrum Modulation';
+export const ADVANCED_BB_SP = 'Spectrum+Panorama Modulation';
 export const ADVANCED_BB_TYPES = [ADVANCED_BB_BINEURAL, ADVANCED_BB_MONAURAL,
-  ADVANCED_BB_HORIZONTAL, ADVANCED_BB_VERTICAL, ADVANCED_BB_VH];
+  ADVANCED_BB_PANORAMA, ADVANCED_BB_SPECTRUM, ADVANCED_BB_SP];
 
 export const MANTRAS: FileInfo[] = [
   {title: 'China Bell Ring', fileName: 'china-bell-ring.mp3', length: 4}
