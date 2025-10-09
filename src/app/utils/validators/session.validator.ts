@@ -1,7 +1,7 @@
-import {AbstractSessionPartValidator} from './abstract-session-part.validator';
+import {AbstractSessionValidator} from './abstract-session.validator';
 import {BinauralBeatsValidator} from './binaural-beats.validator';
 
-export class SessionPartValidator extends AbstractSessionPartValidator {
+export class SessionValidator extends AbstractSessionValidator {
 
   constructor() {
     super();

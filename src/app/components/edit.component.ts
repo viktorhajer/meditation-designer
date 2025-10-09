@@ -33,7 +33,7 @@ import {SessionRepository} from '../services/session-repository.service';
 import {LogService} from '../services/log.service';
 import {SessionComponent} from '../models/session-component.model';
 import {FileInfo} from '../models/file-info';
-import {SessionPartValidator} from '../utils/validators/session-part.validator';
+import {SessionValidator} from '../utils/validators/session.validator';
 
 @Component({
   selector: 'app-edit',
@@ -150,9 +150,9 @@ export class EditComponent implements OnChanges {
   }
 
   save() {
-    new SessionPartValidator().validate(this.part);
+    const valid = new SessionValidator().validate(this.part);
     this.postProcess();
-    if (this.isInvalid()) {
+    if (!valid) {
       // TODO error message
       return;
     } else if (this.createNew && this.repository.getSelectedPart() === null) {
@@ -198,11 +198,6 @@ export class EditComponent implements OnChanges {
       this.part.time = fileInfo.length;
       this.part.fileName = fileInfo.fileName;
     }
-  }
-
-  private isInvalid(): boolean {
-    // TODO validation
-    return false;
   }
 
   private postProcess() {
