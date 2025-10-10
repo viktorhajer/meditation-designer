@@ -33,7 +33,7 @@ export class SessionService {
   mantraPlayer: HTMLAudioElement = null as any;
   guidedSessionPlayer: HTMLAudioElement = null as any;
   heartBeatPlayer: HTMLAudioElement = null as any;
-  private part: SessionComponent = null as any;
+  private component: SessionComponent = null as any;
   state = STATE_STOPPED;
 
   private totalMs = 0;
@@ -59,13 +59,13 @@ export class SessionService {
     this.heartBeatPlayer = heartBeatPlayer;
     this.separatorPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Separator sound loaded');
-      if (this.part?.type === TYPE_SEPARATOR) {
+      if (this.component?.type === TYPE_SEPARATOR) {
         this.componentLoaded = true;
       }
     });
     this.guidedSessionPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Guided session sound loaded');
-      if (this.part?.type === TYPE_GUIDED_SESSION) {
+      if (this.component?.type === TYPE_GUIDED_SESSION) {
         this.componentLoaded = true;
       }
     });
@@ -74,7 +74,7 @@ export class SessionService {
     });
     this.mantraPlayer.addEventListener('loadedmetadata', () => {
       this.logger.info('Mantra sound loaded');
-      if (this.part?.type === TYPE_MANTRA) {
+      if (this.component?.type === TYPE_MANTRA) {
         this.componentLoaded = true;
       }
     });
@@ -83,44 +83,44 @@ export class SessionService {
     });
   }
 
-  setPart(component: SessionComponent, next = false) {
+  setComponent(component: SessionComponent, next = false) {
     this.stop(component && next ? this.state : STATE_STOPPED);
-    this.part = component;
+    this.component = component;
     this.componentLoaded = false;
-    this.logger.info(this.part ? 'Set component: ' + this.part.type : 'Remove component');
+    this.logger.info(this.component ? 'Set component: ' + this.component.type : 'Remove component');
 
-    if (this.part?.type === TYPE_SEPARATOR) {
-      this.logger.info('Load separator: ' + this.part.fileName);
-      this.separatorPlayer.src = SOUND_DIRECTORY + this.part.fileName;
-    } else if (this.part?.type === TYPE_MANTRA) {
-      this.logger.info('Load mantra: ' + this.part.fileName);
-      this.mantraPlayer.src = SOUND_DIRECTORY + this.part.fileName;
-    } else if (this.part?.type === TYPE_GUIDED_SESSION) {
-      this.logger.info('Load guided session: ' + this.part.fileName);
-      this.guidedSessionPlayer.src = SOUND_DIRECTORY + this.part.fileName;
+    if (this.component?.type === TYPE_SEPARATOR) {
+      this.logger.info('Load separator: ' + this.component.fileName);
+      this.separatorPlayer.src = SOUND_DIRECTORY + this.component.fileName;
+    } else if (this.component?.type === TYPE_MANTRA) {
+      this.logger.info('Load mantra: ' + this.component.fileName);
+      this.mantraPlayer.src = SOUND_DIRECTORY + this.component.fileName;
+    } else if (this.component?.type === TYPE_GUIDED_SESSION) {
+      this.logger.info('Load guided session: ' + this.component.fileName);
+      this.guidedSessionPlayer.src = SOUND_DIRECTORY + this.component.fileName;
     } else {
       this.componentLoaded = true;
     }
 
     this.reset();
-    if (this.part && this.state === STATE_RUNNING && next) {
+    if (this.component && this.state === STATE_RUNNING && next) {
       this.play();
     }
   }
 
   play() {
     if (this.componentLoaded) {
-      this.logger.info((this.state === STATE_PAUSED ? 'Resume: ' : 'Play: ') + this.part?.type);
+      this.logger.info((this.state === STATE_PAUSED ? 'Resume: ' : 'Play: ') + this.component?.type);
       if (this.state === STATE_PAUSED ||
-        (this.part.type !== TYPE_METRONOME && this.part.type !== TYPE_MANTRA && this.part.type !== TYPE_HEARTBEAT)) {
+        (this.component.type !== TYPE_METRONOME && this.component.type !== TYPE_MANTRA && this.component.type !== TYPE_HEARTBEAT)) {
         this.playSound();
       }
-      if (this.part.type === TYPE_BINAURAL_BEATS) {
-        this.state === STATE_PAUSED ? this.binaural.resume() : this.binaural.start(this.part);
-      } else if (this.part.type === TYPE_POLYPHONIC_BB) {
-        this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.part);
-      } else if (this.part.type === TYPE_ISOCHRONIC_TONES) {
-        this.state === STATE_PAUSED ? this.isochronicTones.resume() : this.isochronicTones.start(this.part);
+      if (this.component.type === TYPE_BINAURAL_BEATS) {
+        this.state === STATE_PAUSED ? this.binaural.resume() : this.binaural.start(this.component);
+      } else if (this.component.type === TYPE_POLYPHONIC_BB) {
+        this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.component);
+      } else if (this.component.type === TYPE_ISOCHRONIC_TONES) {
+        this.state === STATE_PAUSED ? this.isochronicTones.resume() : this.isochronicTones.start(this.component);
       }
       this.state = STATE_RUNNING;
       this.clock();
@@ -132,13 +132,13 @@ export class SessionService {
 
   pause() {
     this.state = STATE_PAUSED;
-    this.logger.info('Pause: ' + this.part?.type);
+    this.logger.info('Pause: ' + this.component?.type);
     this.getPlayer()?.pause();
-    if (this.part.type === TYPE_BINAURAL_BEATS) {
+    if (this.component.type === TYPE_BINAURAL_BEATS) {
       this.binaural.pause();
-    } else if (this.part.type === TYPE_POLYPHONIC_BB) {
+    } else if (this.component.type === TYPE_POLYPHONIC_BB) {
       this.polyphonicBinaural.pause();
-    } else if (this.part.type === TYPE_ISOCHRONIC_TONES) {
+    } else if (this.component.type === TYPE_ISOCHRONIC_TONES) {
       this.isochronicTones.pause();
     }
   }
@@ -147,7 +147,7 @@ export class SessionService {
     this.state = state;
     const player = this.getPlayer();
     if (player) {
-      this.logger.info('Stop: ' + this.part?.type);
+      this.logger.info('Stop: ' + this.component?.type);
       player.pause();
       player.currentTime = 0;
     }
@@ -155,7 +155,7 @@ export class SessionService {
   }
 
   getTime(): number {
-    return this.part && this.state !== STATE_STOPPED ? Math.floor((this.totalMs - this.actualMs) / 1000) : -1;
+    return this.component && this.state !== STATE_STOPPED ? Math.floor((this.totalMs - this.actualMs) / 1000) : -1;
   }
 
   isRunning(): boolean {
@@ -168,7 +168,7 @@ export class SessionService {
 
   private clock() {
     if (this.state === STATE_RUNNING) {
-      if (this.periodicalAudioService.process(this.part)) {
+      if (this.periodicalAudioService.process(this.component)) {
         this.playSound(true);
       }
       this.actualMs += FREQUENCY;
@@ -188,14 +188,14 @@ export class SessionService {
         player.currentTime = 0;
       }
       player.play()
-        .then(() => this.logger.info('Playing: ' + this.part?.type))
-        .catch(error => this.logger.error('Failed to play: ' + this.part?.type + '-' + error));
+        .then(() => this.logger.info('Playing: ' + this.component?.type))
+        .catch(error => this.logger.error('Failed to play: ' + this.component?.type + '-' + error));
     }
   }
 
   private getPlayer(): HTMLAudioElement | null {
-    if (this.part) {
-      switch (this.part.type) {
+    if (this.component) {
+      switch (this.component.type) {
         case TYPE_SEPARATOR:
           return this.separatorPlayer;
         case TYPE_METRONOME:
@@ -212,13 +212,13 @@ export class SessionService {
   }
 
   private reset() {
-    this.periodicalAudioService.reset(this.part);
+    this.periodicalAudioService.reset(this.component);
     this.binaural.reset();
     this.polyphonicBinaural.reset();
     this.isochronicTones.reset();
     clearTimeout(this.timeout);
     this.timeout = null;
-    this.totalMs = this.part ? SessionUtil.getSessionComponentTime(this.part) * 1000 : 0;
+    this.totalMs = this.component ? SessionUtil.getSessionComponentTime(this.component) * 1000 : 0;
     this.actualMs = 0;
   }
 }

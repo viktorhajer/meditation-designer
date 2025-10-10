@@ -42,12 +42,12 @@ export class AppComponent implements AfterViewInit {
     this.sessionService.play();
   }
 
-  newPart() {
+  newComponent() {
     this.createNew = true;
     this.editActive = true;
   }
 
-  editPart() {
+  editComponent() {
     if (this.repository.isSelected()) {
       this.sessionService.stop();
       this.createNew = false;
@@ -55,14 +55,14 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  updatePart() {
+  updateComponent() {
     this.editActive = false;
-    this.sessionService.setPart(this.repository.getSelectedComponent());
+    this.sessionService.setComponent(this.repository.getSelectedComponent());
   }
 
   onKeyDown(event: KeyboardEvent) {
     if (event.key === '+') {
-      this.newPart();
+      this.newComponent();
     } else if (event.key === 'Delete') {
       this.repository.remove();
     }

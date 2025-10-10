@@ -18,7 +18,7 @@ import {LogService} from './log.service';
 import {SessionComponent} from '../models/session-component.model';
 import {AbstractOscillatorService} from './abstract-oscillator.service';
 
-const VOLUME = 0.7;
+const VOLUME = 0.1;
 
 @Injectable({
   providedIn: 'root'
@@ -128,11 +128,13 @@ export class BinauralService extends AbstractOscillatorService {
 
   private setVHModulation(freq: number) {
     if (this.advanced === ADVANCED_BB_PANORAMA || this.advanced === ADVANCED_BB_SP) {
-      const size = 0.6;
-      const value = (size / 2) * Math.sin(Math.PI * 0.5 * this.advancedTime) + (size / 2) + 0.1;
+      const size = VOLUME;
+      const minValue = 0;
+      const value = (size / 2) * Math.sin(Math.PI * 0.5 * this.advancedTime) + (size / 2) + minValue;
       const roundedValue = Math.floor(value * 100) / 100;
+      console.log(roundedValue);
       this.oscillators[0].gainNode.gain.value = roundedValue;
-      this.oscillators[1].gainNode.gain.value = VOLUME - roundedValue;
+      this.oscillators[1].gainNode.gain.value = size - roundedValue;
     }
     if (this.advanced === ADVANCED_BB_SPECTRUM || this.advanced === ADVANCED_BB_SP) {
       const size = 50;
@@ -145,9 +147,9 @@ export class BinauralService extends AbstractOscillatorService {
   }
 
   private getVolume(): number {
-    if (this.advanced === ADVANCED_BB_MONAURAL) {
-      return VOLUME / 2;
-    }
+    // if (this.advanced === ADVANCED_BB_MONAURAL) {
+    //   return VOLUME / 2;
+    // }
     return VOLUME;
   }
 }

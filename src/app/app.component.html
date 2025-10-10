@@ -34,7 +34,7 @@
   </div>
 
   <div class="edit-container">
-    <app-edit [active]="editActive" (close)="updatePart()" [createNew]="createNew"></app-edit>
+    <app-edit [active]="editActive" (close)="updateComponent()" [createNew]="createNew"></app-edit>
   </div>
 
   <div class="tools" [class.hidden]="editActive">
@@ -42,11 +42,11 @@
       <img src="./assets/images/remove.png" alt="">
     </div>
 
-    <div class="action edit" (click)="editPart()" [class.disabled]="!repository.isSelected()">
+    <div class="action edit" (click)="editComponent()" [class.disabled]="!repository.isSelected()">
       <img src="./assets/images/edit.png" alt="">
     </div>
 
-    <div class="action add" (click)="newPart()">
+    <div class="action add" (click)="newComponent()">
       <img src="./assets/images/add.png" alt="">
     </div>
 

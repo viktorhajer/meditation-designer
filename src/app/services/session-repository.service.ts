@@ -43,12 +43,12 @@ export class SessionRepository {
       });
       this.session = Object.assign(new Session(), this.session);
       this.index = -1;
-      this.sessionService.setPart(null as any);
+      this.sessionService.setComponent(null as any);
       this.logger.info('Workspace ' + this.selectedWorkspace + ' loaded');
     } else {
       this.session = this.buildDemo();
       this.index = -1;
-      this.sessionService.setPart(null as any);
+      this.sessionService.setComponent(null as any);
       this.logger.info('Workspace ' + this.selectedWorkspace + ' initialized with demo session');
     }
   }
@@ -61,11 +61,11 @@ export class SessionRepository {
     if (this.index === index) {
       this.logger.info('Deselect component');
       this.index = -1;
-      this.sessionService.setPart(null as any);
+      this.sessionService.setComponent(null as any);
     } else {
       this.logger.info('Select component: ' + this.session.components[index]?.type);
       this.index = index;
-      this.sessionService.setPart(this.session.components[this.index]);
+      this.sessionService.setComponent(this.session.components[this.index]);
     }
   }
 
@@ -76,7 +76,7 @@ export class SessionRepository {
   next() {
     this.index = this.index < (this.session.components.length - 1) ? (this.index + 1) : 0;
     this.logger.info('Next component: ' + this.session.components[this.index]?.type);
-    this.sessionService.setPart(this.session.components[this.index], true);
+    this.sessionService.setComponent(this.session.components[this.index], true);
     if (this.index === 0) {
       this.logger.info('Queue finished');
       this.sessionService.stop();

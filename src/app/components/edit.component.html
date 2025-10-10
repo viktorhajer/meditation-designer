@@ -5,74 +5,74 @@
     <div class="form">
       <div class="form-item" *ngIf="createNew">
         <label>Type</label>
-        <select [(ngModel)]="part.type" (change)="typeChanged()">
+        <select [(ngModel)]="component.type" (change)="typeChanged()">
           <option [value]="t" *ngFor="let t of types">{{ capitalizeFirstLetter(t) }}</option>
         </select>
       </div>
 
       <div class="form-item" *ngIf="isType('separator')">
         <label>Sound</label>
-        <select [(ngModel)]="part.fileTitle" (change)="separatorTypeChanged()">
+        <select [(ngModel)]="component.fileTitle" (change)="separatorTypeChanged()">
           <option [value]="t.title" *ngFor="let t of separatorTypes">{{ t.title }}</option>
         </select>
       </div>
 
       <div class="form-item" *ngIf="isType('guided session')">
         <label>Type</label>
-        <select [(ngModel)]="part.fileTitle" (change)="guidedSessionTypeChanged()">
+        <select [(ngModel)]="component.fileTitle" (change)="guidedSessionTypeChanged()">
           <option [value]="t.title" *ngFor="let t of guidedSessions">{{ t.title }}</option>
         </select>
       </div>
 
       <div class="form-item row" *ngIf="isType('mantra') && isType('metronome')">
         <label>Time based?</label>
-        <input type="checkbox" [(ngModel)]="part.timeBased">
+        <input type="checkbox" [(ngModel)]="component.timeBased">
       </div>
 
-      <div class="form-item" *ngIf="part.timeBased && !isType() && !isType('guided session') && !isType('polyphonic binaural beats')">
+      <div class="form-item" *ngIf="component.timeBased && !isType() && !isType('guided session') && !isType('polyphonic binaural beats')">
         <label>Period of time (sec)</label>
         <div class="input-with-icon">
-          <input type="number" [(ngModel)]="part.time">
-          <div>{{ part.time | timeformat }}</div>
+          <input type="number" [(ngModel)]="component.time">
+          <div>{{ component.time | timeformat }}</div>
         </div>
       </div>
 
-      <div class="form-item" *ngIf="!part.timeBased">
+      <div class="form-item" *ngIf="!component.timeBased">
         <label>Count</label>
-        <input type="number" [(ngModel)]="part.count">
+        <input type="number" [(ngModel)]="component.count">
       </div>
 
       <div class="form-item" *ngIf="isType('mantra')">
         <label>Mantra sound</label>
-        <select [(ngModel)]="part.fileTitle" (change)="mantraTypeChanged()">
+        <select [(ngModel)]="component.fileTitle" (change)="mantraTypeChanged()">
           <option [value]="t.title" *ngFor="let t of mantraTypes">{{ t.title }}</option>
         </select>
       </div>
 
       <div class="form-item" *ngIf="isType('metronome') || isType('mantra')">
         <label>Length (sec)</label>
-        <input type="number" [(ngModel)]="part.sliceLength">
+        <input type="number" [(ngModel)]="component.sliceLength">
       </div>
 
       <div class="form-item" *ngIf="isType('heart beat')">
         <label>Heart beat rate (BPM, [30, 150])</label>
-        <input type="number" [(ngModel)]="part.value1">
+        <input type="number" [(ngModel)]="component.value1">
       </div>
 
       @if (isType('mantra')) {
         <div class="form-item">
           <label>Space (sec)</label>
-          <input type="number" [(ngModel)]="part.sliceSpace">
+          <input type="number" [(ngModel)]="component.sliceSpace">
         </div>
 
         <div class="form-item">
           <label>Group size</label>
-          <input type="number" [(ngModel)]="part.value1">
+          <input type="number" [(ngModel)]="component.value1">
         </div>
-        @if (part.value1 > 1) {
+        @if (component.value1 > 1) {
           <div class="form-item">
             <label>Group space (sec)</label>
-            <input type="number" [(ngModel)]="part.value2">
+            <input type="number" [(ngModel)]="component.value2">
           </div>
         }
       }
@@ -80,7 +80,7 @@
       @if (isType('polyphonic binaural beats')) {
         <div class="form-item">
           <label>Specification</label>
-          <textarea type="text" [(ngModel)]="part.valueStr"></textarea>
+          <textarea type="text" [(ngModel)]="component.valueStr"></textarea>
         </div>
         <div class="form-item">
           <p>Format: </p>
@@ -99,8 +99,8 @@
         <div class="form-item">
           <label>Base frequency (Hz, [50, 1000])</label>
           <div class="input-with-icon">
-            <input type="number" [(ngModel)]="part.value1" *ngIf="!showBaseSelector">
-            <select [(ngModel)]="part.value1" *ngIf="showBaseSelector">
+            <input type="number" [(ngModel)]="component.value1" *ngIf="!showBaseSelector">
+            <select [(ngModel)]="component.value1" *ngIf="showBaseSelector">
               <option [value]="s.value" *ngFor="let s of solfeggioScale">{{ s.name }}</option>
             </select>
             <img src="./assets/images/load.png" alt="" (click)="showBaseSelector = !showBaseSelector">
@@ -112,8 +112,8 @@
         <div class="form-item">
           <label>Start frequency (Hz, [1, 30])</label>
           <div class="input-with-icon">
-            <input type="number" [(ngModel)]="part.value2" *ngIf="!showDiff1Selector">
-            <select [(ngModel)]="part.value2" *ngIf="showDiff1Selector">
+            <input type="number" [(ngModel)]="component.value2" *ngIf="!showDiff1Selector">
+            <select [(ngModel)]="component.value2" *ngIf="showDiff1Selector">
               <option [value]="s.value" *ngFor="let s of brainwaveFrequency">{{ s.name }}</option>
             </select>
             <img src="./assets/images/load.png" alt="" (click)="showDiff1Selector = !showDiff1Selector">
@@ -122,8 +122,8 @@
         <div class="form-item">
           <label>End frequency (Hz, [1, 30])</label>
           <div class="input-with-icon">
-            <input type="number" [(ngModel)]="part.value3" *ngIf="!showDiff2Selector">
-            <select [(ngModel)]="part.value3" *ngIf="showDiff2Selector">
+            <input type="number" [(ngModel)]="component.value3" *ngIf="!showDiff2Selector">
+            <select [(ngModel)]="component.value3" *ngIf="showDiff2Selector">
               <option [value]="s.value" *ngFor="let s of brainwaveFrequency">{{ s.name }}</option>
             </select>
             <img src="./assets/images/load.png" alt="" (click)="showDiff2Selector = !showDiff2Selector">
@@ -131,13 +131,13 @@
         </div>
         <div class="form-item">
           <label>Interpolation mode</label>
-          <select [(ngModel)]="part.valueStr">
+          <select [(ngModel)]="component.valueStr">
             <option [value]="mode" *ngFor="let mode of interpolations">{{ mode }}</option>
           </select>
         </div>
         <div class="form-item">
           <label>Advanced mode</label>
-          <select [(ngModel)]="part.valueStr2">
+          <select [(ngModel)]="component.valueStr2">
             <option [value]="mode" *ngFor="let mode of advancedBBTypes">{{ mode }}</option>
           </select>
         </div>
@@ -146,7 +146,7 @@
       @if (isType('isochronic tones')) {
         <div class="form-item">
           <label>Pulsation (Hz, [1, 10])</label>
-          <input type="number" [(ngModel)]="part.value2">
+          <input type="number" [(ngModel)]="component.value2">
         </div>
       }
     </div>
