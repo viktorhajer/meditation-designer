@@ -59,6 +59,13 @@
            (click)="repository.selectWorkspace(i)">{{ i + 1 }}
       </div>
     }
+
+    // TDOO
+    <div class="action repeat" [class.selected]="repository.repeat"
+         (click)="toggleRepeat()">
+      <img src="./assets/images/repeat.png" alt="">
+    </div>
+
   </div>
 </div>
 

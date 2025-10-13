@@ -67,4 +67,8 @@ export class AppComponent implements AfterViewInit {
       this.repository.remove();
     }
   }
+
+  toggleRepeat() {
+    this.repository.repeat = !this.repository.repeat
+  }
 }

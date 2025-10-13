@@ -171,6 +171,25 @@
       width: 25px;
       margin-left: 1px;
     }
+
+    &.repeat {
+      top: 472px;
+      width: 40px;
+      height: 36px;
+      background: #ddd;
+
+      img {
+        opacity: 0.4;
+      }
+
+      &.selected {
+        background: #ffffff;
+
+        img {
+          opacity: 1;
+        }
+      }
+    }
   }
 }
 

@@ -16,6 +16,7 @@ export class SessionRepository {
   index = -1;
   session: Session = new Session();
   selectedWorkspace = 0;
+  repeat = false;
 
   constructor(private readonly logger: LogService,
               private readonly sessionService: SessionService,
@@ -79,7 +80,9 @@ export class SessionRepository {
     this.sessionService.setComponent(this.session.components[this.index], true);
     if (this.index === 0) {
       this.logger.info('Queue finished');
-      this.sessionService.stop();
+      if (!this.repeat) {
+        this.sessionService.stop();
+      }
     }
   }
 

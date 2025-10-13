@@ -19,6 +19,7 @@ export class MediaPreloadService {
       './assets/images/pause.png',
       './assets/images/play.png',
       './assets/images/remove.png',
+      './assets/images/repeat.png',
       './assets/images/save.png',
       './assets/images/separator.png',
       './assets/images/silence.png',
