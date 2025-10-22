@@ -21,6 +21,7 @@ import {SessionComponent} from '../models/session-component.model';
 import {IsochronicTonesService} from './isochronic-tones.service';
 import {SessionUtil} from './session.util';
 import {PeriodicalAudioService} from './periodical-audio.service';
+import {MetronomeService} from './metronome.service';
 
 const SOUND_DIRECTORY = './assets/sounds/';
 
@@ -47,7 +48,8 @@ export class SessionService {
               private readonly periodicalAudioService: PeriodicalAudioService,
               private readonly binaural: BinauralService,
               private readonly polyphonicBinaural: PolyphonicBinauralService,
-              private readonly isochronicTones: IsochronicTonesService) {
+              private readonly isochronicTones: IsochronicTonesService,
+              private readonly metronomeService: MetronomeService) {
   }
 
   init(separatorPlayer: HTMLAudioElement, metronomePlayer: HTMLAudioElement,
@@ -121,6 +123,8 @@ export class SessionService {
         this.state === STATE_PAUSED ? this.polyphonicBinaural.resume() : this.polyphonicBinaural.start(this.component);
       } else if (this.component.type === TYPE_ISOCHRONIC_TONES) {
         this.state === STATE_PAUSED ? this.isochronicTones.resume() : this.isochronicTones.start(this.component);
+      } else if (this.component.type === TYPE_METRONOME) {
+        this.state === STATE_PAUSED ? this.metronomeService.resume() : this.metronomeService.start(this.component, this.metronomePlayer);
       }
       this.state = STATE_RUNNING;
       this.clock();
@@ -140,6 +144,8 @@ export class SessionService {
       this.polyphonicBinaural.pause();
     } else if (this.component.type === TYPE_ISOCHRONIC_TONES) {
       this.isochronicTones.pause();
+    } else if (this.component.type === TYPE_METRONOME) {
+      this.metronomeService.pause();
     }
   }
 
@@ -198,8 +204,6 @@ export class SessionService {
       switch (this.component.type) {
         case TYPE_SEPARATOR:
           return this.separatorPlayer;
-        case TYPE_METRONOME:
-          return this.metronomePlayer;
         case TYPE_MANTRA:
           return this.mantraPlayer;
         case TYPE_GUIDED_SESSION:
@@ -216,6 +220,7 @@ export class SessionService {
     this.binaural.reset();
     this.polyphonicBinaural.reset();
     this.isochronicTones.reset();
+    this.metronomeService.reset();
     clearTimeout(this.timeout);
     this.timeout = null;
     this.totalMs = this.component ? SessionUtil.getSessionComponentTime(this.component) * 1000 : 0;

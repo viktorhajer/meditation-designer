@@ -10,6 +10,6 @@ export class SessionComponent {
   value1 = 0; // mantra: mantraGroup, oscillator: base
   value2 = 0; // mantra: mantraGroupSpace, oscillator: diff1, pulse
   value3 = 0; // oscillator: diff2
-  valueStr = ''; // oscillator: description, interpolation mode
+  valueStr = ''; // oscillator: description, interpolation mode, metronome: bpms
   valueStr2 = ''; // oscillator: advanced
 }

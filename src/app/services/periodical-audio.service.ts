@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {FREQUENCY, TYPE_HEARTBEAT, TYPE_MANTRA, TYPE_METRONOME} from '../models/session.constant';
+import {FREQUENCY, TYPE_HEARTBEAT, TYPE_MANTRA} from '../models/session.constant';
 import {SessionComponent} from '../models/session-component.model';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class PeriodicalAudioService {
   process(component: SessionComponent) {
     let playSound = false;
     if (!this.lock &&
-      (component.type === TYPE_HEARTBEAT || component.type === TYPE_METRONOME || component.type === TYPE_MANTRA)) {
+      (component.type === TYPE_HEARTBEAT || component.type === TYPE_MANTRA)) {
       if (this.sliceActualMs === 0) {
         if (!component.timeBased && component.count === this.sliceCount) {
           return;

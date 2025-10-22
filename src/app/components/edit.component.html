@@ -24,11 +24,6 @@
         </select>
       </div>
 
-      <div class="form-item row" *ngIf="isType('mantra') && isType('metronome')">
-        <label>Time based?</label>
-        <input type="checkbox" [(ngModel)]="component.timeBased">
-      </div>
-
       <div class="form-item" *ngIf="component.timeBased && !isType() && !isType('guided session') && !isType('polyphonic binaural beats')">
         <label>Period of time (sec)</label>
         <div class="input-with-icon">
@@ -42,24 +37,29 @@
         <input type="number" [(ngModel)]="component.count">
       </div>
 
-      <div class="form-item" *ngIf="isType('mantra')">
-        <label>Mantra sound</label>
-        <select [(ngModel)]="component.fileTitle" (change)="mantraTypeChanged()">
-          <option [value]="t.title" *ngFor="let t of mantraTypes">{{ t.title }}</option>
-        </select>
-      </div>
-
-      <div class="form-item" *ngIf="isType('metronome') || isType('mantra')">
-        <label>Length (sec)</label>
-        <input type="number" [(ngModel)]="component.sliceLength">
-      </div>
-
       <div class="form-item" *ngIf="isType('heart beat')">
         <label>Heart beat rate (BPM, [30, 150])</label>
         <input type="number" [(ngModel)]="component.value1">
       </div>
 
       @if (isType('mantra')) {
+        <div class="form-item row">
+          <label>Time based?</label>
+          <input type="checkbox" [(ngModel)]="component.timeBased">
+        </div>
+
+        <div class="form-item">
+          <label>Mantra sound</label>
+          <select [(ngModel)]="component.fileTitle" (change)="mantraTypeChanged()">
+            <option [value]="t.title" *ngFor="let t of mantraTypes">{{ t.title }}</option>
+          </select>
+        </div>
+
+        <div class="form-item">
+          <label>Length (sec)</label>
+          <input type="number" [(ngModel)]="component.sliceLength">
+        </div>
+
         <div class="form-item">
           <label>Space (sec)</label>
           <input type="number" [(ngModel)]="component.sliceSpace">
@@ -75,6 +75,20 @@
             <input type="number" [(ngModel)]="component.value2">
           </div>
         }
+      }
+
+      @if (isType('metronome')) {
+        <div class="form-item">
+          <label>BPMs</label>
+          <textarea type="text" [(ngModel)]="component.valueStr"></textarea>
+        </div>
+        <div class="form-item">
+          <p>Format: </p>
+          <p class="code-block">B1xC1,B2xC2,...</p>
+          <p>Where:</p>
+          <p class="code-block">B1, B2 ... BPM value</p>
+          <p class="code-block">C1, C2 ... count of beats at given
+        </div>
       }
 
       @if (isType('polyphonic binaural beats')) {

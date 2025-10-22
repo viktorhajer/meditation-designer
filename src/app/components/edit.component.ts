@@ -102,7 +102,7 @@ export class EditComponent implements OnChanges {
     } else if (this.isType(TYPE_METRONOME)) {
       this.component.timeBased = true;
       this.component.time = DEFAULT_METRONOME;
-      this.component.sliceLength = 1;
+      this.component.valueStr = '40x1';
     } else if (this.isType(TYPE_GUIDED_SESSION)) {
       this.component.timeBased = true;
       this.component.time = GUIDED_SESSIONS[0].length;

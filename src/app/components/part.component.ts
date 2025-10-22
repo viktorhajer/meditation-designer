@@ -55,9 +55,7 @@ export class PartComponent {
   }
 
   getInfoLine(): string {
-    if (this.part.type === TYPE_METRONOME) {
-      return this.part.sliceLength + ' secs';
-    } else if (this.part.type === TYPE_MANTRA) {
+    if (this.part.type === TYPE_MANTRA) {
       return this.part.fileTitle + ' ' + (this.part.timeBased ? '' : this.part.count + '');
     } else if (this.part.type === TYPE_SEPARATOR || this.part.type === TYPE_GUIDED_SESSION) {
       return this.part.fileTitle;
