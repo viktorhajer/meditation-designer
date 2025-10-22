@@ -17,7 +17,7 @@ export class IsochronicTonesService extends AbstractOscillatorService {
   }
 
   override reset() {
-    this.logger.info('[BB] Reset');
+    this.logger.info('[ISO] Reset');
     this.resetBasic();
   }
 

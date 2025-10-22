@@ -8,6 +8,7 @@ import {Injectable} from '@angular/core';
 })
 export abstract class MetronomeService {
 
+  private timeout = null as any;
   private audioPlayer: HTMLAudioElement = null as any;
   private state = STATE_STOPPED;
   private bpms: number[] = [];
@@ -41,12 +42,14 @@ export abstract class MetronomeService {
   resume() {
     if (this.state === STATE_PAUSED) {
       this.state = STATE_RUNNING;
-      setTimeout(() => this.next(), FREQUENCY);
+      this.timeout = setTimeout(() => this.next(), FREQUENCY);
     }
   }
 
   reset() {
     this.logger.info('[Metronome] Reset');
+    clearTimeout(this.timeout);
+    this.timeout = null;
     this.state = STATE_STOPPED;
     if (this.audioPlayer) {
       this.audioPlayer.pause();
@@ -58,7 +61,7 @@ export abstract class MetronomeService {
   private next() {
     if (this.state === STATE_RUNNING) {
       this.playSound();
-      setTimeout(() => this.next(), Math.round(60 / this.bpms[this.index] * 1000));
+      this.timeout = setTimeout(() => this.next(), Math.round(60 / this.bpms[this.index] * 1000));
       this.index++;
       if (this.index >= this.bpms.length) {
         this.index = 0;
