@@ -7,7 +7,7 @@ import {StorageService} from './storage.service';
 import {SessionComponent} from '../models/session-component.model';
 import {SessionUtil} from './session.util';
 
-const STORAGE_KEY = 'session_';
+const STORAGE_KEY = 'session_1_';
 
 @Injectable({
   providedIn: 'root'
@@ -38,20 +38,30 @@ export class SessionRepository {
     this.selectedWorkspace = index;
     const session = this.storageService.getItem(STORAGE_KEY + this.selectedWorkspace);
     if (session) {
-      this.session = JSON.parse(session) as Session;
+      try {
+        this.session = JSON.parse(session) as Session;
+      } catch (error) {
+        this.logger.error('Error parsing session from storage: ' + error);
+        this.session = this.newSession();
+      }
+      if (!this.session.components) {
+        this.session = this.newSession();
+      }
       this.session.components.forEach((component, index) => {
         this.session.components[index] = Object.assign(new SessionComponent(), component);
       });
       this.session = Object.assign(new Session(), this.session);
-      this.index = -1;
-      this.sessionService.setComponent(null as any);
       this.logger.info('Workspace ' + this.selectedWorkspace + ' loaded');
     } else {
-      this.session = this.buildDemo();
-      this.index = -1;
-      this.sessionService.setComponent(null as any);
+      if (this.selectedWorkspace === 0) {
+        this.session = this.buildDemo();
+      } else {
+        this.session = this.newSession();
+      }
       this.logger.info('Workspace ' + this.selectedWorkspace + ' initialized with demo session');
     }
+    this.index = -1;
+    this.sessionService.setComponent(null as any);
   }
 
   isSelectedWorkspace(index: number): boolean {
@@ -124,8 +134,7 @@ export class SessionRepository {
   }
 
   private buildDemo(): Session {
-    const session = new Session();
-    session.components = [];
+    const session = this.newSession();
 
     const comp1 = new SessionComponent();
     comp1.time = 120;
@@ -163,6 +172,12 @@ export class SessionRepository {
     sepa2.timeBased = true;
     session.components.push(sepa2);
 
+    return session;
+  }
+
+  private newSession(): Session {
+    const session = new Session();
+    session.components = [];
     return session;
   }
 }
